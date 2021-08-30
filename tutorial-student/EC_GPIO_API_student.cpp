@@ -27,21 +27,17 @@ EC_DigitalOut::EC_DigitalOut(GPIO_TypeDef *Port, int pin)
 		
 void EC_DigitalOut::write(int _outVal)
 {
-		GPIO_write(Port_t, pin_t, _outVal);
+	// Exercise
 }
 
 void EC_DigitalOut::pupdr(int _pupd){
-	GPIO_pudr(Port_t, pin_t, _pupd);
+	// Exercise
 }
 
 void EC_DigitalOut::otype(int _type){
-	GPIO_otype(Port_t, pin_t, _type);
+	// Exercise
 }
 
 void EC_DigitalOut::ospeed(int _speed){
-	GPIO_ospeed(Port_t, pin_t, _speed);
+	// Exercise
 }
-
-
-
-
