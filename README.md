@@ -30,7 +30,7 @@ This is a private github repository for Embedded Controller Class that contains 
 
 This repository contains
 
-* \include : header and definition files of NP lib
+* \include : header and definition files of EC lib
 
 * \docs: documentation 
 
