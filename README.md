@@ -6,15 +6,15 @@
 
 ### Embedded Controller by Young-Keun Kim, Handong Global University 
 
-Author:  Your Name
+Author:  Young-Keun Kim
 
-Date:  Updated 2021-8-31
+Date:  Updated 2021-10-5
 
 
 
 ---
 
-# 
+
 
 This is a private github repository for Embedded Controller Class that contains my firmware library files.
 
@@ -67,3 +67,10 @@ _// Add your notes here_
 ## Resource
 
 _// Add your notes here_
+
+
+
+
+
+
+
