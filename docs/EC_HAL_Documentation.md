@@ -18,13 +18,15 @@ MCU:  				STM32F411RE, Nucleo-64
 
 
 
+
+
+## GPIO Digital In/Out 
+
 ### Header File
 
  `#include "ecGPIO.h"`
 
 
-
-## GPIO Digital In/Out 
 
 ```c++
 #include "stm32f411xe.h"
