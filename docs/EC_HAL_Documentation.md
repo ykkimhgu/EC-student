@@ -6,6 +6,8 @@ description: EC_HAL API
 
 Written by:   김영근
 
+Course:  임베디드컨트롤러
+
 
 
 Program: 		C/C++
