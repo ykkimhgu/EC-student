@@ -4,7 +4,7 @@ description: EC_HAL API
 
 # Embedded Controller HAL
 
-Written by:  Your Name
+Written by:   김영근
 
 
 
