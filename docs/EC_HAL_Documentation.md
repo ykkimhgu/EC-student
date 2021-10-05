@@ -63,7 +63,7 @@ void GPIO_pupdr(GPIO_TypeDef* Port, int pin, int pudr);
 
 ### GPIO_init\(\)
 
-Initializes GPIO pins: In/Out/AF/Analog
+Initializes GPIO pins with default setting and Enables GPIO Clock. Mode: In/Out/AF/Analog
 
 ```c++
 void GPIO_init(GPIO_TypeDef *Port, int pin, int mode);
