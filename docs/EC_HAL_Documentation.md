@@ -28,21 +28,6 @@ MCU:  				STM32F411RE, Nucleo-64
 
  `#include "ecGPIO.h"`
 
-[click here](https://github.com/ykkimhgu/EC-student/edit/main/docs/EC_HAL_Documentation.md)
-
-```c
-#include "stdio.h"
-void main(void)
-{
-
-}
-```
-
-This is the function definition
-* bullet 1
-* bullet 2
-* * Bullet 3
-
 
 ```c++
 #include "stm32f411xe.h"
