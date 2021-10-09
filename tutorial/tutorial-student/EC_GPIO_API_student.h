@@ -30,27 +30,27 @@ class EC_DigitalIn
 public:
     EC_DigitalIn(GPIO_TypeDef *Port, int pin) 
     {
-			uint8_t mode=EC_DIN; // mode=0
-			GPIO_init(Port, pin, mode);
-			Port_t=Port;
-			pin_t=pin;
-			mode_t=mode;	
+		uint8_t mode=EC_DIN; // mode=0
+		GPIO_init(Port, pin, mode);
+		Port_t=Port;
+		pin_t=pin;
+		mode_t=mode;	
     }
 
     ~EC_DigitalIn()
     {
-			 delete[] Port_t;
+		 delete[] Port_t;
     }
 
     int read()
     {
-				val_t=GPIO_read(Port_t, pin_t);
-				return val_t;
+		val_t=GPIO_read(Port_t, pin_t);
+		return val_t;
     }
 		
-		void pupdr(int _pupd){
-			GPIO_pudr(Port_t, pin_t, _pupd);
-		}
+	void pupdr(int _pupd){
+		GPIO_pudr(Port_t, pin_t, _pupd);
+	}
     
     operator int()
     {
@@ -69,8 +69,8 @@ public:
 class EC_DigitalOut
 {
 public:
-		EC_DigitalOut(GPIO_TypeDef *Port, int pin);
-		// Exercise. Define the function in EC_GPIO.cpp
+	EC_DigitalOut(GPIO_TypeDef *Port, int pin);
+	// Exercise. Define the function in EC_GPIO.cpp
 
     ~EC_DigitalOut()
     {
@@ -78,36 +78,36 @@ public:
     }
 
     void write(int _outVal);
-		// Exercise. Define the function in EC_GPIO.cpp
+	// Exercise. Define the function in EC_GPIO.cpp
 
   	void pupdr(int _pupd);
-		// Exercise. Define the function in EC_GPIO.cpp
+	// Exercise. Define the function in EC_GPIO.cpp
 		
-		void otype(int _type);
-		// Exercise. Define the function in EC_GPIO.cpp
+	void otype(int _type);
+	// Exercise. Define the function in EC_GPIO.cpp
 		
-		void ospeed(int _speed);
+	void ospeed(int _speed);
 	// Exercise. Define the function in EC_GPIO.cpp	
 	
-		EC_DigitalOut &operator= (int value)
+	EC_DigitalOut &operator= (int value)
     {
-				 write(value);
-				 return *this;
+		write(value);
+		return *this;
     }
-		int read()
+	int read()
     {
-				return GPIO_read(Port_t, pin_t);
+		return GPIO_read(Port_t, pin_t);
     }
-		operator int()
-		{
-		// Underlying call is thread safe
-			return read();
-		}
+	operator int()
+	{
+	// Underlying call is thread safe
+		return read();
+	}
 
-	private:
-			GPIO_TypeDef *Port_t;
-			int	pin_t;
-			int mode_t;	
+private:
+		GPIO_TypeDef *Port_t;
+		int	pin_t;
+		int mode_t;	
 
 };
 
