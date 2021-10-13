@@ -12,7 +12,6 @@
 
 
 #include "ecRCC.h"
-//#include "ecSysTick.h"
 #include "ecGPIO.h"
 
 #define LED_PIN 	5
@@ -68,3 +67,4 @@ void setup(void)
 	// Initialize GPIOC_13 for Input Button
 	GPIO_init(GPIOC, BUTTON_PIN, INPUT);  // calls RCC_GPIOC_enable()
 }
+

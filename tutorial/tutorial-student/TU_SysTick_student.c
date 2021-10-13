@@ -5,7 +5,9 @@
 #define MCU_CLK_PLL 84000000
 #define MCU_CLK_HSI 16000000
 
-uint32_t msTicks = 0;
+volatile uint32_t msTick = 0;
+volatile uint32_t curTicks;
+
 void setup(void);
 
 int main(void) {
@@ -40,7 +42,8 @@ int main(void) {
 
 		
 // While loop ------------------------------------------------------				
-	uint32_t curTicks;
+	msTick = 0;
+
 	while(1){
 		curTicks = msTicks;
 		while ((msTicks - curTicks) < 1000);	
