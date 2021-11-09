@@ -6,16 +6,6 @@
 #include <stdint.h>
 uint32_t result;
 
-//******************************************************************************************
-// ZHU: STM32L4x6xx Errata sheet
-// When the delay between two consecutive ADC conversions is higher than 1 ms the result of 
-// the second conversion might be incorrect. The same issue occurs when the delay between the 
-// calibration and the first conversion is higher than 1 ms.
-// Workaround
-// When the delay between two ADC conversions is higher than the above limit, perform two ADC 
-// consecutive conversions in single, scan or continuous mode: the first is a dummy conversion 
-// of any ADC channel. This conversion should not be taken into account by the application.
-
 
 void ADC_init(GPIO_TypeDef *port, int pin, int mode){  //mode 0 : SW, 1 : TRGO
 // 0. Match Port and Pin for ADC channel	
