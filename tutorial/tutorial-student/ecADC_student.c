@@ -36,7 +36,7 @@ void ADC_init(GPIO_TypeDef *port, int pin, int trigmode){  //mode 0 : SW, 1 : TR
 	//Regular: SQRx, Injection: JSQx
 
 // 3. Repetition: Single or Continuous conversion
-	ADC1->CR2 |= ___________;      			// Enable Continuous conversion mode	
+	ADC1->CR2 &= ___________;      			// default : Single conversion mode
 	
 // 4. Single Channel or Scan mode
 	//  - Single Channel: scan mode, right alignment
