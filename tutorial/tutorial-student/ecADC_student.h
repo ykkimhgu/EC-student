@@ -19,10 +19,12 @@
 
 // ADC setting
 void ADC_init(GPIO_TypeDef *port, int pin, int mode);			// trigmode : SW , TRGO
+
 void ADC_continue(int contmode); 													// contmode : CONT, SINGLE / Operate both ADC,JADC
 void ADC_TRGO(TIM_TypeDef* TIMx, int msec, int edge);
 void ADC_sequence(int length, int *seq); 
-void TIM_TRGO_init(TIM_TypeDef* timx, uint32_t msec);
+
+//void TIM_TRGO_init(TIM_TypeDef* timx, uint32_t msec);
 
 void ADC_start(ADC_TypeDef *ADCx);
 

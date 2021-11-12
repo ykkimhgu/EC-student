@@ -81,7 +81,7 @@ void ADC_TRGO(TIM_TypeDef* TIMx, int msec, int edge){
 	ADC1->CR2 |= ___________;  					// Enable EOCS
 	
 
-	// HW Trigger configuration -------------------------------------------------------------
+// HW Trigger configuration -------------------------------------------------------------
 	
 // 1. TIMx Trigger Output Config
 	// Enable TIMx Clock
