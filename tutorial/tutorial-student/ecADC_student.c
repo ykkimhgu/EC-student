@@ -89,7 +89,7 @@ void ADC_TRGO(TIM_TypeDef* TIMx, int msec, int edge){
 	TIMx->CR1 &= ___________; 					//counter disable
 	
 	// Set PSC, ARR
-  TIM_period_ms(TIMx, msec);
+ // TIM_period_ms(TIMx, msec);
 	
   // Master Mode Selection MMS[2:0]: Trigger output (TRGO)
   TIMx->CR2 &= ___________; 					// reset MMS
@@ -102,9 +102,9 @@ void ADC_TRGO(TIM_TypeDef* TIMx, int msec, int edge){
   // OC1 signal 
   TIMx->CCER |= ___________;          // CC1E Capture enabled
 	TIMx->CCR1  = (TIMx->ARR)/2; 				// duty ratio 50%
-   
+      
   // Enable TIMx 
-  TIMx->CR1 |= ___________; 					//counter enable
+  TIMx->CR1 |= ___________; 			//counter enable
 
 // 2. ADC HW Trigger Config.
 	// Select Trigger Source  			
@@ -122,14 +122,14 @@ void ADC_TRGO(TIM_TypeDef* TIMx, int msec, int edge){
 void ADC_continue(int contmode){
 	if(contmode==CONT){
 		// Repetition: Continuous conversion
-		ADC1->CR2 |= ___________;      	// Enable Continuous conversion mode	
-		ADC1->CR1 &= ~ADC_CR1_SCAN;				// 0: Scan mode disable 
+		ADC1->CR2 |= ___________;      			// Enable Continuous conversion mode	
+		ADC1->CR1 &= ~ADC_CR1_SCAN;					// 0: Scan mode disable 
 	}
-	else 																//if(contmode==SINGLE)
+	else 																	//if(contmode==SINGLE)
 		{
 		// Repetition: Single conversion
-		ADC1->CR2 &= ~ADC_CR2_CONT;      	// Disable Continuous conversion mode	
-		ADC1->CR1 |= ADC_CR1_SCAN;				// 1: Scan mode enable
+		ADC1->CR2 &= ~ADC_CR2_CONT;      		// Disable Continuous conversion mode	
+		ADC1->CR1 |= ADC_CR1_SCAN;					// 1: Scan mode enable
 	}
 } 
 
@@ -154,10 +154,10 @@ void ADC_sequence(int length, int *seq){
 	}
 }
 
-void ADC_start(ADC_TypeDef *ADCx){
+void ADC_start(void){
 	// Enable ADON, SW Trigger-------------------------------------------------------------------------------
-	ADCx->CR2 |= ___________;
-	ADCx->CR2 |= ___________;
+	ADC1->CR2 |= ___________;
+	ADC1->CR2 |= ___________;
 }
 
 uint32_t is_ADC_EOC(void){
