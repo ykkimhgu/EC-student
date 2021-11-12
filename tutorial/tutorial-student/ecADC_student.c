@@ -6,8 +6,7 @@
 #include <stdint.h>
 uint32_t result;
 
-
-void ADC_init(GPIO_TypeDef *port, int pin, int mode){  //mode 0 : SW, 1 : TRGO
+void ADC_init(GPIO_TypeDef *port, int pin, int trigmode){  //mode 0 : SW, 1 : TRGO
 // 0. Match Port and Pin for ADC channel	
 	int CHn = ADC_pinmap(port, pin);			// ADC Channel <->Port/Pin mapping
 
@@ -61,9 +60,99 @@ void ADC_init(GPIO_TypeDef *port, int pin, int mode){  //mode 0 : SW, 1 : TRGO
 	NVIC_SetPriority(___________); 			// Set Priority to 2
 	NVIC_EnableIRQ(___________);      	// Enable interrupt form ACD1 peripheral	
 
+
+/* -------------------------------------------------------------------------------------*/
+//					HW TRIGGER MODE
+/* -------------------------------------------------------------------------------------*/
+	
+	// TRGO Initialize : TIM3, 1msec, RISE edge
+	if(trigmode==TRGO) ADC_TRGO(TIM3, 1, RISE);				
+	
 }
 
+void ADC_TRGO(TIM_TypeDef* TIMx, int msec, int edge){
+	// set timer
+	int timer = 0;
+	if(TIMx==TIM2) timer=2;
+	else if(TIMx==TIM3) timer=3;	
+	
+	// Single conversion mode (disable continuous conversion)
+	ADC1->CR2 &= ___________;     // Discontinuous conversion mode
+	ADC1->CR2 |= ___________;  		// Enable EOCS
+	
 
+	// HW Trigger configuration -------------------------------------------------------------
+	
+// 1. TIMx Trigger Output Config
+	// Enable TIMx Clock
+	TIM_init(TIMx, msec);
+	TIMx->CR1 &= ___________; 							//counter disable
+	
+	// Set PSC, ARR
+  TIM_period_ms(TIMx, msec);
+	
+  // Master Mode Selection MMS[2:0]: Trigger output (TRGO)
+  TIMx->CR2 &= ___________; 					// reset MMS
+  TIMx->CR2 |= ___________;   					//100: Compare - OC1REF signal is used as trigger output (TRGO)
+   
+	// Output Compare Mode
+  TIMx->CCMR1 &= ~(7<<4);       // OC1M : output compare 1 Mode 
+  TIMx->CCMR1 |= 6<<4;          // OC1M = 110 for compare 1 Mode ch1 
+	
+  // OC1 signal 
+  TIMx->CCER |= ___________;            		// CC1E Capture enabled
+	TIMx->CCR1  = (TIMx->ARR)/2; 		// duty ratio 50%
+   
+  // Enable TIMx 
+  TIMx->CR1 |= ___________; 							//counter enable
+
+// 2. ADC HW Trigger Config.
+	// Select Trigger Source  			
+	ADC1->CR2 &= ~ADC_CR2_EXTSEL; 	// reset EXTSEL
+	ADC1->CR2 |= (timer*2+2)<<24; 	// TIMx TRGO event (ADC : TIM2, TIM3 TRGO)
+	
+	//Select Trigger Polarity
+	ADC1->CR2 &= ~ADC_CR2_EXTEN;		// reset EXTEN, default
+	if(edge==RISE) ADC1->CR2 |= ADC_CR2_EXTEN_0;				// trigger detection rising edge
+	else if(edge==FALL) ADC1->CR2 |= ADC_CR2_EXTEN_1;		// trigger detection falling edge
+	else if(edge==BOTH) ADC1->CR2 |= ADC_CR2_EXTEN_Msk;	// trigger detection both edge
+
+}
+
+void ADC_continue(int contmode){
+	if(contmode==CONT){
+		// Repetition: Continuous conversion
+		ADC1->CR2 |= ___________;      	// Enable Continuous conversion mode	
+		ADC1->CR1 &= ~ADC_CR1_SCAN;				// 0: Scan mode disable 
+	}
+	else 																//if(contmode==SINGLE)
+		{
+		// Repetition: Single conversion
+		ADC1->CR2 &= ~ADC_CR2_CONT;      	// Disable Continuous conversion mode	
+		ADC1->CR1 |= ADC_CR1_SCAN;				// 1: Scan mode enable
+	}
+} 
+
+void ADC_sequence(int length, int *seq){
+	
+	ADC1->SQR1 &= ~(0xF<<20); 						// reset length of conversions in the regular channel 	
+	ADC1->SQR1 |= (length-1)<<20; 				// conversions in the regular channel conversion sequence
+	
+	for(int i = 0; i<length; i++){
+		if (i<6){
+			ADC1->SQR3 &= ~(0x1F<<i*5);				// SQn clear bits
+			ADC1->SQR3 |= seq[i]<<i*5;				// Choose the channel to convert sequence
+		}
+		else if (i <12){
+			ADC1->SQR2 &= ___________;		// SQn clear bits
+			ADC1->SQR2 |= ___________;		// Choose the channel to convert sequence
+		}
+		else{
+			ADC1->SQR1 &= ~(0x1F<<(i-12)*5);	// SQn clear bits
+			ADC1->SQR1 |= seq[i]<<(i-12)*5;		// Choose the channel to convert sequence
+		}
+	}
+}
 
 void ADC_start(ADC_TypeDef *ADCx){
 	// Enable ADON, SW Trigger-------------------------------------------------------------------------------
@@ -71,6 +160,17 @@ void ADC_start(ADC_TypeDef *ADCx){
 	ADCx->CR2 |= ___________;
 }
 
+uint32_t is_ADC_EOC(void){
+	return ADC1->SR & ___________;
+}
+
+uint32_t is_ADC_OVR(void){
+	return ADC1->SR & ___________;
+}
+
+void clear_ADC_OVR(void){
+	ADC1->SR &= ___________;
+}
 
 uint32_t ADC_read(){
 	return ADC1->___________;
