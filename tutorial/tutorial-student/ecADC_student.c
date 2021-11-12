@@ -77,8 +77,8 @@ void ADC_TRGO(TIM_TypeDef* TIMx, int msec, int edge){
 	else if(TIMx==TIM3) timer=3;	
 	
 	// Single conversion mode (disable continuous conversion)
-	ADC1->CR2 &= ___________;     // Discontinuous conversion mode
-	ADC1->CR2 |= ___________;  		// Enable EOCS
+	ADC1->CR2 &= ___________;     			// Discontinuous conversion mode
+	ADC1->CR2 |= ___________;  					// Enable EOCS
 	
 
 	// HW Trigger configuration -------------------------------------------------------------
@@ -86,33 +86,33 @@ void ADC_TRGO(TIM_TypeDef* TIMx, int msec, int edge){
 // 1. TIMx Trigger Output Config
 	// Enable TIMx Clock
 	TIM_init(TIMx, msec);
-	TIMx->CR1 &= ___________; 							//counter disable
+	TIMx->CR1 &= ___________; 					//counter disable
 	
 	// Set PSC, ARR
   TIM_period_ms(TIMx, msec);
 	
   // Master Mode Selection MMS[2:0]: Trigger output (TRGO)
   TIMx->CR2 &= ___________; 					// reset MMS
-  TIMx->CR2 |= ___________;   					//100: Compare - OC1REF signal is used as trigger output (TRGO)
+  TIMx->CR2 |= ___________;   				//100: Compare - OC1REF signal is used as trigger output (TRGO)
    
 	// Output Compare Mode
-  TIMx->CCMR1 &= ~(7<<4);       // OC1M : output compare 1 Mode 
-  TIMx->CCMR1 |= 6<<4;          // OC1M = 110 for compare 1 Mode ch1 
+  TIMx->CCMR1 &= ~(7<<4);       			// OC1M : output compare 1 Mode 
+  TIMx->CCMR1 |= 6<<4;          			// OC1M = 110 for compare 1 Mode ch1 
 	
   // OC1 signal 
-  TIMx->CCER |= ___________;            		// CC1E Capture enabled
-	TIMx->CCR1  = (TIMx->ARR)/2; 		// duty ratio 50%
+  TIMx->CCER |= ___________;          // CC1E Capture enabled
+	TIMx->CCR1  = (TIMx->ARR)/2; 				// duty ratio 50%
    
   // Enable TIMx 
-  TIMx->CR1 |= ___________; 							//counter enable
+  TIMx->CR1 |= ___________; 					//counter enable
 
 // 2. ADC HW Trigger Config.
 	// Select Trigger Source  			
-	ADC1->CR2 &= ~ADC_CR2_EXTSEL; 	// reset EXTSEL
-	ADC1->CR2 |= (timer*2+2)<<24; 	// TIMx TRGO event (ADC : TIM2, TIM3 TRGO)
+	ADC1->CR2 &= ~ADC_CR2_EXTSEL; 			// reset EXTSEL
+	ADC1->CR2 |= (timer*2+2)<<24; 			// TIMx TRGO event (ADC : TIM2, TIM3 TRGO)
 	
 	//Select Trigger Polarity
-	ADC1->CR2 &= ~ADC_CR2_EXTEN;		// reset EXTEN, default
+	ADC1->CR2 &= ~ADC_CR2_EXTEN;				// reset EXTEN, default
 	if(edge==RISE) ADC1->CR2 |= ADC_CR2_EXTEN_0;				// trigger detection rising edge
 	else if(edge==FALL) ADC1->CR2 |= ADC_CR2_EXTEN_1;		// trigger detection falling edge
 	else if(edge==BOTH) ADC1->CR2 |= ADC_CR2_EXTEN_Msk;	// trigger detection both edge
@@ -144,8 +144,8 @@ void ADC_sequence(int length, int *seq){
 			ADC1->SQR3 |= seq[i]<<i*5;				// Choose the channel to convert sequence
 		}
 		else if (i <12){
-			ADC1->SQR2 &= ___________;		// SQn clear bits
-			ADC1->SQR2 |= ___________;		// Choose the channel to convert sequence
+			ADC1->SQR2 &= ___________;				// SQn clear bits
+			ADC1->SQR2 |= ___________;				// Choose the channel to convert sequence
 		}
 		else{
 			ADC1->SQR1 &= ~(0x1F<<(i-12)*5);	// SQn clear bits
