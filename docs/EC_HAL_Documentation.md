@@ -2,7 +2,10 @@
 description: EC_HAL API
 ---
 
-# Embedded Controller HAL
+
+# Embedded Controller - STM32f411 HAL API
+
+Documentation for HAL functions
 
 Written by:   김영근
 
@@ -16,7 +19,7 @@ IDE/Compiler: Keil uVision 5
 
 OS: 					WIn10
 
-MCU:  				STM32F411RE, Nucleo-64
+MCU:  				STM32F411RE (Nucleo-64)
 
 
 
