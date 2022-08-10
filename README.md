@@ -30,19 +30,15 @@ This is a private github repository for Embedded Controller Class that contains 
 
 This repository contains
 
-* \include : header and definition files of EC lib
+* \include : header and definition files of your own library
+* \docs: documentation for your library
+
+* \src: assignment source files for main().  Make it private.
+
+* \lab-tutorial: exercise and tutorial files used in class
+** \lab-student
 ** \lib-student
-* \docs: documentation 
-
-* \src: assignment source files for main()
-
-* \tutorial: exercise and tutorial files used in class
-** \tutorial-C
-* _add more descriptions here_ 
-
-  
-
-_// Add your notes here_
+** \tutorial-student
 
 
 
