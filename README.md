@@ -31,13 +31,13 @@ This is a private github repository for Embedded Controller Class that contains 
 This repository contains
 
 * \include : header and definition files of EC lib
-
+** \lib-student
 * \docs: documentation 
 
 * \src: assignment source files for main()
 
 * \tutorial: exercise and tutorial files used in class
-
+** \tutorial-C
 * _add more descriptions here_ 
 
   
