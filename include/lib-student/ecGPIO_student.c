@@ -32,8 +32,6 @@ void GPIO_init(GPIO_TypeDef *Port, int pin, int mode){
 }
 
 
-
-
 // GPIO Mode          : Input(00), Output(01), AlterFunc(10), Analog(11)
 void GPIO_mode(GPIO_TypeDef *Port, int pin, int mode){
    Port->MODER &= ~(3UL<<(2*pin));     
@@ -54,7 +52,7 @@ void GPIO_otype(GPIO_TypeDef *Port, int pin, int type){
 }
 
 // GPIO Push-Pull    : No pull-up, pull-down (00), Pull-up (01), Pull-down (10), Reserved (11)
-void GPIO_pupdr(GPIO_TypeDef *Port, int pin, int pudr){
+void GPIO_pupd(GPIO_TypeDef *Port, int pin, int pupd){
    	//[TO-DO] YOUR CODE GOES HERE
 	//[TO-DO] YOUR CODE GOES HERE
 }
