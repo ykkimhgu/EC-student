@@ -31,8 +31,9 @@ int main(void) {
 		GPIOA->MODER |=  											// Set '01' for Pin 5
 		
 		// GPIO Output Type Register  
-		GPIOA->OTYPER &= 											// 0:Push-Pull   
-		
+		GPIOA->OTYPER &= 											// Clear '00'   
+		GPIOA->OTYPER |=											// 0:Push-Pull
+			
 		// GPIO Pull-Up/Pull-Down Register 
 		GPIOA->PUPDR  &= 											// 00: none
 		
