@@ -10,15 +10,13 @@ Written by:   000
 
 Course:  임베디드컨트롤러
 
-
-
-Program: 		C/C++
+Program: C/C++
 
 IDE/Compiler: Keil uVision 5
 
-OS: 					WIn10
+OS: WIn10
 
-MCU:  				STM32F411RE (Nucleo-64)
+MCU: STM32F411RE (Nucleo-64)
 
 
 
@@ -28,13 +26,13 @@ MCU:  				STM32F411RE (Nucleo-64)
 
   * [GPIO Digital In/Out](#gpio-digital-inout)
     + [Header File](#header-file)
-    + [GPIO_init\(\)](#gpio-init----)
-    + [GPIO_mode\(\)](#gpio-mode----)
-    + [GPIO_write\(\)](#gpio-write----)
-    + [GPIO_read\(\)](#gpio-read----)
-    + [GPIO_ospeed\(\)](#gpio-ospeed----)
-    + [GPIO_otype\(\)](#gpio-otype----)
-    + [GPIO_pupdr\(\)](#gpio-pupdr----)
+    + [GPIO_init\(\)](#gpio_init)
+    + [GPIO_mode\(\)](#gpio_mode)
+    + [GPIO_write\(\)](#gpio_write)
+    + [GPIO_read\(\)](#gpio_read)
+    + [GPIO_ospeed\(\)](#gpio_ospeed)
+    + [GPIO_otype\(\)](#gpio_otype)
+    + [GPIO_pupd\(\)](#gpio_pupd)
 
 ---
 
@@ -92,7 +90,7 @@ void GPIO_write(GPIO_TypeDef *Port, int pin, int output);
 int  GPIO_read(GPIO_TypeDef *Port, int pin);
 void GPIO_ospeed(GPIO_TypeDef* Port, int pin, int speed);
 void GPIO_otype(GPIO_TypeDef* Port, int pin, int type);
-void GPIO_pupdr(GPIO_TypeDef* Port, int pin, int pupd);
+void GPIO_pupd(GPIO_TypeDef* Port, int pin, int pupd);
 
 #ifdef __cplusplus
 }
@@ -136,7 +134,7 @@ GPIO_init(GPIOC, 13, INPUT); //GPIO_init(GPIOC, 13, 0);
 Configures  GPIO pin modes: In/Out/AF/Analog
 
 ```c++
-void GPIO_init(GPIO_TypeDef *Port, int pin, int mode);
+void GPIO_mode(GPIO_TypeDef *Port, int pin, int mode);
 ```
 
 **Parameters**
@@ -162,7 +160,7 @@ GPIO_mode(GPIOA, 5, OUTPUT);
 Write the data to GPIO pin: High, Low
 
 ```c++
-write(GPIO_TypeDef *Port, int pin, int output);
+void GPIO_write(GPIO_TypeDef *Port, int pin, int output);
 ```
 
 **Parameters**
@@ -252,12 +250,12 @@ GPIO_otype(GPIOA, 5, 0);  // 0: Push-Pull
 
 
 
-### GPIO_pupdr\(\)
+### GPIO_pupd\(\)
 
 Configures  Pull-up/Pull-down mode of GPIO pin: No Pull-up, Pull-down/ Pull-up/ Pull-down/ Reserved
 
 ```c++
-void GPIO_pupdr(GPIO_TypeDef* Port, int pin, int pupd);
+void GPIO_pupd(GPIO_TypeDef* Port, int pin, int pupd);
 ```
 
 **Parameters**
@@ -271,7 +269,7 @@ void GPIO_pupdr(GPIO_TypeDef* Port, int pin, int pupd);
 **Example code**
 
 ```c++
-GPIO_pupdr(GPIOA, 5, 0);  // 0: No Pull-up, Pull-down
+GPIO_pupd(GPIOA, 5, 0);  // 0: No Pull-up, Pull-down
 ```
 
 
