@@ -20,9 +20,9 @@ void EXTI_init(GPIO_TypeDef *Port, int Pin, int trig_type,int priority){
 	SYSCFG->EXTICR[_______] |= ________________;			// set 4 bits
 	
 	// Configure Trigger edge
-	if			(trig_type == FALL) EXTI->FTSR |= _______;   // Falling trigger enable 
+	if (trig_type == FALL) EXTI->FTSR |= _______;   // Falling trigger enable 
 	else if	(trig_type == RISE) EXTI->RTSR |= _______;   // Rising trigger enable 
-	else if	(trig_type == BOTH) {													// Both falling/rising trigger enable
+	else if	(trig_type == BOTH) {			// Both falling/rising trigger enable
 		EXTI->RTSR |= _______; 
 		EXTI->FTSR |= _______;
 	} 
@@ -34,12 +34,12 @@ void EXTI_init(GPIO_TypeDef *Port, int Pin, int trig_type,int priority){
 	// NVIC(IRQ) Setting
 	int EXTI_IRQn = 0;
 	
-	if			(Pin < 5) 	EXTI_IRQn = _______;
+	if (Pin < 5) 	EXTI_IRQn = _______;
 	else if	(Pin < 10) 	EXTI_IRQn = _______;
-	else 								EXTI_IRQn = _______;
+	else 			EXTI_IRQn = _______;
 								
-	NVIC_EnableIRQ(EXTI_IRQn); 						// EXTI IRQ enable
 	NVIC_SetPriority(EXTI_IRQn, _______);	// EXTI priority
+	NVIC_EnableIRQ(EXTI_IRQn); 	// EXTI IRQ enable
 }
 
 
