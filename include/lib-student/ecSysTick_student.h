@@ -9,6 +9,7 @@
  extern "C" {
 #endif /* __cplusplus */
 
+extern volatile uint32_t msTicks;
 void SysTick_init(void);
 void SysTick_Handler(void);
 void SysTick_counter();
