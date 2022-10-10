@@ -5,7 +5,7 @@
 #define MCU_CLK_PLL 84000000
 #define MCU_CLK_HSI 16000000
 
-volatile uint32_t msTicks;
+static volatile uint32_t msTicks;
 
 //EC_SYSTEM_CLK
 
