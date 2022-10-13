@@ -2,8 +2,8 @@
 ******************************************************************************
 * @author  SSSLAB
 * @Mod		 2022-8-12 by YKKIM  	
-* @brief   Embedded Controller:  Tutorial TIMER Interrupt
-*					 - LED Toggle every 1s
+* @brief   Embedded Controller:  Tutorial _____
+*					 - ____________________
 * 
 ******************************************************************************
 */
