@@ -21,7 +21,6 @@ void PWM_init(PWM_t *pwm, GPIO_TypeDef *port, int pin){
 		int CHn = pwm->ch;	
 
 // 1. Initialize GPIO port and pin as AF
-		// YOUR CODE GOES HERE
 		GPIO_init(port, pin, __);  // AF=2
 		GPIO_ospeed(port, pin,__);  // speed VHIGH=3
 
@@ -37,7 +36,7 @@ void PWM_init(PWM_t *pwm, GPIO_TypeDef *port, int pin){
 			
 // 3. Initialize Timer 
 		TIM_init(TIMx, 1);	// with default msec=1 value.		
-
+		TIMx->CR1 &= ~TIM_CR1_CEN;	// disable counter
 // 3-2. Direction of Counter
 		//YOUR CODE GOES HERE
 		TIMx->CR1  ________________;    // Counting direction: 0 = up-counting, 1 = down-counting
@@ -85,13 +84,13 @@ void PWM_init(PWM_t *pwm, GPIO_TypeDef *port, int pin){
 }
 
 
-void PWM_period_ms(PWM_t *PWM_pin, uint32_t msec){
-	TIM_TypeDef *TIMx = PWM_pin->timer;
+void PWM_period_ms(PWM_t *pwm, uint32_t msec){
+	TIM_TypeDef *TIMx = pwm->timer;
 	TIM_period_ms(___, _____);  //YOUR CODE GOES HERE
 }
 
-void PWM_period_us(PWM_t *PWM_pin, uint32_t usec){
-	TIM_TypeDef *TIMx = PWM_pin->timer;
+void PWM_period_us(PWM_t *pwm, uint32_t usec){
+	TIM_TypeDef *TIMx = pwm->timer;
 	TIM_period_us(___, _____); 	//YOUR CODE GOES HERE
 }
 
@@ -137,21 +136,21 @@ void   PWM_duty(PWM_t *pwm, float duty) {                 //  duty=0 to 1
 
 
 // DO NOT MODIFY HERE
-void PWM_pinmap(PWM_t *PWM_pin){
-   GPIO_TypeDef *port = PWM_pin->port;
-   int pin = PWM_pin->pin;
+void PWM_pinmap(PWM_t *pwm){
+   GPIO_TypeDef *port = pwm->port;
+   int pin = pwm->pin;
    
    if(port == GPIOA) {
       switch(pin){
-         case 0 : PWM_pin->timer = TIM2; PWM_pin->ch = 1; break;
-         case 1 : PWM_pin->timer = TIM2; PWM_pin->ch = 2; break;
-         case 5 : PWM_pin->timer = TIM2; PWM_pin->ch = 1; break;
-         case 6 : PWM_pin->timer = TIM3; PWM_pin->ch = 1; break;
+         case 0 : pwm->timer = TIM2; pwm->ch = 1; break;
+         case 1 : pwm->timer = TIM2; pwm->ch = 2; break;
+         case 5 : pwm->timer = TIM2; pwm->ch = 1; break;
+         case 6 : pwm->timer = TIM3; pwm->ch = 1; break;
          //case 7: PWM_pin->timer = TIM1; PWM_pin->ch = 1N; break;
-         case 8 : PWM_pin->timer = TIM1; PWM_pin->ch = 1; break;
-         case 9 : PWM_pin->timer = TIM1; PWM_pin->ch = 2; break;
-         case 10: PWM_pin->timer = TIM1; PWM_pin->ch = 3; break;
-         case 15: PWM_pin->timer = TIM2; PWM_pin->ch = 1; break;
+         case 8 : pwm->timer = TIM1; pwm->ch = 1; break;
+         case 9 : pwm->timer = TIM1; pwm->ch = 2; break;
+         case 10: pwm->timer = TIM1; pwm->ch = 3; break;
+         case 15: pwm->timer = TIM2; pwm->ch = 1; break;
          default: break;
       }         
    }
@@ -159,24 +158,24 @@ void PWM_pinmap(PWM_t *PWM_pin){
       switch(pin){
          //case 0: PWM_pin->timer = TIM1; PWM_pin->ch = 2N; break;
          //case 1: PWM_pin->timer = TIM1; PWM_pin->ch = 3N; break;
-         case 3 : PWM_pin->timer = TIM2; PWM_pin->ch = 2; break;
-         case 4 : PWM_pin->timer = TIM3; PWM_pin->ch = 1; break;
-         case 5 : PWM_pin->timer = TIM3; PWM_pin->ch = 2; break;
-         case 6 : PWM_pin->timer = TIM4; PWM_pin->ch = 1; break;
-         case 7 : PWM_pin->timer = TIM4; PWM_pin->ch = 2; break;
-         case 8 : PWM_pin->timer = TIM4; PWM_pin->ch = 3; break;
-         case 9 : PWM_pin->timer = TIM4; PWM_pin->ch = 3; break;
-         case 10: PWM_pin->timer = TIM2; PWM_pin->ch = 3; break;
+         case 3 : pwm->timer = TIM2; pwm->ch = 2; break;
+         case 4 : pwm->timer = TIM3; pwm->ch = 1; break;
+         case 5 : pwm->timer = TIM3; pwm->ch = 2; break;
+         case 6 : pwm->timer = TIM4; pwm->ch = 1; break;
+         case 7 : pwm->timer = TIM4; pwm->ch = 2; break;
+         case 8 : pwm->timer = TIM4; pwm->ch = 3; break;
+         case 9 : pwm->timer = TIM4; pwm->ch = 4; break;
+         case 10: pwm->timer = TIM2; pwm->ch = 3; break;
          
          default: break;
       }
    }
    else if(port == GPIOC) {
       switch(pin){
-         case 6 : PWM_pin->timer = TIM3; PWM_pin->ch = 1; break;
-         case 7 : PWM_pin->timer = TIM3; PWM_pin->ch = 2; break;
-         case 8 : PWM_pin->timer = TIM3; PWM_pin->ch = 3; break;
-         case 9 : PWM_pin->timer = TIM3; PWM_pin->ch = 4; break;
+         case 6 : pwm->timer = TIM3; pwm->ch = 1; break;
+         case 7 : pwm->timer = TIM3; pwm->ch = 2; break;
+         case 8 : pwm->timer = TIM3; pwm->ch = 3; break;
+         case 9 : pwm->timer = TIM3; pwm->ch = 4; break;
          
          default: break;
       }
