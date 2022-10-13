@@ -38,18 +38,18 @@ int main(void) {
 	TIMx->PSC = 						              // Set Timer CLK = 100kHz : (PSC + 1) = 84MHz/100kHz --> PSC = ?
 	
 	TIMx->ARR = 									        // Auto-reload: Upcounting (0...ARR). 
-																				// Set Counter Period = 1kHz : (ARR + 1) = 100kHz/1kHz --> ARR = ?
+																				// Set Counter CLK = 1kHz : (ARR + 1) = 100kHz/1kHz --> ARR = ?
 	
 	TIMx->CCMR1 &= ~TIM_CCMR1_OC1M;  			// Clear ouput compare mode bits for channel 1
 	TIMx->CCMR1 |=                   			// OC1M = 110 for PWM Mode 1 output on ch1
 	TIMx->CCMR1	|= TIM_CCMR1_OC1PE;    		// Output 1 preload enable (make CCR1 value changable)
-			
+	
+	TIMx->CCR1 =       										// Output Compare Register for channel 1 	
+	
 	TIMx->CCER &= ~TIM_CCER_CC1P;    			// select output polarity: active high	
 	TIMx->CCER |= 												// Enable output for ch1
-	TIMx->CCR1 =       										// Output Compare Register for channel 1 
 	
 	TIMx->CR1  |= TIM_CR1_CEN;      			// Enable counter
-
 	
 	// Inifinite Loop ----------------------------------------------------------
 	while(1){

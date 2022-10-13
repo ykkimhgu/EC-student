@@ -11,7 +11,7 @@
 #include "ecGPIO.h"
 #include "ecRCC.h"
 
-uint32_t count=0;
+uint32_t count = 0;
 
 #define LED_PIN 	5
 
@@ -30,7 +30,7 @@ int main(void) {
 	timerx->CR1 |=                      // Enable counter
 	
 	NVIC_SetPriority(, );               // TIM2_IRQHandler Set priority as 2
-	NVIC_EnableIRQ();				    // TIM2_IRQHandler Enable
+	NVIC_EnableIRQ();				    				// TIM2_IRQHandler Enable
 	
 	
 	// Inifinite Loop ----------------------------------------------------------
@@ -45,7 +45,7 @@ void setup(void)
 }
 
 void TIM2_IRQHandler(void){
-	if((TIM2->SR & TIM_SR_UIF) == ){ // update interrupt flag
+	if((TIM2->SR & TIM_SR_UIF) ==      ){ // update interrupt flag
 		//Create the code to toggle LED by 1000ms
 
 		TIM2->SR &=                         // clear by writing 0
