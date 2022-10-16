@@ -85,22 +85,21 @@ void PWM_init(PWM_t *pwm, GPIO_TypeDef *port, int pin){
 }
 
 
-void PWM_period_ms(PWM_t *PWM_pin, uint32_t msec){
-	TIM_TypeDef *TIMx = PWM_pin->timer;
+void PWM_period_ms(PWM_t *pwm, uint32_t msec){
+	TIM_TypeDef *TIMx = pwm->timer;
 	TIM_period_ms(___, _____);  //YOUR CODE GOES HERE
 }
 
-void PWM_period_us(PWM_t *PWM_pin, uint32_t usec){
-	TIM_TypeDef *TIMx = PWM_pin->timer;
+void PWM_period_us(PWM_t *pwm, uint32_t usec){
+	TIM_TypeDef *TIMx = pwm->timer;
 	TIM_period_us(___, _____); 	//YOUR CODE GOES HERE
 }
 
 
 void PWM_pulsewidth_ms(PWM_t *pwm, float pulse_width_ms){ 
-	TIM_TypeDef *TIMx = pwm->timer;
 	int CHn = pwm->ch;
 	uint32_t fsys = 0;
-	uint32_t psc=pwm->timer->PSC;
+	uint32_t psc = pwm->timer->PSC;
 	
 	// Check System CLK: PLL or HSI
 	if((RCC->CFGR & (3<<0)) == 2)      { fsys = 84000; }  // for msec 84MHz/1000
@@ -108,11 +107,11 @@ void PWM_pulsewidth_ms(PWM_t *pwm, float pulse_width_ms){
 	
 	//YOUR CODE GOES HERE
 	float fclk = _______________					// fclk=fsys/(psc+1);
-	uint32_t ccval = ____________					// width_ms *fclk - 1;
+	uint32_t ccval = ____________					// pulse_width_ms *fclk - 1;
 	
 	//YOUR CODE GOES HERE
 	switch(CHn){
-		case 1: TIMx->CCR1 = ccval; break;
+		case 1: pwm->timer->CCR1 = ccval; break;
 		// REPEAT for CHn=2,  3, 4
 		// REPEAT for CHn=2,  3, 4
 		// REPEAT for CHn=2,  3, 4
@@ -121,18 +120,18 @@ void PWM_pulsewidth_ms(PWM_t *pwm, float pulse_width_ms){
 }
 
 
-void   PWM_duty(PWM_t *pwm, float duty) {                 //  duty=0 to 1	
-		float ccval = ___________________;    								// (ARR+1)*dutyRatio - 1          
-		int CHn = pwm->ch;
-  
-		//YOUR CODE GOES HERE	
-		switch(CHn){
-			case 1: TIMx->CCR1 = ccval; break;
-			// REPEAT for CHn=2,  3, 4
-			// REPEAT for CHn=2,  3, 4
-			// REPEAT for CHn=2,  3, 4
-			default: break;
-		}
+void PWM_duty(PWM_t *pwm, float duty) {                 //  duty=0 to 1	
+	float ccval = ___________________;    								// (ARR+1)*dutyRatio - 1          
+	int CHn = pwm->ch;
+  	
+	//YOUR CODE GOES HERE
+	switch(CHn){
+		case 1: pwm->timer->CCR1 = ccval; break;
+		// REPEAT for CHn=2,  3, 4
+		// REPEAT for CHn=2,  3, 4
+		// REPEAT for CHn=2,  3, 4
+		default: break;
+	}
 }
 
 
