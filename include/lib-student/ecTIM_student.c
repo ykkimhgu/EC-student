@@ -42,11 +42,11 @@ void TIM_period_us(TIM_TypeDef *TIMx, uint32_t usec){
 	// Period usec = 1 to 1000
 
 	// 1us(1MHz, ARR = 1) to 65msec (ARR = 0xFFFF)
-	uint32_t prescaler = _____;
+	uint16_t PSCval = _____;
 	uint16_t ARRval = (84/(prescaler)*usec);  // 84MHz/1000000 us
 	
 	TIMx->PSC = ______________;					
-	TIMx->ARR = ARRval-1;					
+	TIMx->ARR = ARRval - 1;					
 }
 
 
@@ -54,11 +54,11 @@ void TIM_period_ms(TIM_TypeDef* TIMx, uint32_t msec){
 	// Period msec = 1 to 6000
 	
 	// 0.1ms(10kHz, ARR = 1) to 6.5sec (ARR = 0xFFFF)
-	uint32_t prescaler = 8400;
-	uint16_t ARRval=______________;  			// 84MHz/1000ms
+	uint16_t PSCval = 8400;
+	uint16_t ARRval = ______________;  			// 84MHz/1000ms
 
-	TIMx->PSC = prescaler-1;					
-	TIMx->ARR = ___________;							
+	TIMx->PSC = prescaler - 1;
+	TIMx->ARR = ___________;
 }
 
 
@@ -74,10 +74,9 @@ void TIM_INT_init(TIM_TypeDef* TIMx, uint32_t msec){
 	uint32_t IRQn_reg =0;
 	if(TIMx == TIM1)       IRQn_reg = TIM1_UP_TIM10_IRQn;
 	else if(TIMx == TIM2)  IRQn_reg = ____________;
-	// repeat for TIM3, TIM4, TIM5, TIM9, TIM11
+	// repeat for TIM3, TIM4, TIM5, TIM9, TIM10, TIM11
   // YOUR CODE GOES HERE
 	// YOUR CODE GOES HERE
-	
 	
 	NVIC_EnableIRQ(IRQn_reg);				
 	NVIC_SetPriority(IRQn_reg,2);
