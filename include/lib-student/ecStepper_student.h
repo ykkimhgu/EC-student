@@ -30,10 +30,9 @@ typedef struct{
 
 	 
 void Stepper_init(GPIO_TypeDef* port1, int pin1, GPIO_TypeDef* port2, int pin2, GPIO_TypeDef* port3, int pin3, GPIO_TypeDef* port4, int pin4);
-void Stepper_setSpeed (long whatSpeed);
+void Stepper_setSpeed(long whatSpeed);
 void Stepper_step(int steps, int direction, int mode); 
-void Stepper_run (int direction, int mode); 
-void Stepper_stop (void);
+void Stepper_stop(void);
 
 #ifdef __cplusplus
 }

@@ -15,7 +15,7 @@
 // Stepper Motor function
 uint32_t direction = 1; 
 uint32_t step_delay = 100; 
-uint32_t step_per_rev = 64;
+uint32_t step_per_rev = 64*32;
 	 
 
 // Stepper Motor variable
@@ -25,7 +25,7 @@ volatile Stepper_t myStepper;
 //FULL stepping sequence  - FSM
 typedef struct {
 	uint8_t out;
-  uint32_t next[4];
+  uint32_t next[2];
 } State_full_t;
 
 State_full_t FSM_full[4] = {  
@@ -38,7 +38,7 @@ State_full_t FSM_full[4] = {
 //HALF stepping sequence
 typedef struct {
 	uint8_t out;
-  uint32_t next[8];
+  uint32_t next[2];
 } State_half_t;
 
 State_half_t FSM_half[8] = { 
@@ -80,7 +80,7 @@ void Stepper_init(GPIO_TypeDef* port1, int pin1, GPIO_TypeDef* port2, int pin2, 
 
 void Stepper_pinOut (uint32_t state, int mode){
 	
-	   if (mode ==FULL){         // FULL mode
+	   if (mode == FULL){         // FULL mode
 			GPIO_write(myStepper.port1, myStepper.pin1, 		// YOUR CODE_____);
   		 // Repeat for port2,pin2~port4,pin4 
 				// YOUR CODE 
@@ -88,7 +88,7 @@ void Stepper_pinOut (uint32_t state, int mode){
 				// YOUR CODE 
 
 			}	 
-		 else if (mode ==HALF){    // HALF mode
+		 else if (mode == HALF){    // HALF mode
 			 	// YOUR CODE 
 				// YOUR CODE 
 				// YOUR CODE 
@@ -102,30 +102,19 @@ void Stepper_setSpeed (long whatSpeed){      // rppm
 }
 
 
-void Stepper_step(int steps, int direction,int mode){
-	 int step_number = 0;
+void Stepper_step(int steps, int direction, int mode){
+	 uint32_t state = 0;
 	 myStepper._step_num = steps;
-	 int state_number = 0;
-	 int max_step = 3;
-	 if (mode == HALF) max_step = 7;
-	 
-	
-	 for(;myStepper._step_num>0;myStepper._step_num--){ // run for step size
+
+	 for(; myStepper._step_num > 0; myStepper._step_num--){ // run for step size
 				// YOUR CODE                                  // delay (step_delay); 
-				
-		    if(direction) step_number++;                  // + direction step number++
-				// YOUR CODE                                  // - direction step number--
-				
-				// YOUR CODE                   								//  step_number must be 0 to max_step
-		    step_number=_____________// YOUR CODE 
-				
-		 
+					 
 		    if (mode == FULL) 		 												
-						state_numer=___________// YOUR CODE       // state_number = 0 to 3 for FULL step mode
+						state = ___________// YOUR CODE       // state = next state
 				else if (mode == HALF) 
-						state_numer=___________// YOUR CODE       // state_number = 0 to 7 for HALF step mode					
+						state = ___________// YOUR CODE       // state = next state
 				
-				Stepper_pinOut(state_number, mode);
+				Stepper_pinOut(state, mode);
    }
 }
 
