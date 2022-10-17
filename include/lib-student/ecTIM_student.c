@@ -43,7 +43,7 @@ void TIM_period_us(TIM_TypeDef *TIMx, uint32_t usec){
 
 	// 1us(1MHz, ARR = 1) to 65msec (ARR = 0xFFFF)
 	uint16_t PSCval = _____;
-	uint16_t ARRval = (84/(prescaler)*usec);  // 84MHz/1000000 us
+	uint16_t ARRval = (84/(PSCval)*usec);  // 84MHz/1000000 us
 	
 	TIMx->PSC = ______________;					
 	TIMx->ARR = ARRval - 1;					
@@ -57,7 +57,7 @@ void TIM_period_ms(TIM_TypeDef* TIMx, uint32_t msec){
 	uint16_t PSCval = 8400;
 	uint16_t ARRval = ______________;  			// 84MHz/1000ms
 
-	TIMx->PSC = prescaler - 1;
+	TIMx->PSC = PSCval - 1;
 	TIMx->ARR = ___________;
 }
 
