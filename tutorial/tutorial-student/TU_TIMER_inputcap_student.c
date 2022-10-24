@@ -17,6 +17,7 @@
 #include "ecUART_student.h"
 
 uint32_t ovf_cnt = 0;
+uint32_t ccr1 = 0;
 uint32_t ccr2 = 0;
 float    period = 0;
 
@@ -48,19 +49,25 @@ int main(void){
 	NVIC_SetPriority(, 2);						     // Set the priority of TIM2 interrupt request
 	NVIC_EnableIRQ();									   // TIM2 interrupt request enable
 
-	while(1);
+	while(1){
+		printf("period = %f[msec]\r\n", period);		// print out the period on TeraTerm
+	}
 }
 
 void TIM2_IRQHandler(void){
 	if(TIM2->SR & TIM_SR_UIF){                     // Update interrupt
-		TIM2->SR &=   							               // clear update interrupt flag
 		//User code to handle overflow
-		// ...
+		
+		TIM2->SR &=   							               		// clear update interrupt flag
 	}
 	if((TIM2->SR & TIM_SR_CC1IF) != 0){ 
 		// User code to calculate the period of 1Hz pulse
-		//...
-		//printf("%f[sec]\r\n", period);             // print out the period on TeraTerm
+		ccr2 = TIM2->CCR1;													// capture counter value
+		period = (____________) / 1000; 						// calculate the period with ovf_cnt, ccr1, and ccr2
+		
+		ccr1 = ccr2;
+		ovf_cnt = 0;
+		
 		TIM2->SR &= 							         // clear capture/compare interrupt flag ( it is also cleared by reading TIM2_CCR1)
 	}
 }
