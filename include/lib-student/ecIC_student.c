@@ -18,7 +18,7 @@ void ICAP_init(IC_t *ICx, GPIO_TypeDef *port, int pin){
 // GPIO configuration ---------------------------------------------------------------------	
 // 1. Initialize GPIO port and pin as AF
 	________________________;  							// GPIO init as AF=2
-	GPIO_ospeed(port, pin, 3);  						// speed VHIGH=3	
+	GPIO_ospeed(port, pin, ___);  						// speed VHIGH=3	
 
 // 2. Configure GPIO AFR by Pin num.
 	if(TIMx == TIM1 || TIMx == TIM2)											 port->AFR[pin >> 3] |= 0x01 << (4*(pin % 8)); // TIM1~2
@@ -42,6 +42,10 @@ void ICAP_init(IC_t *ICx, GPIO_TypeDef *port, int pin){
 // Input Capture configuration ---------------------------------------------------------------------			
 // 1. Select Timer channel(TIx) for Input Capture channel(ICx)
 	// Default Setting
+	TIMx->CCMR1 &= 	~TIM_CCMR1_CC1S;
+	TIMx->CCMR1 &=
+	TIMx->CCMR2 &=
+	TIMx->CCMR2 &=
 	TIMx->CCMR1 |= 	TIM_CCMR1_CC1S_0;      	//01<<0   CC1S    TI1=IC1
 	________________________;  				     	//01<<8   CC2s    TI2=IC2
 	________________________;        				//01<<0   CC3s    TI3=IC3
@@ -75,7 +79,7 @@ void ICAP_init(IC_t *ICx, GPIO_TypeDef *port, int pin){
 void ICAP_setup(IC_t *ICx, int ICn, int edge_type){
 	TIM_TypeDef *TIMx = ICx->timer;	// TIMx
 	int 				CHn 	= ICx->ch;		// Timer Channel CHn
-	ICx->ICnum=ICn;
+	ICx->ICnum = ICn;
 
 // Disable  CC. Disable CCInterrupt for ICn. 
 	TIMx->CCER ___________________;															// Capture Disable
@@ -130,16 +134,6 @@ void ICAP_counter_us(IC_t *ICx, int usec){
 	TIMx->ARR = 0xFFFF;									// Set auto reload register to maximum (count up to 65535)
 }
 
-
-
-
-uint32_t is_pending_TIM(TIM_TypeDef *TIMx){
-	return ((TIMx->SR & TIM_SR_UIF) == ___________________;	
-}
-
-void clear_pending_TIM(TIM_TypeDef *TIMx){
-	TIMx->SR ___________________;	
-}
 
 uint32_t is_CCIF(TIM_TypeDef *TIMx, uint32_t ccNum){
 	return (TIMx->SR ___________________;	
