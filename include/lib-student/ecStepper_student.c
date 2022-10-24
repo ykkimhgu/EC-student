@@ -107,7 +107,7 @@ void Stepper_step(int steps, int direction, int mode){
 	 myStepper._step_num = steps;
 
 	 for(; myStepper._step_num > 0; myStepper._step_num--){ // run for step size
-				// YOUR CODE                                  // delay (step_delay); 
+				// YOUR CODE                                  		// delay (step_delay); 
 					 
 		    if (mode == FULL) 		 												
 						state = ___________// YOUR CODE       // state = next state
