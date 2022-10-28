@@ -1,9 +1,6 @@
 #include "ecUART_student.h"
 #include <math.h>
 
-
-
-
 // ********************** DO NOT MODIFY HERE ***************************
 // 
 // Implement a dummy __FILE struct, which is called with the FILE structure.
@@ -83,11 +80,11 @@ void UART2_init(){
 		MNT += 1;
 		FRC = 0;
 	}
-	USARTx->BRR  |= (MNT << 4) | FRC;
+	USARTx->BRR |= (MNT << 4) | FRC;
 
-	USARTx->CR1  |= (USART_CR1_RE | USART_CR1_TE);   	// Transmitter and Receiver enable
+	USARTx->CR1 |= (USART_CR1_RE | USART_CR1_TE);   	// Transmitter and Receiver enable
 	USARTx->CR3 |= USART_CR3_DMAT | USART_CR3_DMAR;
-	USARTx->CR1  |= USART_CR1_UE; 										// USART enable
+	USARTx->CR1 |= USART_CR1_UE; 										// USART enable
 
 	USARTx->CR1 |= USART_CR1_RXNEIE;                 	// Enable Read Interrupt
 	NVIC_SetPriority(USART2_IRQn, 1);		// Set Priority to 1
@@ -129,25 +126,25 @@ void USART_begin(USART_TypeDef* USARTx, GPIO_TypeDef* GPIO_TX, int pinTX, GPIO_T
 //1. GPIO Pin for TX and RX	
 	// Enable GPIO peripheral clock 	 
 	// Alternative Function mode selection for Pin_y in GPIOx
-	GPIO_init(GPIO_TX,pinTX,AF);											// GPIO mode setting : AF 
-	GPIO_init(GPIO_RX,pinRX,AF);											// GPIO mode setting : AF
+	GPIO_init(GPIO_TX, pinTX, AF);											// GPIO mode setting : AF 
+	GPIO_init(GPIO_RX, pinRX, AF);											// GPIO mode setting : AF
 	
 	// Set Alternative Function Register for USARTx.	
 	// AF7 - USART1,2 AF8 - USART6 
-	if (USARTx==USART6){ 
+	if (USARTx == USART6){ 
 		// USART_TX GPIO AFR
-		if(pinTX<8) GPIO_TX->AFR[0]  |=   8<< (4*pinTX);  		 
+		if (pinTX < 8) GPIO_TX->AFR[0] |= 8 << (4*pinTX);
 		else ________________________________________; 			
 		// USART_RX GPIO AFR
-		if(pinRX<8) _______________________________________;  	 	 
+		if (pinRX < 8) _______________________________________;  	 	 
 		else _______________________________________;  			
 	}
 	else{	//USART1,USART2
 		// USART_TX GPIO AFR
-		if(pinTX<8) _______________________________________;  	 	 
+		if (pinTX < 8) _______________________________________;  	 	 
 		else _______________________________________;  			 
 		// USART_RX GPIO AFR
-		if(pinRX<8) _______________________________________;  	
+		if (pinRX < 8) _______________________________________;  	
 		else _______________________________________;  			
 	}
 	// No pull up, No pull down 
@@ -157,9 +154,9 @@ void USART_begin(USART_TypeDef* USARTx, GPIO_TypeDef* GPIO_TX, int pinTX, GPIO_T
 	
 //2. USARTx (x=2,1,6) configuration	
 	// Enable USART peripheral clock 
-	if (USARTx==USART1)
+	if (USARTx == USART1)
 		_______________________________________; 	// Enable USART 1 clock (APB2 clock: AHB clock = 84MHz)	
-	else if(USARTx==USART2)
+	else if(USARTx == USART2)
 		RCC->APB1ENR |= RCC_APB1ENR_USART2EN;  		// Enable USART 2 clock (APB1 clock: AHB clock/2 = 42MHz)
 	else
 		_______________________________________;  // Enable USART 6 clock (APB2 clock: AHB clock = 84MHz)
@@ -180,10 +177,9 @@ void USART_begin(USART_TypeDef* USARTx, GPIO_TypeDef* GPIO_TX, int pinTX, GPIO_T
 	// USARTDIV = 42MHz/(16*9600) = 237.4375
 		 
 	// Configure Baud-rate 
-	float Hz=84000000; 									// if(USARTx==USART1 || USARTx==USART6)
-	if(USARTx==USART2) Hz=42000000;
+	float Hz = 84000000; 									// if(USARTx==USART1 || USARTx==USART6)
+	if(USARTx == USART2) Hz = 42000000;
 
-					
 	float USARTDIV = _______________________________________;
 	// YOUR CODE GOES HERE
 	// YOUR CODE GOES HERE
@@ -198,7 +194,7 @@ void USART_begin(USART_TypeDef* USARTx, GPIO_TypeDef* GPIO_TX, int pinTX, GPIO_T
 // 3. Read USARTx Data (Interrupt)	
 	// Set the priority and enable interrupt
 	USARTx->CR1 _______________________________________;      // Received Data Ready to be Read Interrupt
-	if (USARTx==USART1){
+	if (USARTx == USART1){
 		_______________________________________;      					// Set Priority to 1
 		_______________________________________;    						// Enable interrupt of USART2 peripheral
 	}
@@ -210,16 +206,16 @@ void USART_begin(USART_TypeDef* USARTx, GPIO_TypeDef* GPIO_TX, int pinTX, GPIO_T
 		NVIC_SetPriority(USART6_IRQn, 1);      		// Set Priority to 1
 		NVIC_EnableIRQ(USART6_IRQn);            	// Enable interrupt of USART2 peripheral
 	}
-	USARTx->CR1  _______________________________________; 							// USART enable
+	USARTx->CR1 _______________________________________; 							// USART enable
 } 
 
 
 void USART_init(USART_TypeDef* USARTx, int baud){
 // **********************************************************
 // Default Tx,Rx GPIO, pin configuration
-// PA_2 = USART2_TX, PA_3 = USART2_RX
-// PB_6 = USART1_TX (default), PB_3 = USART1_RX (default)	
-// PA_11 = USART6_TX (default),	PA_12 = USART6_RX (default)	
+// USART1 - TX: PB6,  RX: PB3  (default) // TX: PA9, RX: PA10
+// USART2 - TX: PA2,  RX: PA3
+// USART6 - TX: PA11, RX: PA12 (default) // TX: PC6, RX: PC7
 // **********************************************************
 	
 // 1. GPIO Pin for TX and RX   
