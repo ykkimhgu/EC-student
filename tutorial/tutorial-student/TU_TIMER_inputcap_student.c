@@ -46,19 +46,18 @@ int main(void){
 	TIM2->CR1  = 										             // Counter enable
 
 	
-	NVIC_SetPriority(, 2);						     // Set the priority of TIM2 interrupt request
-	NVIC_EnableIRQ();									   // TIM2 interrupt request enable
+	NVIC_SetPriority(, 2);						    	// Set the priority of TIM2 interrupt request
+	NVIC_EnableIRQ();									   		// TIM2 interrupt request enable
 
-	while(1){
+	while(1)
 		printf("period = %f[msec]\r\n", period);		// print out the period on TeraTerm
-	}
 }
 
 void TIM2_IRQHandler(void){
-	if(TIM2->SR & TIM_SR_UIF){                     // Update interrupt
+	if(TIM2->SR & TIM_SR_UIF){                    // Update interrupt
 		//User code to handle overflow
 		
-		TIM2->SR &=   							               		// clear update interrupt flag
+		TIM2->SR &=   							               	// clear update interrupt flag
 	}
 	if((TIM2->SR & TIM_SR_CC1IF) != 0){ 
 		// User code to calculate the period of 1Hz pulse
