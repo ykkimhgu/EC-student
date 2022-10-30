@@ -2,7 +2,7 @@
 #include "ecGPIO.h"
 #include "math.h"
 
-/* Input Capture  */
+/* -------- Timer Input Capture -------- */
 
 void ICAP_init(IC_t *ICx, GPIO_TypeDef *port, int pin){
 // 0. Match Input Capture Port and Pin for TIMx
@@ -12,8 +12,8 @@ void ICAP_init(IC_t *ICx, GPIO_TypeDef *port, int pin){
 	
 	TIM_TypeDef *TIMx = ICx->timer;
 	int TIn = ICx->ch; 		
-	int ICn=TIn;
-	ICx->ICnum=ICn;													// (default) TIx=ICx
+	int ICn = TIn;
+	ICx->ICnum = ICn;													// (default) TIx=ICx
 
 // GPIO configuration ---------------------------------------------------------------------	
 // 1. Initialize GPIO port and pin as AF
@@ -22,8 +22,8 @@ void ICAP_init(IC_t *ICx, GPIO_TypeDef *port, int pin){
 
 // 2. Configure GPIO AFR by Pin num.
 	if(TIMx == TIM1 || TIMx == TIM2)											 port->AFR[pin >> 3] |= 0x01 << (4*(pin % 8)); // TIM1~2
-	else if  // for TIM3~
-	________________________;  
+	else if  (____) ________________________;  // TIM3~5
+	else if  (____) ________________________;  // TIM9~11
 
 	
 // TIMER configuration ---------------------------------------------------------------------			
@@ -56,7 +56,6 @@ void ICAP_init(IC_t *ICx, GPIO_TypeDef *port, int pin){
 
 // 3. IC Prescaler (use default)
 
-
 // 4. Activation Edge: CCyNP/CCyP	
 	TIMx->CCER ___________________;					// CCy(Rising) for ICn
 
@@ -71,8 +70,6 @@ void ICAP_init(IC_t *ICx, GPIO_TypeDef *port, int pin){
 // 7.	Enable Counter 
 	TIMx->CR1	 |= TIM_CR1_CEN;							// Counter enable	
 }
-
-
 
 
 // Configure Selecting TIx-ICy and Edge Type
@@ -115,17 +112,15 @@ void ICAP_setup(IC_t *ICx, int ICn, int edge_type){
 // Configure Activation Edge direction
 	TIMx->CCER  ___________________;	  									// Clear CCnNP/CCnP bits for ICn
 	switch(edge_type){
-		case RISE: TIMx->CCER ___________________;	 break; //rising:  00
-		case FALL: TIMx->CCER ___________________;	 break; //falling: 01
-		case BOTH: TIMx->CCER ___________________;	 break; //both:    11
+		case IC_RISE: TIMx->CCER ___________________;	 break; //rising:  00
+		case IC_FALL: TIMx->CCER ___________________;	 break; //falling: 01
+		case IC_BOTH: TIMx->CCER ___________________;	 break; //both:    11
 	}
 	
 // Enable CC. Enable CC Interrupt. 
 	TIMx->CCER |= 1 << (4*(ICn - 1)); 										// Capture Enable
 	TIMx->DIER |= 1 << ICn; 															// CCn Interrupt enabled	
 }
-
-
 
 // Time span for one counter step
 void ICAP_counter_us(IC_t *ICx, int usec){	
@@ -134,7 +129,6 @@ void ICAP_counter_us(IC_t *ICx, int usec){
 	TIMx->ARR = 0xFFFF;									// Set auto reload register to maximum (count up to 65535)
 }
 
-
 uint32_t is_CCIF(TIM_TypeDef *TIMx, uint32_t ccNum){
 	return (TIMx->SR ___________________;	
 }
@@ -142,7 +136,6 @@ uint32_t is_CCIF(TIM_TypeDef *TIMx, uint32_t ccNum){
 void clear_CCIF(TIM_TypeDef *TIMx, uint32_t ccNum){
 	TIMx->SR ___________________;	
 }
-
 
 
 //DO NOT MODIFY THIS

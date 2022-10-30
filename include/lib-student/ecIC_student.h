@@ -10,9 +10,9 @@
 /* Input Capture*/
 
 // Edge Type
-#define RISE 0
-#define FALL 1
-#define BOTH 2
+#define IC_RISE 0
+#define IC_FALL 1
+#define IC_BOTH 2
 
 //Input Capture
 
