@@ -25,7 +25,7 @@ int main(void){
 	
 	RCC_PLL_init(); 
 	UART2_init();
-  
+
 	// GPIO configuration ---------------------------------------------------------------------
 	GPIO_init(GPIOA, 5, AF);	// PB10: Alternate Function Mode
 	// TIM configuration -----------------------------------------------------------------------
@@ -34,16 +34,16 @@ int main(void){
 
 	TIM2->PSC = 															   // Timer counter clock: 1M`Hz(1us)
 	TIM2->ARR = 														     // Set auto reload register to maximum (count up to 65535)
-	TIM2->CR1 & 										             // CR1 DIR enabled
+	TIM2->CR1 & 										             // Counting direction: UP
 	TIM2->CCMR1 |=  					                   // Capture/Compare Selection: CC1 is mapped on TI1 
 	TIM2->CCMR1 &=                               // Clear IC1F
 	TIM2->CCMR1 |=                               // Set filter N=4
-	TIM2->CCER  &=                               // Clear CCER
+	TIM2->CCER  &=               								 // Clear CCER
 	TIM2->CCER  &= 						                   // Capture rising edge
 	TIM2->CCER |= 									             // Capture enabled
 	TIM2->DIER |= 												       // Interrupt enabled
-	TIM2->DIER = 										             // Update interrupt enable	
-	TIM2->CR1  = 										             // Counter enable
+	TIM2->DIER |= 										           // Update interrupt enable	
+	TIM2->CR1  |= 										           // Counter enable
 
 	
 	NVIC_SetPriority(, 2);						    	// Set the priority of TIM2 interrupt request
