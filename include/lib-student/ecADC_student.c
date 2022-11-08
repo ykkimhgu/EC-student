@@ -29,8 +29,14 @@ void ADC_init(GPIO_TypeDef *port, int pin, int trigmode){  //mode 0 : SW, 1 : TR
 	// Configure channel sampling time of conversion.	
 	// Software is allowed to write these bits only when ADSTART=0 and JADSTART=0	!!
 	// ADC clock cycles @42MHz = 2us
-	if(CHn < 10) ADC1->SMPR2  |= 4U << ___________;					// sampling time conversion : 84  			
-	else				 ADC1->SMPR1  |= 4U << ___________;
+	if(CHn < 10) {
+		ADC1->SMPR2 &= ___________;								// clear bits
+		ADC1->SMPR2 |= 4U << ___________;					// sampling time conversion : 84  			
+	}
+	else{
+		ADC1->SMPR1 &= ___________;
+		ADC1->SMPR1  |= 4U << ___________;
+	}
 	
 // 2. Regular / Injection Group 
 	//Regular: SQRx, Injection: JSQx
@@ -66,15 +72,15 @@ void ADC_init(GPIO_TypeDef *port, int pin, int trigmode){  //mode 0 : SW, 1 : TR
 /* -------------------------------------------------------------------------------------*/
 	
 	// TRGO Initialize : TIM3, 1msec, RISE edge
-	if(trigmode==TRGO) ADC_TRGO(TIM3, 1, RISE);				
+	if(trigmode == TRGO) ADC_TRGO(TIM3, 1, RISE);				
 	
 }
 
 void ADC_TRGO(TIM_TypeDef* TIMx, int msec, int edge){
 	// set timer
 	int timer = 0;
-	if(TIMx==TIM2) timer=2;
-	else if(TIMx==TIM3) timer=3;	
+	if(TIMx == TIM2) timer=2;
+	else if(TIMx == TIM3) timer=3;	
 	
 	// Single conversion mode (disable continuous conversion)
 	ADC1->CR2 &= ___________;     			// Discontinuous conversion mode
@@ -96,8 +102,8 @@ void ADC_TRGO(TIM_TypeDef* TIMx, int msec, int edge){
   TIMx->CR2 |= ___________;   				//100: Compare - OC1REF signal is used as trigger output (TRGO)
    
 	// Output Compare Mode
-  TIMx->CCMR1 &= ~(7<<4);       			// OC1M : output compare 1 Mode 
-  TIMx->CCMR1 |= 6<<4;          			// OC1M = 110 for compare 1 Mode ch1 
+  TIMx->CCMR1 &= ~TIM_CCMR1_OC1M;       			// OC1M : output compare 1 Mode 
+  TIMx->CCMR1 |= TIM_CCMR1_OC1M_1 | TIM_CCMR1_OC1M_2;  // OC1M = 110 for compare 1 Mode ch1 
 	
   // OC1 signal 
   TIMx->CCER |= ___________;          // CC1E Capture enabled
@@ -109,7 +115,7 @@ void ADC_TRGO(TIM_TypeDef* TIMx, int msec, int edge){
 // 2. ADC HW Trigger Config.
 	// Select Trigger Source  			
 	ADC1->CR2 &= ~ADC_CR2_EXTSEL; 			// reset EXTSEL
-	ADC1->CR2 |= (timer*2+2)<<24; 			// TIMx TRGO event (ADC : TIM2, TIM3 TRGO)
+	ADC1->CR2 |= (timer*2 + 2) << 24; 			// TIMx TRGO event (ADC : TIM2, TIM3 TRGO)
 	
 	//Select Trigger Polarity
 	ADC1->CR2 &= ~ADC_CR2_EXTEN;				// reset EXTEN, default
@@ -120,13 +126,12 @@ void ADC_TRGO(TIM_TypeDef* TIMx, int msec, int edge){
 }
 
 void ADC_continue(int contmode){
-	if(contmode==CONT){
+	if(contmode == CONT){
 		// Repetition: Continuous conversion
 		ADC1->CR2 |= ___________;      			// Enable Continuous conversion mode	
 		ADC1->CR1 &= ~ADC_CR1_SCAN;					// 0: Scan mode disable 
 	}
-	else 																	//if(contmode==SINGLE)
-		{
+	else { 																//if(contmode==SINGLE)
 		// Repetition: Single conversion
 		ADC1->CR2 &= ~ADC_CR2_CONT;      		// Disable Continuous conversion mode	
 		ADC1->CR1 |= ADC_CR1_SCAN;					// 1: Scan mode enable
@@ -135,21 +140,21 @@ void ADC_continue(int contmode){
 
 void ADC_sequence(int length, int *seq){
 	
-	ADC1->SQR1 &= ~(0xF<<20); 						// reset length of conversions in the regular channel 	
-	ADC1->SQR1 |= (length-1)<<20; 				// conversions in the regular channel conversion sequence
+	ADC1->SQR1 &= ~ADC_SQR1_L; 										// reset length of conversions in the regular channel 	
+	ADC1->SQR1 |= (length - 1) << ADC_SQR1_L_Pos; // conversions in the regular channel conversion sequence
 	
 	for(int i = 0; i<length; i++){
 		if (i<6){
-			ADC1->SQR3 &= ~(0x1F<<i*5);				// SQn clear bits
-			ADC1->SQR3 |= seq[i]<<i*5;				// Choose the channel to convert sequence
+			ADC1->SQR3 &= ~(0x1F << i*5);				// SQn clear bits
+			ADC1->SQR3 |= seq[i] << i*5;				// Choose the channel to convert sequence
 		}
-		else if (i <12){
+		else if (i < 12){
 			ADC1->SQR2 &= ___________;				// SQn clear bits
 			ADC1->SQR2 |= ___________;				// Choose the channel to convert sequence
 		}
 		else{
-			ADC1->SQR1 &= ~(0x1F<<(i-12)*5);	// SQn clear bits
-			ADC1->SQR1 |= seq[i]<<(i-12)*5;		// Choose the channel to convert sequence
+			ADC1->SQR1 &= ~(0x1F << (i-12)*5);	// SQn clear bits
+			ADC1->SQR1 |= seq[i] << (i-12)*5;		// Choose the channel to convert sequence
 		}
 	}
 }
@@ -161,15 +166,15 @@ void ADC_start(void){
 }
 
 uint32_t is_ADC_EOC(void){
-	return ADC1->SR & ___________;
+	return (ADC1->SR & ___________) == __________;
 }
 
 uint32_t is_ADC_OVR(void){
-	return ADC1->SR & ___________;
+	return (ADC1->SR & ___________) == __________;
 }
 
 void clear_ADC_OVR(void){
-	ADC1->SR &= ___________;
+	ADC1->SR & = ___________;
 }
 
 uint32_t ADC_read(){
