@@ -12,12 +12,15 @@
 #include "ecRCC.h"
 #include "ecTIM.h"
 #include "ecSysTick.h"
-#include "ecUART_student.h"
-float result_v =0;
+#include "ecUART.h"
+
+float result_v = 0.0;
+
 void setup(void);
 	
 int main(void) { 
 	setup();
+	
 // GPIO configuration ---------------------------------------------------------------------	
 // 1. Initialize GPIO port and pin as ANALOG, no pull up / pull down
 	GPIO_init(GPIOA, 1, ANALOG);				// ANALOG = 3
@@ -37,8 +40,8 @@ int main(void) {
 	// Configure channel sampling time of conversion.	
 	// Software is allowed to write these bits only when ADSTART=0 and JADSTART=0	!!
 	// ADC clock cycles @42MHz = 2us
-	ADC1->SMPR2  &= 						// Sampling Time:  clear bits
-	ADC1->SMPR2  |=         		// Sampling Time:  84cycles/42Mhz)=2us
+	ADC1->SMPR2 &= 						// Sampling Time:  clear bits
+	ADC1->SMPR2 |=         		// Sampling Time:  84cycles/42Mhz=2us
 	   
 // 2. Regular / Injection Group 
 	//Regular: SQRx, Injection: JSQx
@@ -74,7 +77,10 @@ int main(void) {
   ADC1->CR2 |= ADC_CR2_SWSTART;
 	
   /* Infinite Loop    -----------------------------------------------------------------------*/
-	while(1);
+	while(1){
+		printf("voltage = %.3f\r\n",result_v*3.3/4095);
+		delay_ms(100);
+	}
 }
 
 // Initialiization 
@@ -82,15 +88,12 @@ void setup(void)
 {	
 	RCC_PLL_init();                 // System Clock = 84MHz
 	UART2_init();
-	GPIO_init(GPIOA, 1, EC_ANG);    // GPIOA pin1 enable
-	GPIO_pupdr(GPIOA, 1, EC_NONE);
 	SysTick_init();
 }
 
 void ADC_IRQHandler(void){
-	if(is_ADC_EOC()){
-		result_v = ADC_read();
-		printf("voltage = %.3f\r\n",result_v*3.3/4095);
+	if(ADC1->SR & __________){
+		result_v = ADC1->_____;
  }
 }
 

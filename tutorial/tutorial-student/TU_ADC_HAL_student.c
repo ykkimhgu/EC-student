@@ -12,11 +12,11 @@
 #include "ecRCC.h"
 #include "ecTIM.h"
 #include "ecSysTick.h"
-#include "ecUART_student.h"
-#include "ecADC_student.h"
+#include "ecUART.h"
+#include "ecADC.h"
 
 //IR parameter//
-float result_v =0;
+float result_v = 0.0;
 
 void setup(void);
 	
@@ -26,7 +26,10 @@ int main(void) {
 
 	
 	// Inifinite Loop ----------------------------------------------------------
-	while(1);
+	while(1){
+		printf("voltage = %.3f\r\n",result_v*3.3/4095);
+		delay_ms(100);
+	}
 }
 
 // Initialiization 
@@ -34,15 +37,16 @@ void setup(void)
 {	
 	RCC_PLL_init();                         // System Clock = 84MHz
 	UART2_init();
+	SysTick_init();
+	
 	ADC_init(GPIOA,1,SW);
-	ADC_start(ADC1);
+	ADC_continue(CONT);
+	ADC_start();
 }
 
 
 void ADC_IRQHandler(void){
-	if(is_ADC_EOC(ADC1)){       //after finishing sequence
-	  result_v =ADC_read();
-		printf("voltage = %.3f\r\n",result_v*3.3/4095);
-	
+	if(is_ADC_EOC()){       //after finishing sequence
+	  result_v = ADC_read();
  }
 }

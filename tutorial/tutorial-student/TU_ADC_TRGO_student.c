@@ -14,44 +14,56 @@
 #include "ecRCC.h"
 #include "ecTIM.h"
 #include "ecSysTick.h"
-#include "ecUART_student.h"
-float result_v =0;
+#include "ecUART.h"
+
+float result_v = 0;
 void setup(void);
 	
 int main(void) { 
 	// Initialiization --------------------------------------------------------
 	setup();
 	
+// GPIO configuration ---------------------------------------------------------------------	
+// 1. Initialize GPIO port and pin as ANALOG, no pull up / pull down
+	GPIO_init(GPIOA, 1, ANALOG);				// ANALOG = 3
+	GPIO_pupd(GPIOA, 1, EC_NONE);			// EC_NONE = 0
+	
+	
 	/* ADC_initiation --------------------------------------------------------------------*/
   // 1) Enable the clock of ADC
   // 2) ...
 	// 3) ...
   
+	
+	//Single conversion mode
+	ADC1->CR2 &= ~ADC_CR2_CONT;   // Discontinuous conversion mode
+	ADC1->CR2 |= ADC_CR2_EOCS;  	// Enable EOCS
+	
 // HW Trigger configuration -------------------------------------------------------------
 // 1. TIMx Trigger Output Config
 	// Enable TIMx Clock
-	TIM_TypeDef *timx = TIM3;			// Default TRGO : TIM3
+	TIM_TypeDef *TIMx = TIM3;			// Default TRGO : TIM3
 	int msec = 1;									// Default msec : 1 msec
-	TIM_init(timx, msec);					// TIM3 init (use user defined HAL)
-	timx->CR1 &= ~1; 							// counter disable
+	TIM_init(TIMx, msec);					// TIM3 init (use user defined HAL)
+	TIMx->CR1 &= ~1; 							// counter disable
 	
 	// Set PSC, ARR
-  TIM_period_ms(timx, msec);
+  TIM_period_ms(TIMx, msec);
 	
   // Master Mode Selection MMS[2:0]: Trigger output (TRGO)
-  timx->CR2 &= 								// reset MMS
-  timx->CR2 |=    						//100: Compare - OC1REF signal is used as trigger output (TRGO)
+  TIMx->CR2 &= 								// reset MMS
+  TIMx->CR2 |=    						//100: Compare - OC1REF signal is used as trigger output (TRGO)
    
 	// Output Compare Mode
-  timx->CCMR1 &=       				// OC1M : output compare 1 Mode 
-  timx->CCMR1 |=          		// OC1M = 110 for compare 1 Mode ch1 
+  TIMx->CCMR1 &=       				// OC1M : output compare 1 Mode 
+  TIMx->CCMR1 |=          		// OC1M = 110 for compare 1 Mode ch1 
 	
   // OC1 signal 
-  timx->CCER |=            		// CC1E Capture enabled
-	timx->CCR1  = 							// CCR set
+  TIMx->CCER |=            		// CC1E Capture enabled
+	TIMx->CCR1  = 							// CCR set
    
   // Enable TIMx 
-  timx->CR1 |= 1; 						//counter enable
+  TIMx->CR1 |= TIM_CR1_CEN; 						//counter enable
 	
 // 2. HW Trigger
 	// Select Trigger Source
@@ -73,12 +85,9 @@ int main(void) {
 }
 
 // Initialiization 
-void setup(void)
-{	
+void setup(void){	
 	RCC_PLL_init();                 // System Clock = 84MHz
 	UART2_init();
-	GPIO_init(GPIOA, 1, EC_ANG);    // calls RCC_GPIOA_enable()
-	GPIO_pupdr(GPIOA, 1, EC_NONE);
 }
 
 void ADC_IRQHandler(void){		
@@ -87,8 +96,7 @@ void ADC_IRQHandler(void){
 	}
 	
 	if(is_ADC_EOC()){       			
-	  result_v = ADC_read();
+	  result_v = ADC1->DR;
 		printf("voltage = %.3f\r\n",result_v*3.3/4095);
-	
  }
 }
