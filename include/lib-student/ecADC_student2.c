@@ -18,23 +18,23 @@ void ADC_init(GPIO_TypeDef *port, int pin, int trigmode){  //mode 0 : SW, 1 : TR
 // ADC configuration	---------------------------------------------------------------------			
 // 1. Total time of conversion setting
 	// Enable ADC pheripheral clock
-	RCC->APB2ENR |= ___________; 		// Enable the clock of RCC_APB2ENR_ADC1EN
+	RCC->APB2ENR |= RCC_APB2ENR_ADC1EN; 		// Enable the clock of RCC_APB2ENR_ADC1EN
 	
 	// Configure ADC clock pre-scaler
-	ADC->CCR &= ___________;					// 0000: PCLK2 divided by 2	(42MHz)
+	ADC->CCR &= ~ADC_CCR_ADCPRE;					// 0000: PCLK2 divided by 2	(42MHz)
 	
 	// Configure ADC resolution 
-	ADC1->CR1 &= ___________;     		// 00: 12-bit resolution (15cycle+)
+	ADC1->CR1 &= ~ADC_CR1_RES;     		// 00: 12-bit resolution (15cycle+)
 	
 	// Configure channel sampling time of conversion.	
 	// Software is allowed to write these bits only when ADSTART=0 and JADSTART=0	!!
 	// ADC clock cycles @42MHz = 2us
 	if(CHn < 10) {
-		ADC1->SMPR2 &= ___________;								// clear bits
+		ADC1->SMPR2 &= ~( ___ << (3*CHn);								// clear bits
 		ADC1->SMPR2 |= 4U << ___________;					// sampling time conversion : 84  			
 	}
 	else{
-		ADC1->SMPR1 &= ___________;
+		ADC1->SMPR1 &= ___ << (3* (CHn - 10));
 		ADC1->SMPR1 |= 4U << ___________;
 	}
 	
@@ -42,28 +42,28 @@ void ADC_init(GPIO_TypeDef *port, int pin, int trigmode){  //mode 0 : SW, 1 : TR
 	//Regular: SQRx, Injection: JSQx
 
 // 3. Repetition: Single or Continuous conversion
-	ADC1->CR2 &= ___________;      			// default : Single conversion mode
+	ADC1->CR2 &= ~ADC_CR2_CONT;      			// default : Single conversion mode
 	
-// 4. Single Channel or Scan mode
+// 4. Single Channel or Scan mode	
 	// Configure the sequence length
-	ADC1->SQR1 &= ___________; 					// 0000: 1 conversion in the regular channel conversion sequence
+	ADC1->SQR1 &= ADC_SQR1_L; 					// 0000: 1 conversion in the regular channel conversion sequence
 	
 	// Configure the channel sequence 
-	ADC1->SQR3 &= ___________;				 	// SQ1 clear bits
-	ADC1->SQR3 |= (CHn & ___________); 	// Choose the channel to convert firstly
+	ADC1->SQR3 &= ~ADC_SQR3_SQ1;				 	// SQ1 clear bits
+	ADC1->SQR3 |= (CHn & ADC_SQR3_SQ1); 	// Choose the channel to convert firstly
 		
 	// Single Channel: scan mode, right alignment
-	ADC1->CR1 |= ___________;						// 1: Scan mode enable 
-	ADC1->CR2 &= ___________;   				// 0: Right alignment	
+	ADC1->CR1 |= ADC_CR1_SCAN;						// 1: Scan mode enable 
+	ADC1->CR2 &= ~ADC_CR2_ALIGN;   				// 0: Right alignment	
 	
 // 5. Interrupt Enable
 	// Enable EOC(conversion) interrupt. 
-	ADC1->CR1 &= ___________;          	// Interrupt reset
-	ADC1->CR1 |= ___________;           // Interrupt enable
+	ADC1->CR1 &= ~ADC_CR1_EOCIE;          // Interrupt reset
+	ADC1->CR1 |= ADC_CR1_EOCIE;           // Interrupt enable
 	
 	// Enable ADC_IRQn 
-	NVIC_SetPriority(___________); 			// Set Priority to 2
-	NVIC_EnableIRQ(___________);      	// Enable interrupt form ACD1 peripheral	
+	NVIC_SetPriority(ADC_IRQn, 2); 			// Set Priority to 2
+	NVIC_EnableIRQ(ADC_IRQn);      			// Enable interrupt form ACD1 peripheral	
 
 
 /* -------------------------------------------------------------------------------------*/
