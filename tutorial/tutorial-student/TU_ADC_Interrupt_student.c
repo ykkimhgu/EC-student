@@ -50,10 +50,6 @@ int main(void) {
 	ADC1->CR2 |=       					// Enable Continuous conversion mode	
  
 // 4. Single Channel or Scan mode
-	//  - Single Channel: scan mode, right alignment	
-	ADC1->CR1 |= 								// 1: Scan mode enable 
-	ADC1->CR2 &=    						// 0: Right alignment	
-	
 	// Configure the sequence length
 	ADC1->SQR1 &=  							// 0000: 1 conversion in the regular channel conversion sequence
 	
@@ -61,14 +57,18 @@ int main(void) {
 	ADC1->SQR3 &= 							// Choose CH of 1st Conversion: clear bits
 	ADC1->SQR3 |=    						// Choose CH of 1st Conversion: Select CH (0~15)	
 	
+	//  - Single Channel: scan mode, right alignment	
+	ADC1->CR1 |= 								// 1: Scan mode enable 
+	ADC1->CR2 &= ~ADC_CR2_ALIGN // 0: Right alignment	
+	
 // 5. Interrupt Enable
 	// Enable EOC(conversion) interrupt. 
 	ADC1->CR1 &=          			// Interrupt reset
 	ADC1->CR1 |=          			// Interrupt enable
 	
 	// Enable ADC_IRQn 
-	NVIC_SetPriority(); 				// Set Priority to 2
-	NVIC_EnableIRQ();      			// Enable interrupt form ACD1 peripheral	
+	NVIC_SetPriority(    ,  );	// Set Priority to 2
+	NVIC_EnableIRQ(    );      	// Enable interrupt form ACD1 peripheral	
 
 // 6. Enable ADC
 	ADC1->CR2 |= ADC_CR2_ADON;
