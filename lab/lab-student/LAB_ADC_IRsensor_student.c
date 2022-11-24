@@ -49,7 +49,6 @@ void setup(void)
 	// ADC setting
   ADC_init(GPIOB, 0, TRGO);
 	ADC_init(GPIOB, 1, TRGO);
-	ADC_TRGO(TIM3, 1, RISE);
 
 	// ADC channel sequence setting
 	ADC_sequence(2, seqCHn);
