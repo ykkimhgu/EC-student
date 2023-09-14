@@ -49,11 +49,12 @@ int main(void) {
 		// GPIO Pull-Up/Pull-Down Register 
 		GPIOC->PUPDR &= 	
 		GPIOC->PUPDR  |=										// 10: Pull-down		    
-	 
+
+	/* Button Value Initialization */	
+		unsigned int btVal=0;
 	 
 	/* Part 4. Deal loop  */	
 		while(1){
-			unsigned int btVal=0;
 			//Read bit value of Button
 			btVal=(GPIOC->IDR) & (1UL << BUTTON_PIN);	
 			if(btVal == 0)
