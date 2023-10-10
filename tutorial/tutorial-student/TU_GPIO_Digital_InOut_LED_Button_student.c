@@ -23,6 +23,7 @@
 
 int main(void) {	
 	/* Part 1. RCC GPIOA Register Setting */
+		RCC_HSI_init();
 		RCC_GPIOA_enable();
 		RCC_GPIOC_enable();
 		

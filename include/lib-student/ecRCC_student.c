@@ -74,24 +74,18 @@ void RCC_PLL_init() {
 
 void RCC_GPIOA_enable()
 {
-	// HSI is used as system clock         
-	RCC_HSI_init();
 	// RCC Peripheral Clock Enable Register 
 	RCC->AHB1ENR |= RCC_AHB1ENR_GPIOAEN;
 }
 
 void RCC_GPIOB_enable()
 {
-	// HSI is used as system clock         
-	RCC_HSI_init();
 	// RCC Peripheral Clock Enable Register 
 	RCC->AHB1ENR |= RCC_AHB1ENR_GPIOBEN;
 }
 
 void RCC_GPIOC_enable()
 {
-	// HSI is used as system clock         
-	RCC_HSI_init();
 	// RCC Peripheral Clock Enable Register 
 	RCC->AHB1ENR |= RCC_AHB1ENR_GPIOCEN;
 }

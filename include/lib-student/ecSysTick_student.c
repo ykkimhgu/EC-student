@@ -19,7 +19,7 @@ void SysTick_init(void){
 
 	// uint32_t MCU_CLK=EC_SYSTEM_CLK
 	// SysTick Reload Value Register
-	SysTick->LOAD = 84000000 / 1000 - 1;						// 1ms, for HSI PLL = 84MHz.
+	SysTick->LOAD = MCU_CLK_PLL / 1000 - 1;						// 1ms, for HSI PLL = 84MHz.
 
 	// SysTick Current Value Register
 	SysTick->VAL = 0;
