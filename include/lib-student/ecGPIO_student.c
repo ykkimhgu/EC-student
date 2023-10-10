@@ -12,7 +12,7 @@ Description      : Distributed to Students for LAB_GPIO
 
 #include "stm32f4xx.h"
 #include "stm32f411xe.h"
-#include "ecGPIO.h"
+#include "ecGPIO_student.h"
 
 void GPIO_init(GPIO_TypeDef *Port, int pin, int mode){     
 	// mode  : Input(0), Output(1), AlterFunc(2), Analog(3)   
