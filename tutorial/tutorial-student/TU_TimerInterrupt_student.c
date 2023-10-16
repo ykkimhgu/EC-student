@@ -11,9 +11,10 @@
 #include "ecGPIO.h"
 #include "ecRCC.h"
 
+
+#define LED_PIN 5
 uint32_t count = 0;
 
-#define LED_PIN 	5
 
 void setup(void);
 	
@@ -24,13 +25,13 @@ int main(void) {
 	timerx = TIM2;
 	RCC->APB1ENR |= RCC_APB1ENR_TIM2EN;
 	
-	timerx->PSC = 							        // Timer counter clock: 1MHz(1us)
-	timerx->ARR = 									    // Set auto reload register to maximum (count up to 65535)
-	timerx->DIER |=                     // Enable Interrupt
-	timerx->CR1 |=                      // Enable counter
+	timerx->PSC = 				// Timer counter clock: 1MHz(1us)
+	timerx->ARR = 				// Set auto reload register to maximum (count up to 65535)
+	timerx->DIER |=                     	// Enable Interrupt
+	timerx->CR1 |=                      	// Enable counter
 	
-	NVIC_SetPriority(, );               // TIM2_IRQHandler Set priority as 2
-	NVIC_EnableIRQ();				    				// TIM2_IRQHandler Enable
+	NVIC_SetPriority(, );               	// TIM2_IRQHandler Set priority as 2
+	NVIC_EnableIRQ();			// TIM2_IRQHandler Enable
 	
 	
 	// Inifinite Loop ----------------------------------------------------------
@@ -48,6 +49,6 @@ void TIM2_IRQHandler(void){
 	if((TIM2->SR & TIM_SR_UIF) ==      ){ // update interrupt flag
 		//Create the code to toggle LED by 1000ms
 
-		TIM2->SR &=                         // clear by writing 0
+		TIM2->SR &=                     // clear by writing 0
 	}
 }
