@@ -63,12 +63,12 @@ void TIM_period_ms(TIM_TypeDef* TIMx, uint32_t msec){
 
 
 // Update Event Interrupt
-void TIM_INT_init(TIM_TypeDef* TIMx, uint32_t msec){
+void TIM_UI_init(TIM_TypeDef* TIMx, uint32_t msec){
 // 1. Initialize Timer	
 	TIM_init(TIMx,msec);
 	
 // 2. Enable Update Interrupt
-	TIM_INT_enable(TIMx);
+	TIM_UI_enable(TIMx);
 	
 // 3. NVIC Setting
 	uint32_t IRQn_reg =0;
@@ -84,11 +84,11 @@ void TIM_INT_init(TIM_TypeDef* TIMx, uint32_t msec){
 
 
 
-void TIM_INT_enable(TIM_TypeDef* TIMx){
+void TIM_UI_enable(TIM_TypeDef* TIMx){
 	TIMx->DIER _____________________;			// Enable Timer Update Interrupt		
 }
 
-void TIM_INT_disable(TIM_TypeDef* TIMx){
+void TIM_UI_disable(TIM_TypeDef* TIMx){
 	TIMx->DIER &= ________________;				// Disable Timer Update Interrupt		
 }
 
