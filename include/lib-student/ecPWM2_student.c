@@ -8,7 +8,7 @@
 */
 
 #include "stm32f4xx.h"
-#include "ecPWM2_student.h"
+#include "ecPWM.h"
 #include "math.h"
 
 /* PWM Configuration using PinName_t Structure */
@@ -26,8 +26,8 @@ void PWM_init(PinName_t pinName){
 	PWM_pinmap(pinName, &TIMx, &chN);
 	
 	
-// 1. Initialize GPIO port and pin as AF
-	GPIO_init2(pinName, EC_AF);  // AF=2
+// 1. Initialize GPIO port and pin as AF	
+	GPIO_init(port, pin, EC_AF);  // AF=2
 	
 	// GPIO_otype(port, pin, EC_PUSH_PULL); 	//if necessary
 	// GPIO_pupd(port\, pin, EC_PU); 					//if necessary
