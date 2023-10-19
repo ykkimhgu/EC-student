@@ -48,18 +48,18 @@ void PWM_init(PinName_t pinName){
 	
 // 3-2. Direction of Counter
 	//YOUR CODE GOES HERE
-	TIMx->CR1  ________________;           // Counting direction: 0 = up-counting, 1 = down-counting
+	TIMx->CR1 &= ~TIM_CR1_DIR;                          // Counting direction: 0 = up-counting, 1 = down-counting
 			
 	
 // 4. Configure Timer Output mode as PWM
 	uint32_t ccVal = TIMx->ARR/2;  // default value  CC=ARR/2
 	if(chN == 1){
 		TIMx->CCMR1 &= ~TIM_CCMR1_OC1M;                     // Clear ouput compare mode bits for channel 1
-		TIMx->CCMR1 |= ___________; 						// OC1M = 110 for PWM Mode 1 output on ch1. #define TIM_CCMR1_OC1M_1          (0x2UL << TIM_CCMR1_OC1M_Pos)
+		TIMx->CCMR1 |= TIM_CCMR1_OC1M_1 | TIM_CCMR1_OC1M_2; // OC1M = 110 for PWM Mode 1 output on ch1. #define TIM_CCMR1_OC1M_1          (0x2UL << TIM_CCMR1_OC1M_Pos)
 		TIMx->CCMR1	|= TIM_CCMR1_OC1PE;                     // Output 1 preload enable (make CCR1 value changable)
 		TIMx->CCR1  = ccVal; 																// Output Compare Register for channel 1 (default duty ratio = 50%)		
 		TIMx->CCER &= ~TIM_CCER_CC1P;                       // select output polarity: active high	
-		TIMx->CCER  |= _____________;												// Enable output for ch1
+		TIMx->CCER  |= TIM_CCER_CC1E;												// Enable output for ch1
 	}
 	else if(chN == 2){
 		TIMx->CCMR1 &= ~TIM_CCMR1_OC2M;                     // Clear ouput compare mode bits for channel 2
@@ -78,11 +78,11 @@ void PWM_init(PinName_t pinName){
 		// YOUR CODE GOES HERE															// Enable output for ch3
 	}
 	else if(chN == 4){
-	// YOUR CODE GOES HERE
-	// YOUR CODE GOES HERE
-	// YOUR CODE GOES HERE
-	// YOUR CODE GOES HERE
-	// YOUR CODE GOES HERE	
+		// YOUR CODE GOES HERE
+		// YOUR CODE GOES HERE
+		// YOUR CODE GOES HERE
+		// YOUR CODE GOES HERE
+		// YOUR CODE GOES HERE	
 	}	
 	
 	
@@ -108,7 +108,7 @@ void PWM_period_ms(PinName_t pinName,  uint32_t msec){
 	
 	
 // 1. Set Counter Period in msec
-	TIM_period_ms(___, _____);  //YOUR CODE GOES HERE
+	TIM_period_ms(TIMx, msec);
 	
 }
 
