@@ -108,6 +108,10 @@ void TIM_period_ms(TIM_TypeDef* TIMx, uint32_t msec){
 	}
 }
 
+// msec = 1 to 6000
+void TIM_period(TIM_TypeDef* TIMx, uint32_t msec){
+	TIM_period_ms(TIMx, msec);
+}
 
 // Update Event Interrupt
 void TIM_UI_init(TIM_TypeDef* TIMx, uint32_t msec){
