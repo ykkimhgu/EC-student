@@ -9,7 +9,7 @@
 
 #include "stm32f411xe.h"
 #include "ecGPIO.h"
-#include "ecTIM_student.h"  			
+#include "ecTIM.h"  			
 
 #include "ecPinNames.h"
 
