@@ -8,7 +8,7 @@
 */
 
 
-#include "ecTIM2.h"
+#include "ecTIM.h"
 #include "ecGPIO.h"
 
 /* Timer Configuration */
