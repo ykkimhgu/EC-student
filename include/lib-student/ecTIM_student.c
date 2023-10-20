@@ -41,12 +41,33 @@ void TIM_init(TIM_TypeDef* TIMx, uint32_t msec){
 void TIM_period_us(TIM_TypeDef *TIMx, uint32_t usec){   
 	// Period usec = 1 to 1000
 
-	// 1us(1MHz, ARR = 1) to 65msec (ARR = 0xFFFF)
-	uint16_t PSCval = _____;
-	uint16_t ARRval = (84/(PSCval)*usec);  // 84MHz/1000000 us
+	// 1us(1MHz, ARR=1) to 65msec (ARR=0xFFFF)
+	uint16_t PSCval;
+	uint32_t Sys_CLK;
 	
-	TIMx->PSC = ______________;					
-	TIMx->ARR = ARRval - 1;					
+	if((RCC->CFGR & RCC_CFGR_SW_PLL) == RCC_CFGR_SW_PLL)
+		Sys_CLK = 84000000;
+	
+	else if((RCC->CFGR & RCC_CFGR_SW_HSI) == RCC_CFGR_SW_HSI) 
+		Sys_CLK = 16000000;
+	
+	
+	if (TIMx == TIM2 || TIMx == TIM5){
+		uint32_t ARRval;
+		
+		PSCval = _____;									// 84 or 16	--> f_cnt = 1MHz
+		ARRval = Sys_CLK/PSCval/1000000 * usec;		// 1MHz*usec
+		TIMx->PSC = ______________;
+		TIMx->ARR = ARRval - 1;
+	}
+	else{
+		uint16_t ARRval;
+
+		PSCval = _____;										// 84 or 16	--> f_cnt = 1MHz
+		ARRval = Sys_CLK/PSCval/1000000 * usec;		// 1MHz*usec
+		TIMx->PSC = ______________;
+		TIMx->ARR = ARRval - 1;
+	}			
 }
 
 
@@ -54,11 +75,37 @@ void TIM_period_ms(TIM_TypeDef* TIMx, uint32_t msec){
 	// Period msec = 1 to 6000
 	
 	// 0.1ms(10kHz, ARR = 1) to 6.5sec (ARR = 0xFFFF)
-	uint16_t PSCval = 8400;
-	uint16_t ARRval = ______________;  			// 84MHz/1000ms
+	// uint16_t PSCval = 8400;
+	// uint16_t ARRval = ______________;  			// 84MHz/1000ms
 
-	TIMx->PSC = PSCval - 1;
-	TIMx->ARR = ___________;
+	// TIMx->PSC = PSCval - 1;
+	// TIMx->ARR = ___________;
+	uint16_t PSCval;
+	uint32_t Sys_CLK;
+	
+	if((RCC->CFGR & RCC_CFGR_SW_PLL) == RCC_CFGR_SW_PLL )
+		 Sys_CLK = 84000000;
+	
+	else if((RCC->CFGR & RCC_CFGR_SW_HSI) == RCC_CFGR_SW_HSI) 
+		Sys_CLK = 16000000;
+	
+	
+	if (TIMx == TIM2 || TIMx == TIM5){
+		uint32_t ARRval;
+		
+		PSCval = Sys_CLK/100000;									// 840 or 160	--> f_cnt = 100kHz
+		ARRval = ______________;		// 100kHz*msec
+		TIMx->PSC = PSCval - 1;
+		TIMx->ARR = ___________;
+	}
+	else{
+		uint16_t ARRval;
+
+		PSCval = Sys_CLK/100000;									// 8400 or 1600	--> f_cnt = 10kHz
+		ARRval = ______________;		// 10kHz*msec
+		TIMx->PSC = PSCval - 1;
+		TIMx->ARR = ___________;
+	}
 }
 
 
