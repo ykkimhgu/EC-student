@@ -73,7 +73,22 @@ void TIM_period_us(TIM_TypeDef *TIMx, uint32_t usec){
 
 void TIM_period_ms(TIM_TypeDef* TIMx, uint32_t msec){ 
 	// Period msec = 1 to 6000
+	//f_psc=f_sysClk/(PSCval)
+
+	// Let's make f_psc=100kHz
+	//f_psc=84000000[Hz] / (PSCval)= 100000[Hz]
+
+	//PSCval =(PSC+1)=f_sysClk/f_psc 
+       	//	= 84000000[Hz] / 100000[Hz] 
+
+	//(ARRval)= f_psc[Hz] * time[sec]
+	// Let Period is msec
 	
+	//(ARRval)= 100000[Hz] *  msec/1000 [sec]
+	//        = (f_sysClk/PSCval)* msec/1000 
+	//        = (f_sysClk/PSCval)/1000* msec 
+	//	= (ARR+1)
+
 	// 0.1ms(10kHz, ARR = 1) to 6.5sec (ARR = 0xFFFF)
 	// uint16_t PSCval = 8400;
 	// uint16_t ARRval = ______________;  			// 84MHz/1000ms
@@ -101,8 +116,8 @@ void TIM_period_ms(TIM_TypeDef* TIMx, uint32_t msec){
 	else{
 		uint16_t ARRval;
 
-		PSCval = Sys_CLK/100000;									// 8400 or 1600	--> f_cnt = 10kHz
-		ARRval = ______________;		// 10kHz*msec
+		PSCval = Sys_CLK/100000;									
+		ARRval = ______________;		
 		TIMx->PSC = PSCval - 1;
 		TIMx->ARR = ___________;
 	}
