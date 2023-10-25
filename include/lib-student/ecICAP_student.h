@@ -1,5 +1,5 @@
-#ifndef __EC_TIM_H
-#define __EC_TIM_H
+#ifndef __EC_ICAP_H
+#define __EC_ICAP_H
 #include "stm32f411xe.h"
 
 #ifdef __cplusplus
@@ -18,6 +18,12 @@
 #define IC_FALL 1
 #define IC_BOTH 2
 
+// Input Capture Number
+#define IC_1    1
+#define IC_2    2
+#define IC_3    3
+#define IC_4    4
+
 //Input Capture
 
 void ICAP_pinmap(PinName_t pinName, TIM_TypeDef **TIMx, int *chN);
@@ -25,6 +31,8 @@ void ICAP_pinmap(PinName_t pinName, TIM_TypeDef **TIMx, int *chN);
 void ICAP_init(PinName_t pinName);
 void ICAP_setup(PinName_t pinName, int ICn, int edge_type);
 void ICAP_counter_us(PinName_t pinName, int usec);
+uint32_t ICAP_capture(TIM_TypeDef* TIMx, uint32_t ICn);
+
 uint32_t is_CCIF(TIM_TypeDef *TIMx, uint32_t CCnum);  // CCnum= 1~4
 void clear_CCIF(TIM_TypeDef *TIMx, uint32_t CCnum);
 
