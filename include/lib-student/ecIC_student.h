@@ -9,6 +9,10 @@
 
 /* Input Capture*/
 
+// ICn selection according to CHn
+#define FIRST 1
+#define SECOND 2
+
 // Edge Type
 #define IC_RISE 0
 #define IC_FALL 1
@@ -16,22 +20,14 @@
 
 //Input Capture
 
-typedef struct{
-	GPIO_TypeDef *port;
-	int pin;   
-	TIM_TypeDef *timer;
-	int ch;  		//int Timer Channel
-	int ICnum;  //int IC number
-} IC_t;
+void ICAP_pinmap(PinName_t pinName, TIM_TypeDef **TIMx, int *chN);
 
-void ICAP_init(IC_t *ICx, GPIO_TypeDef *port, int pin);
-void ICAP_setup(IC_t *ICx, int IC_number, int edge_type);
-void ICAP_counter_us(IC_t *ICx, int usec);
+void ICAP_init(PinName_t pinName);
+void ICAP_setup(PinName_t pinName, int ICn, int edge_type);
+void ICAP_counter_us(PinName_t pinName, int usec);
+uint32_t is_CCIF(TIM_TypeDef *TIMx, uint32_t CCnum);  // CCnum= 1~4
+void clear_CCIF(TIM_TypeDef *TIMx, uint32_t CCnum);
 
-uint32_t is_CCIF(TIM_TypeDef *TIMx, uint32_t ccNum);
-void clear_CCIF(TIM_TypeDef *TIMx, uint32_t ccNum);
-
-void ICAP_pinmap(IC_t *timer_pin);
 
 
 #ifdef __cplusplus

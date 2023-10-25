@@ -4,16 +4,16 @@
 
 /* -------- Timer Input Capture -------- */
 
-void ICAP_init(IC_t *ICx, GPIO_TypeDef *port, int pin){
+void ICAP_init(PinName_t pinName){
 // 0. Match Input Capture Port and Pin for TIMx
-	ICx->port = port;
-	ICx->pin  = pin;
-	ICAP_pinmap(ICx);	  										// Port, Pin --(mapping)--> TIMx, Channel
+	GPIO_TypeDef *port;
+	unsigned int pin;	
+	ecPinmap(pinName, &port, &pin);	
+	TIM_TypeDef *TIMx;
+	int TIn;
 	
-	TIM_TypeDef *TIMx = ICx->timer;
-	int TIn = ICx->ch; 		
-	int ICn = TIn;
-	ICx->ICnum = ICn;													// (default) TIx=ICx
+	ICAP_pinmap(pinName, &TIMx, &TIn);
+	int ICn = TIn;													// (default) TIx=ICx
 
 // GPIO configuration ---------------------------------------------------------------------	
 // 1. Initialize GPIO port and pin as AF
@@ -27,14 +27,14 @@ void ICAP_init(IC_t *ICx, GPIO_TypeDef *port, int pin){
 
 	
 // TIMER configuration ---------------------------------------------------------------------			
-// 1. Initialize Timer 
-	TIM_init(TIMx, 1);
-// 2. Initialize Timer Interrpt 
-	TIM_INT_init(TIMx, 1);        					// TIMx Interrupt initialize 
-// 3. Modify ARR Maxium for 1MHz
+// 1. Initialize Timer Interrpt 
+	TIM_UI_init(TIMx, 1);        					// TIMx Interrupt initialize 
+
+// 2. Modify ARR Maxium for 1MHz
 	TIMx->PSC = 84-1;						  					// Timer counter clock: 1MHz(1us)  for PLL
 	TIMx->ARR = 0xFFFF;											// Set auto reload register to maximum (count up to 65535)
-// 4. Disable Counter during configuration
+
+// 3. Disable Counter during configuration
 	TIMx->CR1 &= ~TIM_CR1_CEN;  						// Disable Counter during configuration
 
 
@@ -73,17 +73,21 @@ void ICAP_init(IC_t *ICx, GPIO_TypeDef *port, int pin){
 
 
 // Configure Selecting TIx-ICy and Edge Type
-void ICAP_setup(IC_t *ICx, int ICn, int edge_type){
-	TIM_TypeDef *TIMx = ICx->timer;	// TIMx
-	int 				CHn 	= ICx->ch;		// Timer Channel CHn
-	ICx->ICnum = ICn;
+void ICAP_setup(PinName_t pinName, int ICn, int edge_type){
+// 0. Match Input Capture Port and Pin for TIMx
+	GPIO_TypeDef *port;
+	unsigned int pin;	
+	ecPinmap(pinName, &port, &pin);	
+	TIM_TypeDef *TIMx;
+	int CHn;		
+	ICAP_pinmap(pinName, &TIMx, &CHn);
 
-// Disable  CC. Disable CCInterrupt for ICn. 
+// 1. Disable  CC. Disable CCInterrupt for ICn. 
 	TIMx->CCER ___________________;															// Capture Disable
 	TIMx->DIER ___________________;															// CCn Interrupt Disable	
 	
 	
-// Configure  IC number(user selected) with given IC pin(TIMx_CHn)
+// 2. Configure  IC number(user selected) with given IC pin(TIMx_CHn)
 	switch(ICn){
 			case 1:
 					TIMx->CCMR1 &= ~TIM_CCMR1_CC1S;											//reset   CC1S
@@ -109,7 +113,7 @@ void ICAP_setup(IC_t *ICx, int ICn, int edge_type){
 		}
 
 
-// Configure Activation Edge direction
+// 3. Configure Activation Edge direction
 	TIMx->CCER  ___________________;	  									// Clear CCnNP/CCnP bits for ICn
 	switch(edge_type){
 		case IC_RISE: TIMx->CCER ___________________;	 break; //rising:  00
@@ -117,14 +121,22 @@ void ICAP_setup(IC_t *ICx, int ICn, int edge_type){
 		case IC_BOTH: TIMx->CCER ___________________;	 break; //both:    11
 	}
 	
-// Enable CC. Enable CC Interrupt. 
+// 4. Enable CC. Enable CC Interrupt. 
 	TIMx->CCER |= 1 << (4*(ICn - 1)); 										// Capture Enable
 	TIMx->DIER |= 1 << ICn; 															// CCn Interrupt enabled	
 }
 
 // Time span for one counter step
-void ICAP_counter_us(IC_t *ICx, int usec){	
-	TIM_TypeDef *TIMx = ICx->timer;	
+void ICAP_counter_us(PinName_t pinName, int usec){
+// 0. Match Input Capture Port and Pin for TIMx	
+	GPIO_TypeDef *port;
+	unsigned int pin;	
+	ecPinmap(pinName, &port, &pin);	
+	TIM_TypeDef *TIMx;
+	int CHn;		
+	ICAP_pinmap(pinName, &TIMx, &CHn);
+
+// 1. Configuration Timer Prescaler and ARR
 	TIMx->PSC = 84*usec-1;						  // Timer counter clock: 1us * usec
 	TIMx->ARR = 0xFFFF;									// Set auto reload register to maximum (count up to 65535)
 }
@@ -139,46 +151,47 @@ void clear_CCIF(TIM_TypeDef *TIMx, uint32_t ccNum){
 
 
 //DO NOT MODIFY THIS
-void ICAP_pinmap(IC_t *timer_pin){
-   GPIO_TypeDef *port = timer_pin->port;
-   int pin = timer_pin->pin;
+void ICAP_pinmap(PinName_t pinName, TIM_TypeDef **TIMx, int *chN){
+	 GPIO_TypeDef *port;
+	 unsigned int pin;		
+	 ecPinmap(pinName, &port, &pin);	
    
    if(port == GPIOA) {
       switch(pin){
-         case 0 : timer_pin->timer = TIM2; timer_pin->ch = 1; break;
-         case 1 : timer_pin->timer = TIM2; timer_pin->ch = 2; break;
-         case 5 : timer_pin->timer = TIM2; timer_pin->ch = 1; break;
-         case 6 : timer_pin->timer = TIM3; timer_pin->ch = 1; break;
-         //case 7: timer_pin->timer = TIM1; timer_pin->ch = 1N; break;
-         case 8 : timer_pin->timer = TIM1; timer_pin->ch = 1; break;
-         case 9 : timer_pin->timer = TIM1; timer_pin->ch = 2; break;
-         case 10: timer_pin->timer = TIM1; timer_pin->ch = 3; break;
-         case 15: timer_pin->timer = TIM2; timer_pin->ch = 1; break;
+         case 0 : *TIMx = TIM2; *chN = 1; break;
+         case 1 : *TIMx = TIM2; *chN = 2; break;
+         case 5 : *TIMx = TIM2; *chN = 1; break;
+         case 6 : *TIMx = TIM3; *chN = 1; break;
+         //case 7: *TIMx = TIM1; *chN = 1N; break;
+         case 8 : *TIMx = TIM1; *chN = 1; break;
+         case 9 : *TIMx = TIM1; *chN = 2; break;
+         case 10: *TIMx = TIM1; *chN = 3; break;
+         case 15: *TIMx = TIM2; *chN = 1; break;
          default: break;
       }         
    }
    else if(port == GPIOB) {
       switch(pin){
-         //case 0: timer_pin->timer = TIM1; timer_pin->ch = 2N; break;
-         //case 1: timer_pin->timer = TIM1; timer_pin->ch = 3N; break;
-         case 3 : timer_pin->timer = TIM2; timer_pin->ch = 2; break;
-         case 4 : timer_pin->timer = TIM3; timer_pin->ch = 1; break;
-         case 5 : timer_pin->timer = TIM3; timer_pin->ch = 2; break;
-         case 6 : timer_pin->timer = TIM4; timer_pin->ch = 1; break;
-         case 7 : timer_pin->timer = TIM4; timer_pin->ch = 2; break;
-         case 8 : timer_pin->timer = TIM4; timer_pin->ch = 3; break;
-         case 9 : timer_pin->timer = TIM4; timer_pin->ch = 3; break;
-         case 10: timer_pin->timer = TIM2; timer_pin->ch = 3; break;
+         //case 0: *TIMx = TIM1; *chN = 2N; break;
+         //case 1: *TIMx = TIM1; *chN = 3N; break;
+         case 3 : *TIMx = TIM2; *chN = 2; break;
+         case 4 : *TIMx = TIM3; *chN = 1; break;
+         case 5 : *TIMx = TIM3; *chN = 2; break;
+         case 6 : *TIMx = TIM4; *chN = 1; break;
+         case 7 : *TIMx = TIM4; *chN = 2; break;
+         case 8 : *TIMx = TIM4; *chN = 3; break;
+         case 9 : *TIMx = TIM4; *chN = 3; break;
+         case 10: *TIMx = TIM2; *chN = 3; break;
          
          default: break;
       }
    }
    else if(port == GPIOC) {
       switch(pin){
-         case 6 : timer_pin->timer = TIM3; timer_pin->ch = 1; break;
-         case 7 : timer_pin->timer = TIM3; timer_pin->ch = 2; break;
-         case 8 : timer_pin->timer = TIM3; timer_pin->ch = 3; break;
-         case 9 : timer_pin->timer = TIM3; timer_pin->ch = 4; break;
+         case 6 : *TIMx = TIM3; *chN = 1; break;
+         case 7 : *TIMx = TIM3; *chN = 2; break;
+         case 8 : *TIMx = TIM3; *chN = 3; break;
+         case 9 : *TIMx = TIM3; *chN = 4; break;
          
          default: break;
       }
