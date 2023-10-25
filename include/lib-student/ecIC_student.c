@@ -92,7 +92,7 @@ void ICAP_setup(PinName_t pinName, int ICn, int edge_type){
 			case 1:
 					TIMx->CCMR1 &= ~TIM_CCMR1_CC1S;											//reset   CC1S
 					if (ICn==CHn) TIMx->CCMR1 |= 	TIM_CCMR1_CC1S_0;     //01<<0   CC1S    Tx_Ch1=IC1
-					else ___________________;      											//10<<0   CC1S    Tx_Ch2=IC1
+					else TIMx->CCMR1 |= TIM_CCMR1_CC1S_1;      											//10<<0   CC1S    Tx_Ch2=IC1
 					break;
 			case 2:
 					TIMx->CCMR1 ___________________;										//reset   CC2S
@@ -142,7 +142,7 @@ void ICAP_counter_us(PinName_t pinName, int usec){
 }
 
 uint32_t is_CCIF(TIM_TypeDef *TIMx, uint32_t ccNum){
-	return (TIMx->SR ___________________;	
+	return (TIMx->SR & (0x1UL << ccNum)) != 0;	
 }
 
 void clear_CCIF(TIM_TypeDef *TIMx, uint32_t ccNum){
