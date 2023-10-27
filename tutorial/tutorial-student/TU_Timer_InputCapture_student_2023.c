@@ -1,9 +1,9 @@
 /**
 ******************************************************************************
 * @author  SSSLAB
-* @Mod		 2021-8-12 by YKKIM  	
+* @Mod		 2023-10-27 by YKKIM  	
 * @brief   Embedded Controller:  Tutorial ___
-*					 - _________________________________
+*					 - Input Capture
 * 
 ******************************************************************************
 */
@@ -36,61 +36,42 @@ int main(void){
 
 
 void setup(void) {	
+	// Configuration Clock PLL
 	RCC_PLL_init();
+	
+	// UART2 Configuration to use printf()
 	UART2_init();
+	
+	// SysTick Configuration to use delay_ms()
 	SysTick_init();
 
-	RCC->APB1ENR |= RCC_APB1ENR_TIM2EN;			//TIM2 Clock enabled
-
-	// GPIO configuration ---------------------------------------------------------------------
-	GPIO_init(GPIOA, 0, AF);					// PA_0: Alternate Function Mode
-
-	// TIM Input Caputre Pin configuration/ Configure GPIO AFR by Pin num.	-------------------------------------------------
-	GPIOA->AFR[] |=                              // AF for PA_0 (TIM2)  see PWM_init()
-
-
-	// Timer2 with Counter clock of 100kHz  
-	// TIM_init(TIM2);
-	TIM2->PSC = 						  		// Timer counter clock: 1MHz(1us)  for PLL
-	TIM2->ARR = 								// Set auto reload register to maximum (ARR=0XFFFF)
-
-	// Timer Capture configuration -----------------------------------------------------------------------
-	TIM2->CCMR1 |=  					        // Capture/Compare Selection: CC1 is mapped on TI1 
-	TIM2->CCMR1 &=                              // Clear IC1F
-	TIM2->CCMR1 |=                              // Set filter N=4
-	TIM2->CCER &=               				// Clear CCER
-	TIM2->CCER &= 						        // Capture rising edge
-	TIM2->CCER |= 								// Capture enabled
-
-	// Timer Capture Interrupt configuration -----------------------------------------------------------------------
-	TIM2->DIER |= 								// CC-Interrupt enabled
-	TIM2->DIER |= 								// Update Event interrupt enable	
-
-	TIM2->CR1 |= 								// Counter enable
-
-	NVIC_SetPriority(, 2);						// Set the priority of TIM2 interrupt request
-	NVIC_EnableIRQ();							// TIM2 interrupt request enable
+	// Input Capture Configuration PA_0(TIM2, 1)
+	ICAP_init(PA_0);
+	
+	// Priority Configuration
+	NVIC_SetPriority(TIM2_IRQn, 2);						// Set the priority of TIM2 interrupt request
+	NVIC_EnableIRQ(TIM2_IRQn);							// TIM2 interrupt request enable
 }
 
 
 
 
-
+// Timer2 IRQ Handler (timer & Input Capture)
 void TIM2_IRQHandler(void){
-	if(TIM2->SR & TIM_SR_UIF){                  // If Update-event interrupt Occurs
+	if(is_UIF(TIM2)){                  // If Update-event interrupt Occurs
 		// Handle overflow
-		// [YOUR_CODE Goes Here]
+		ovf_cnt++;
 		
-		TIM2->SR &=________   					// clear update-event interrupt flag
+		clear_UIF(TIM2);   					// clear update-event interrupt flag
 	}
-	if((TIM2->SR & TIM_SR_CC1IF)){				// if CC interrupt occurs	
+	if(is_CCIF(TIM2, IC_1)){				// if CC interrupt occurs	
 		// Calculate the period of 1Hz pulse
-		ccr2 = TIM2->CCR1;						// capture counter value
-		period = (____________) / 1000; 		// calculate the period with ovf_cnt, ccr1, and ccr2
+		ccr2 = ICAP_capture(TIM2, IC_1);						// capture counter value
+		period = ((ccr2 - ccr1) + ovf_cnt * (TIM2->ARR + 1)) / 1000; 		// calculate the period with ovf_cnt, ccr1, and ccr2
 		
 		ccr1 = ccr2;
 		ovf_cnt = 0;
 		
-		TIM2->SR &= 							// clear capture/compare interrupt flag ( it is also cleared by reading TIM2_CCR1)
+		clear_CCIF(TIM2, IC_1);	// clear capture/compare interrupt flag ( it is also cleared by reading TIM2_CCR1)
 	}
 }
