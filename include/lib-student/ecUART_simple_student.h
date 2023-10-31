@@ -1,5 +1,5 @@
-#ifndef __EC_USART_SIMPLE_STUDENT_H
-#define __EC_USART_SIMPLE_STUDENT_H
+#ifndef __EC_USART_SIMPLE_H
+#define __EC_USART_SIMPLE_H
 
 #include "stm32f411xe.h"
 #include <stdio.h>
