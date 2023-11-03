@@ -93,7 +93,7 @@ void Stepper_pinOut (uint32_t state, uint32_t mode){
 
 
 void Stepper_setSpeed (long whatSpeed){      // rpm [rev/min]
-		step_delay = 	_________//YOUR CODE   // Convert rpm to  [msec] delay
+		step_delay = 	_________//YOUR CODE   // Convert rpm to  [msec/step] delay
 }
 
 
