@@ -18,12 +18,13 @@ void ICAP_init(PinName_t pinName){
 // GPIO configuration ---------------------------------------------------------------------	
 // 1. Initialize GPIO port and pin as AF
 	GPIO_init(port, pin, AF);  							// AF=2
-	GPIO_ospeed(port, pin, EC_HIGH);  						// speed VHIGH=3	
+	GPIO_ospeed(port, pin, EC_HIGH);  						// speed VHIGH=3		
 
 // 2. Configure GPIO AFR by Pin num.
 	if(TIMx == TIM1 || TIMx == TIM2)											 port->AFR[pin >> 3] |= 0x01 << (4*(pin % 8)); // TIM1~2
 	else if(TIMx == TIM3 || TIMx == TIM4 || TIMx == TIM5)  port->AFR[pin >> 3] |= 0x02 << (4*(pin % 8)); // TIM3~5 
 	else if(TIMx == TIM9 || TIMx == TIM10|| TIMx == TIM11) port->AFR[pin >> 3] |= 0x03 << (4*(pin % 8)); // TIM9~11 
+
 
 	
 // TIMER configuration ---------------------------------------------------------------------			
@@ -83,8 +84,8 @@ void ICAP_setup(PinName_t pinName, int ICn, int edge_type){
 	ICAP_pinmap(pinName, &TIMx, &CHn);
 
 // 1. Disable  CC. Disable CCInterrupt for ICn. 
-	TIMx->CCER &= ~(1 << (4*(ICn - 1))); 													// Capture Enable
-	TIMx->DIER &= ~(1 << ICn); 																// CCn Interrupt enabled	
+	TIMx->CCER ___________________;															// Capture Disable
+	TIMx->DIER ___________________;															// CCn Interrupt Disable	
 	
 	
 // 2. Configure  IC number(user selected) with given IC pin(TIMx_CHn)
@@ -92,31 +93,31 @@ void ICAP_setup(PinName_t pinName, int ICn, int edge_type){
 			case 1:
 					TIMx->CCMR1 &= ~TIM_CCMR1_CC1S;											//reset   CC1S
 					if (ICn==CHn) TIMx->CCMR1 |= 	TIM_CCMR1_CC1S_0;     //01<<0   CC1S    Tx_Ch1=IC1
-					else TIMx->CCMR1 |= 	TIM_CCMR1_CC1S_1;      				//10<<0   CC1S    Tx_Ch2=IC1
+					else TIMx->CCMR1 |= 	TIM_CCMR1_CC1S_1;      											//10<<0   CC1S    Tx_Ch2=IC1
 					break;
 			case 2:
-					TIMx->CCMR1 &= ~TIM_CCMR1_CC2S;											//reset   CC2S
-					if (ICn==CHn) TIMx->CCMR1 |= 	TIM_CCMR1_CC2S_0;     //01<<0   CC2S    Tx_Ch2=IC2
-					else TIMx->CCMR1 |= 	TIM_CCMR1_CC2S_1;      				//10<<0   CC2S    Tx_Ch1=IC2
+					TIMx->CCMR1 ___________________;										//reset   CC2S
+					if (ICn==CHn) TIMx->CCMR1 ___________________;     	//01<<0   CC2S    Tx_Ch2=IC2
+					else ___________________;     											//10<<0   CC2S    Tx_Ch1=IC2
 					break;
 			case 3:
 					TIMx->CCMR2 &= ~TIM_CCMR2_CC3S;											//reset   CC3S
-					if (ICn==CHn) TIMx->CCMR2 ___________________;	    //01<<0   CC3S    Tx_Ch3=IC3
-					else TIMx->CCMR2 ___________________;		     				//10<<0   CC3S    Tx_Ch4=IC3
+					if (ICn==CHn) TIMx->CCMR2 ___________________;	    //01<<8   CC3S    Tx_Ch3=IC3
+					else TIMx->CCMR2 ___________________;		     				//10<<8   CC3S    Tx_Ch4=IC3
 					break;
 			case 4:
 					TIMx->CCMR2 ___________________;										//reset   CC4S
-					if (ICn==CHn) ___________________;	   						  //01<<0   CC4S    Tx_Ch4=IC4
-					else TIMx->CCMR2 ___________________;	     					//10<<0   CC4S    Tx_Ch3=IC4
+					if (ICn==CHn) ___________________;	   						  //01<<8   CC4S    Tx_Ch4=IC4
+					else TIMx->CCMR2 ___________________;	     					//10<<8   CC4S    Tx_Ch3=IC4
 					break;
 			default: break;
 		}
 
 
 // 3. Configure Activation Edge direction
-	TIMx->CCER  &= ~(0b1010 << 4*(ICn - 1));  					// Clear CCnNP/CCnP bits
+	TIMx->CCER  &= ~(0b1010 << 4*(ICn - 1));	  									// Clear CCnNP/CCnP bits for ICn
 	switch(edge_type){
-		case IC_RISE: TIMx->CCER &= ~(0b1010 << 4*(ICn - 1)); break; //rising:  00
+		case IC_RISE: TIMx->CCER ___________________;	 break; //rising:  00
 		case IC_FALL: TIMx->CCER ___________________;	 break; //falling: 01
 		case IC_BOTH: TIMx->CCER ___________________;	 break; //both:    11
 	}
@@ -146,7 +147,7 @@ uint32_t is_CCIF(TIM_TypeDef *TIMx, uint32_t ccNum){
 }
 
 void clear_CCIF(TIM_TypeDef *TIMx, uint32_t ccNum){
-	TIMx->SR &= ~(1 << ccNum);
+	TIMx->SR &= ~(1 << ccNum);	
 }
 
 uint32_t ICAP_capture(TIM_TypeDef* TIMx, uint32_t ICn){
@@ -163,6 +164,8 @@ uint32_t ICAP_capture(TIM_TypeDef* TIMx, uint32_t ICn){
 
 	return capture_Value;
 }
+
+
 
 //DO NOT MODIFY THIS
 void ICAP_pinmap(PinName_t pinName, TIM_TypeDef **TIMx, int *chN){
