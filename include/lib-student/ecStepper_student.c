@@ -28,8 +28,8 @@ typedef struct {
   	uint32_t next[2];
 } State_full_t;
 
-State_full_t FSM_full[4] = {  
- 	{0b1001,{S1,S2}},
+State_full_t FSM_full[4] = {  	// 1010 , 0110 , 0101 , 1001
+ 	{0b1100,{S1,S3}},		// ABA'B'
  	// YOUR CODE
  	// YOUR CODE
  	// YOUR CODE
@@ -41,8 +41,8 @@ typedef struct {
   	uint32_t next[2];
 } State_half_t;
 
-State_half_t FSM_half[8] = { 
- 	{0b1001,{S1,S2}},
+State_half_t FSM_half[8] = {	// 1000 , 1010 , 0010 , 0110 , 0100 , 0101, 0001, 1001
+ 	{0b1001,{S1,S7}},	
 	 // YOUR CODE
 	 // YOUR CODE
 	 // YOUR CODE
