@@ -34,8 +34,8 @@ void JADC_init(PinName_t pinName);
 void ADC_sequence(PinName_t *seqCHn, int seqCHnums); 
 void JADC_sequence(PinName_t *seqCHn, int seqCHnums); 
 
+// ADC start
 void ADC_start(void);
-void JADC_start(void);
 
 // flag for ADC interrupt
 uint32_t is_ADC_EOC(void);
@@ -55,7 +55,6 @@ void ADC_trigger(TIM_TypeDef* TIMx, int msec, int edge);
 
 // JADC setting
 void JADC_trigger(TIM_TypeDef* TIMx, int msec, int edge);
-
 
 // Private Function
 void ADC_pinmap(PinName_t pinName, uint32_t *chN);
