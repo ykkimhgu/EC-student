@@ -10,12 +10,12 @@
 
 
 
+//#include "ecSTM32F4v2.h"
+#include "ecRCC2.h"
+#include "ecGPIO2.h"
 
-#include "ecRCC.h"
-#include "ecGPIO.h"
-
-#define LED_PIN 	5
-#define BUTTON_PIN 13
+#define LED_PIN   PA_5
+#define BUTTON_PIN PC_13
 
 void setup(void);
 
@@ -63,8 +63,8 @@ void setup(void)
 {
 	RCC_PLL_init();                         // System Clock = 84MHz
 	// Initialize GPIOA_5 for Output
-	GPIO_init(GPIOA, LED_PIN, OUTPUT);    // calls RCC_GPIOA_enable()	
+	GPIO_init(LED_PIN, OUTPUT);    // calls RCC_GPIOA_enable()	
 	// Initialize GPIOC_13 for Input Button
-	GPIO_init(GPIOC, BUTTON_PIN, INPUT);  // calls RCC_GPIOC_enable()
+	GPIO_init(BUTTON_PIN, INPUT);  // calls RCC_GPIOC_enable()
 }
 
