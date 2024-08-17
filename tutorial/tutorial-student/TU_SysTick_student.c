@@ -1,6 +1,6 @@
 #include "stm32f411xe.h"
-#include "ecRCC.h"
-#include "ecGPIO.h"
+#include "ecRCC2.h"
+#include "ecGPIO2.h"
 
 #define MCU_CLK_PLL 84000000
 #define MCU_CLK_HSI 16000000
@@ -59,8 +59,8 @@ void SysTick_Handler(void){
 
 void setup(void)
 {
-	RCC_PLL_init();                         // System Clock = 84MHz	
-	GPIO_init(GPIOA, LED_PIN, OUTPUT);    // calls RCC_GPIOA_enable()	
+	RCC_PLL_init();              // System Clock = 84MHz	
+	GPIO_init(PA_5, OUTPUT);     // calls RCC_GPIOA_enable()	
 }
 
 
