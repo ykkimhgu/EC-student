@@ -24,7 +24,7 @@ int fputc(int ch, FILE *f) {
 }
 
 
-
+// 9600 Baud Rate
 void UART2_init(){
 	// Enable the clock of USART2
 	RCC->APB1ENR |= RCC_APB1ENR_USART2EN;  // Enable USART 2 clock (APB1 clock: AHB clock / 2 = 42MHz)
