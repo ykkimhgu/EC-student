@@ -54,11 +54,10 @@ State_half_t FSM_half[8] = {	// 1000 , 1010 , 0010 , 0110 , 0100 , 0101, 0001, 1
 
 
 
-void Stepper_init(GPIO_TypeDef* port1, int pin1, GPIO_TypeDef* port2, int pin2, GPIO_TypeDef* port3, int pin3, GPIO_TypeDef* port4, int pin4){
+void Stepper_init(PinName_t pinName1, PinName_t pinName2, PinName_t pinName3, PinName_t pinName4){
 	 
 	//  GPIO Digital Out Initiation
-	myStepper.port1 = port1;
-	myStepper.pin1  = pin1;
+	myStepper.pin1 = pinName1;
 	// Repeat for port2,pin3,pin4 
 	// YOUR CODE 
 	// YOUR CODE 
