@@ -1,7 +1,7 @@
 /**
 ******************************************************************************
 * @author  SSSLAB
-* @Mod		 2021-8-12 by YKKIM  	
+* @Mod		 2024-8-23 by YKKIM  	
 * @brief   Embedded Controller:  Tutorial ___
 *					 - _________________________________
 * 
@@ -11,11 +11,11 @@
 
 #include "stm32f411xe.h"
 #include "math.h"
-#include "ecGPIO.h"
-#include "ecRCC.h"
-#include "ecTIM.h"
-#include "ecUART_simple_student.h"
-#include "ecSysTick.h"
+#include "ecGPIO2.h"
+#include "ecRCC2.h"
+#include "ecTIM2.h"
+#include "ecUART2_simple.h"
+#include "ecSysTick2.h"
 
 uint32_t ovf_cnt = 0;
 uint32_t ccr1 = 0;
@@ -43,7 +43,7 @@ void setup(void) {
 	RCC->APB1ENR |= RCC_APB1ENR_TIM2EN;			//TIM2 Clock enabled
 
 	// GPIO configuration ---------------------------------------------------------------------
-	GPIO_init(GPIOA, 0, AF);					// PA_0: Alternate Function Mode
+	GPIO_init(PA_0, AF);					// PA_0: Alternate Function Mode
 
 	// TIM Input Caputre Pin configuration/ Configure GPIO AFR by Pin num.	-------------------------------------------------
 	GPIOA->AFR[] |=                              // AF for PA_0 (TIM2)  see PWM_init()
