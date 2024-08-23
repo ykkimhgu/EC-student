@@ -11,8 +11,8 @@
 #define __EC_PWM2_H
 
 #include "stm32f411xe.h"
-#include <ecGPIO2.h>
-#include <ecTIM2.h>
+#include "ecGPIO2.h"
+#include "ecTIM2.h"
 #include "ecPinNames.h"
 
 #ifdef __cplusplus
