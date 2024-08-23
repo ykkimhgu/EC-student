@@ -9,11 +9,11 @@
 */
 
 #include "stm32f4xx.h"
-#include "ecRCC.h"
-#include "ecGPIO.h"
+#include "ecRCC2.h"
+#include "ecGPIO2.h"
 
-#define LED_PIN 	5
-#define BUTTON_PIN 13
+PinName_t LED_pin = PA_5;
+PinName_t button_pin = PC_13;
 
 void setup(void);
 	
@@ -32,9 +32,9 @@ int main(void) {
 void setup(void)
 {
 	RCC_HSI_init();
-	GPIO_init(GPIOC, BUTTON_PIN, INPUT);  // calls RCC_GPIOC_enable()
-	GPIO_init(GPIOA, LED_PIN, OUTPUT);    // calls RCC_GPIOA_enable()	
-	GPIO_init(GPIOA, 6, OUTPUT);    // calls RCC_GPIOA_enable()	
-	GPIO_init(GPIOA, 7, OUTPUT);    // calls RCC_GPIOA_enable()	
-	GPIO_init(GPIOB, 6, OUTPUT);    // calls RCC_GPIOB_enable()
+	GPIO_init(button_pin, INPUT);  // calls RCC_GPIOC_enable()
+	GPIO_init(LED_pin, OUTPUT);    // calls RCC_GPIOA_enable()	
+	GPIO_init(PA_6, OUTPUT);    // calls RCC_GPIOA_enable()	
+	GPIO_init(PA_7, OUTPUT);    // calls RCC_GPIOA_enable()	
+	GPIO_init(PB_6, OUTPUT);    // calls RCC_GPIOB_enable()
 }
