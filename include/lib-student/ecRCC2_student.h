@@ -1,5 +1,5 @@
-#ifndef __EC_RCC_H
-#define __EC_RCC_H
+#ifndef __EC_RCC2_H
+#define __EC_RCC2_H
 
 #ifdef __cplusplus
  extern "C" {
@@ -20,4 +20,4 @@ extern int EC_SYSCL;
 }
 #endif /* __cplusplus */
 
-#endif
+#endif // __EC_RCC2_H
