@@ -1,14 +1,14 @@
 /**
 ******************************************************************************
 * @author  SSSLAB
-* @Mod		 2021-8-12 by YKKIM  	
+* @Mod		 2024-8-23 by YKKIM  	
 * @brief   Embedded Controller:  LAB Digital In/Out with API
 *					 - Toggle LED LD2 by Button B1  pressing
 * 
 ******************************************************************************
 */
 
-#include "ecGPIO_API.h"
+#include "ecGPIO_API2.h"
 
 #define LED_PIN 	5
 #define BUTTON_PIN 13
