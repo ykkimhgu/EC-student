@@ -8,9 +8,9 @@
 */
 
 #include "stm32f4xx.h"
-#include "ecGPIO.h"
-#include "ecRCC.h"
-#include "ecUART.h"
+#include "ecGPIO2.h"
+#include "ecRCC2.h"
+#include "ecUART2.h"
 
 #define END_CHAR 13
 
