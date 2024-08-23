@@ -1,20 +1,22 @@
 /**
 ******************************************************************************
 * @author  SSSLAB
-* @Mod		 2021-8-12 by YKKIM  	
+* @Mod		 2024-8-23 by YKKIM  	
 * @brief   Embedded Controller:  Tutorial ___
 *					 - _________________________________
 * 
 ******************************************************************************
 */
 #include "stm32f411xe.h"
-#include "ecGPIO.h"
-#include "ecRCC.h"
-#include "ecSysTick.h"
-#include "ecUART.h"
-#include "ecADC.h"
+#include "ecGPIO2.h"
+#include "ecRCC2.h"
+#include "ecSysTick2.h"
+#include "ecUART2.h"
+#include "ecADC2.h"
 
 float result_v = 0.0;
+PinName_t pin = PA_1;
+
 void setup(void);
 	
 int main(void) { 
@@ -35,7 +37,7 @@ void setup(void)
 	UART2_init();
 	SysTick_init();
 	
-	ADC_init(GPIOA, 1, SW);
+	ADC_init(pin, SW);
 	ADC_continue(CONT);
 	ADC_start();
 }
