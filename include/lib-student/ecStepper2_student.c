@@ -1,5 +1,5 @@
 #include "stm32f4xx.h"
-#include "ecStepper_student.h"
+#include "ecStepper2_student.h"
 
 //State number 
 #define S0 0
