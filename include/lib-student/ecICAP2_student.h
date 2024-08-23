@@ -1,6 +1,7 @@
 #ifndef __EC_ICAP2_H
 #define __EC_ICAP2_H
 #include "stm32f411xe.h"
+#include "ecPinNames.h"
 
 #ifdef __cplusplus
  extern "C" {
@@ -41,4 +42,4 @@ void clear_CCIF(TIM_TypeDef *TIMx, uint32_t CCnum);
 }
 #endif /* __cplusplus */
 
-#endif
+#endif // __EC_ICAP2_H
