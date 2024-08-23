@@ -3,16 +3,16 @@
 
 #include "stm32f411xe.h"
 #include <stdio.h>
-#include "ecGPIO.h"
-#include "ecRCC.h"
+#include "ecGPIO2.h"
+#include "ecRCC2.h"
 
 #define POL 0
 #define INT 1
 
 // You can modify this
-#define BAUD_9600		0
-#define BAUD_19200	1
-#define BAUD_57600	2
+#define BAUD_9600   0
+#define BAUD_19200  1
+#define BAUD_57600  2
 #define BAUD_115200 3
 #define BAUD_921600 4
 
