@@ -8,13 +8,14 @@
 ******************************************************************************
 */
 #include "stm32f411xe.h"
-#include "ecGPIO.h"
-#include "ecRCC.h"
-#include "ecTIM.h"
-#include "ecSysTick.h"
-#include "ecUART.h"
+#include "ecGPIO2.h"
+#include "ecRCC2.h"
+#include "ecTIM2.h"
+#include "ecSysTick2.h"
+#include "ecUART2.h"
 
 float result_v = 0.0;
+PinName_t pin = PA_1;
 
 void setup(void);
 	
@@ -23,8 +24,8 @@ int main(void) {
 	
 // GPIO configuration ---------------------------------------------------------------------	
 // 1. Initialize GPIO port and pin as ANALOG, no pull up / pull down
-	GPIO_init(GPIOA, 1, ANALOG);				// ANALOG = 3
-	GPIO_pupdr(GPIOA, 1, EC_NONE);			// EC_NONE = 0
+	GPIO_init(pin, ANALOG);				// ANALOG = 3
+	GPIO_pupdr(pin, EC_NONE);			// EC_NONE = 0
 	
 // ADC configuration	---------------------------------------------------------------------			
 // 1. Total time of conversion setting
