@@ -1,7 +1,7 @@
 /**
 ******************************************************************************
 * @author  SSSLAB
-* @Mod		 2021-8-12 by YKKIM  	
+* @Mod		 2024-8-23 by YKKIM  	
 * @brief   Embedded Controller:  Tutorial Digital In
 *					 - Turn on LED LD2 while Button B1 is pressing
 * 
@@ -16,7 +16,7 @@
 
 
 #include "stm32f4xx.h"
-#include "ecRCC.h"
+#include "ecRCC2.h"
 
 #define LED_PIN    5		//LD2
 #define BUTTON_PIN 13
