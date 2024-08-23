@@ -7,13 +7,13 @@
 ******************************************************************************
 */
 
+#ifndef __EC_PWM2_H
+#define __EC_PWM2_H
+
 #include "stm32f411xe.h"
 #include <ecGPIO2.h>
 #include <ecTIM2.h>
 #include "ecPinNames.h"
-
-#ifndef __EC_PWM2_H
-#define __EC_PWM2_H
 
 #ifdef __cplusplus
  extern "C" {
@@ -47,4 +47,4 @@ void PWM_duty(PinName_t pinName, float duty);
 }
 #endif /* __cplusplus */
 
-#endif
+#endif // __EC_PWM2_H
