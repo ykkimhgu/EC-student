@@ -1,8 +1,8 @@
 #include "stm32f411xe.h"
-#include "ecSysTick.h"
-#include "ecADC.h"
-#include "ecGPIO.h"
-#include "ecTIM.h"
+#include "ecSysTick2.h"
+#include "ecADC2.h"
+#include "ecGPIO2.h"
+#include "ecTIM2.h"
 #include <stdint.h>
 
 /* -------------------------------------------------------------------------------------*/
@@ -20,8 +20,8 @@ void ADC_init(PinName_t pinName){  // trigmode 0 : SW, 1 : TRGO
 
 // GPIO configuration ---------------------------------------------------------------------	
 // 1. Initialize GPIO port and pin as ANALOG, no pull up / pull down
-	GPIO_init(port, pin, ANALOG);  				// ANALOG = 3
-	GPIO_pupd(port, pin, EC_NONE);  			// EC_NONE = 0
+	GPIO_init(pinName, ANALOG);  				// ANALOG = 3
+	GPIO_pupd(pinName, EC_NONE);  			// EC_NONE = 0
 
 // ADC configuration	---------------------------------------------------------------------			
 // 1. Total time of conversion setting
