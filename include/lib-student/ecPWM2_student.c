@@ -8,7 +8,7 @@
 */
 
 #include "stm32f4xx.h"
-#include "ecPWM.h"
+#include "ecPWM2.h"
 #include "math.h"
 
 /* PWM Configuration using PinName_t Structure */
@@ -19,10 +19,10 @@ void PWM_init(PinName_t pinName){
 
 // 0. Match TIMx from  Port and Pin 	
 	GPIO_TypeDef *port;
-	unsigned int pin;	
-	ecPinmap(pinName, &port, &pin);	
+	unsigned int pin;
+	ecPinmap(pinName, &port, &pin);
 	TIM_TypeDef *TIMx;
-	int chN;		
+	int chN;
 	PWM_pinmap(pinName, &TIMx, &chN);
 	
 	
