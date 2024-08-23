@@ -1,5 +1,5 @@
-#ifndef __EC_USART_H
-#define __EC_USART_H
+#ifndef __EC_USART2_H
+#define __EC_USART2_H
 
 #include <stdio.h>
 #include "stm32f411xe.h"
@@ -62,4 +62,4 @@ uint8_t USART_read(USART_TypeDef * USARTx);
 void USART_setting(USART_TypeDef* USARTx, PinNmae_t pin_GPIO_TX, PinName_t pin_GPIO_TX, uint32_t baud); 
 void USART_delay(uint32_t us);  
 
-#endif
+#endif // __EC_USART2_H
