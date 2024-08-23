@@ -1,11 +1,11 @@
-#include "ecSysTick.h"
+#include "ecSysTick2.h"
 
 
 
 #define MCU_CLK_PLL 84000000
 #define MCU_CLK_HSI 16000000
 
-volatile uint32_t msTicks=0;
+volatile uint32_t msTicks;
 
 //EC_SYSTEM_CLK
 
@@ -52,7 +52,7 @@ void delay_ms (uint32_t mesc){
   curTicks = msTicks;
   while ((msTicks - curTicks) < mesc);
 	
-	msTicks = 0;
+  msTicks = 0;
 }
 
 //void delay_ms(uint32_t msec){
