@@ -1,18 +1,18 @@
 /**
 ******************************************************************************
 * @author  SSSLAB
-* @Mod		 2021-8-12 by YKKIM  	
+* @Mod		 2024-8-23 by Jin Kwak  	
 * @brief   Embedded Controller:  Tutorial ___
 *					 - _________________________________
 * 
 ******************************************************************************
 */
 #include "stm32f411xe.h"
-#include "ecGPIO.h"
-#include "ecRCC.h"
-#include "ecSysTick.h"
+#include "ecGPIO2.h"
+#include "ecRCC2.h"
+#include "ecSysTick2.h"
 
-#define LED_PIN 	5
+#define LED_PIN    PA_5
 
 void setup(void);
 	
@@ -20,8 +20,8 @@ int main(void) {
 	// Initialiization --------------------------------------------------------
 	RCC_PLL_init();                         // System Clock = 84MHz
 	SysTick_init();                         // for delay_ms()
-	GPIO_init(GPIOA, LED_PIN, ______);     // GPIOA 5 ALTERNATE function
-	GPIO_ospeed(GPIOA, LED_PIN, ______);   // GPIOA 5 HIGH SPEED
+	GPIO_init(LED_PIN, ______);     // GPIOA 5 ALTERNATE function
+	GPIO_ospeed(LED_PIN, ______);   // GPIOA 5 HIGH SPEED
 	
 	// TEMP: TIMER Register Initialiization --------------------------------------------------------		
 	TIM_TypeDef *TIMx;
