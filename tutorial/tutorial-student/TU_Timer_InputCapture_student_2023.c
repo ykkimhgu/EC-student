@@ -1,7 +1,7 @@
 /**
 ******************************************************************************
 * @author  SSSLAB
-* @Mod		 2024-08-23 by Jin Kwak  	
+* @Mod		 2023-10-27 by YKKIM 	
 * @brief   Embedded Controller:  Tutorial ___
 *					 - Input Capture
 * 
@@ -11,11 +11,11 @@
 
 #include "stm32f411xe.h"
 #include <math.h>
-#include "ecGPIO2.h"
-#include "ecRCC2.h"
-#include "ecTIM2.h"
+#include "ecGPIO.h"
+#include "ecRCC.h"
+#include "ecTIM.h"
 #include "ecUART_simple_student.h"
-#include "ecSysTick2.h"
+#include "ecSysTick.h"
 
 uint32_t ovf_cnt = 0;
 uint32_t ccr1 = 0;
