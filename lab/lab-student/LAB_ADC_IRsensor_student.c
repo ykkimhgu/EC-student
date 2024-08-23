@@ -1,19 +1,19 @@
 /**
 ******************************************************************************
 * @author  SSSLAB
-* @Mod		 2021-8-12 by YKKIM  	
+* @Mod		 2024-8-23 by YKKIM  	
 * @brief   Embedded Controller:  LAB ___
 *					 - _________________________________
 * 
 ******************************************************************************
 */
 #include "stm32f411xe.h"
-#include "ecGPIO.h"
-#include "ecRCC.h"
-#include "ecTIM.h"
-#include "ecSysTick.h"
-#include "ecUART.h"
-#include "ecADC.h"
+#include "ecGPIO2.h"
+#include "ecRCC2.h"
+#include "ecTIM2.h"
+#include "ecSysTick2.h"
+#include "ecUART2.h"
+#include "ecADC2.h"
 //IR parameter//
 uint32_t IR1, IR2;
 int flag = 0;
@@ -47,8 +47,8 @@ void setup(void)
 	SysTick_init();
 	
 	// ADC setting
-  ADC_init(GPIOB, 0, TRGO);
-	ADC_init(GPIOB, 1, TRGO);
+  	ADC_init(PB_0, TRGO);
+	ADC_init(PB_1, TRGO);
 
 	// ADC channel sequence setting
 	ADC_sequence(2, seqCHn);
