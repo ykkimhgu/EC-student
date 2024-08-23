@@ -1,15 +1,14 @@
-#ifndef __EC_SYSTICK_H
-#define __EC_SYSTICK_H
+#ifndef __EC_SYSTICK2_H
+#define __EC_SYSTICK2_H
 
 #include "stm32f4xx.h"
-#include "ecRCC.h"
+#include "ecRCC2.h"
 #include <stdint.h>
 
 #ifdef __cplusplus
  extern "C" {
 #endif /* __cplusplus */
 
-extern volatile uint32_t msTicks;
 void SysTick_init(void);
 void SysTick_Handler(void);
 void SysTick_counter();
@@ -21,4 +20,4 @@ uint32_t SysTick_val(void);
 }
 #endif /* __cplusplus */
 
-#endif
+#endif // __EC_SYSTICK2_H
