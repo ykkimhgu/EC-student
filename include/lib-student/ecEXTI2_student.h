@@ -2,6 +2,7 @@
 #define __EC_EXTI2_H
 
 #include "stm32f411xe.h"
+#include "ecPinNames.h"
 
 #define FALL 0
 #define RISE 1
@@ -21,4 +22,4 @@ void clear_pending_EXTI(PinName_t pinName);
 }
 #endif /* __cplusplus */
 	 
-#endif
+#endif // __EC_EXTI2_H
