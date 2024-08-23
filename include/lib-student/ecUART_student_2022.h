@@ -1,5 +1,5 @@
-#ifndef __EC_USART2_H
-#define __EC_USART2_H
+#ifndef __EC_USART_H
+#define __EC_USART_H
 
 #include "stm32f411xe.h"
 #include <stdio.h>
@@ -50,4 +50,4 @@ uint32_t is_USART_RXNE(USART_TypeDef * USARTx);
 
 										
 
-#endif // __EC_USART2_H
+#endif
