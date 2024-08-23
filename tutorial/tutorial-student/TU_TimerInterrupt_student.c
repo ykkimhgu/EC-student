@@ -1,18 +1,18 @@
 /**
 ******************************************************************************
 * @author  SSSLAB
-* @Mod		 2022-8-12 by YKKIM  	
+* @Mod		 2024-8-23 by YKKIM  	
 * @brief   Embedded Controller:  Tutorial _____
 *					 - ____________________
 * 
 ******************************************************************************
 */
 #include "stm32f411xe.h"
-#include "ecGPIO.h"
-#include "ecRCC.h"
+#include "ecGPIO2.h"
+#include "ecRCC2.h"
 
 
-#define LED_PIN 5
+PinName_t LED_pin = PA_5;
 uint32_t count = 0;
 
 
@@ -42,7 +42,7 @@ int main(void) {
 void setup(void)
 {	
 	RCC_PLL_init();                       // System Clock = 84MHz
-	GPIO_init(GPIOA, LED_PIN, OUTPUT);    // calls RCC_GPIOA_enable()	
+	GPIO_init(LED_pin, OUTPUT);    // calls RCC_GPIOA_enable()	
 }
 
 void TIM2_IRQHandler(void){
