@@ -45,4 +45,4 @@ void GPIO_pupd(PinName_t pinName, int pupd);
 }
 #endif /* __cplusplus */
 
-#endif
+#endif // __ECGPIO2_H
