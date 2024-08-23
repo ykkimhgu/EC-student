@@ -1,14 +1,14 @@
 #ifndef __MY_ADC2_H
 #define __MY_ADC2_H
 #include "stm32f411xe.h"
-#include "ecSTM32F411.h"
+#include "ecSTM32F4v2.h"
 
 // ADC trigmode
-#define SW 0
+#define SW   0
 #define TRGO 1
 
 // ADC contmode
-#define CONT 0
+#define CONT   0
 #define SINGLE 1
 
 // Edge Type
