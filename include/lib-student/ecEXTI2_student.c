@@ -1,10 +1,13 @@
-#include "ecGPIO.h"
-#include "ecSysTick.h"
-#include "ecEXTI.h"
+#include "ecGPIO2.h"
+#include "ecSysTick2.h"
+#include "ecEXTI2.h"
 
 
-void EXTI_init(GPIO_TypeDef *Port, int Pin, int trig_type,int priority){
+void EXTI_init(PinName_t pinName, int trig_type,int priority){
 
+	GPIO_Typedef *port;
+	unsigned int pin;
+	ecPinmap(pinName,port,&pin);
 	// SYSCFG peripheral clock enable	
 	RCC->APB2ENR |= RCC_APB2ENR_SYSCFGEN;		
 	
@@ -43,19 +46,23 @@ void EXTI_init(GPIO_TypeDef *Port, int Pin, int trig_type,int priority){
 }
 
 
-void EXTI_enable(uint32_t pin) {
+void EXTI_enable(PinName_t pinName) {
+	//Todo Port, Pin Configuration 
 	EXTI->IMR __= _______;     // not masked (i.e., Interrupt enabled)
 }
-void EXTI_disable(uint32_t pin) {
+void EXTI_disable(PinName_t pinName) {
+	//Todo Port, Pin Configuration 
 	EXTI->IMR __= _______;     // masked (i.e., Interrupt disabled)
 }
 
-uint32_t is_pending_EXTI(uint32_t pin){
+uint32_t is_pending_EXTI(PinName_t pinName) {
+	//Todo Port, Pin Configuration 
 	uint32_t EXTI_PRx = _______;     	// check  EXTI pending 	
 	return ((EXTI->PR __ _______) == _______);
 }
 
 
-void clear_pending_EXTI(uint32_t pin){
+void clear_pending_EXTI(PinName_t pinName) {
+	//Todo Port, Pin Configuration 
 	EXTI->PR __= _______;     // clear EXTI pending 
 }
