@@ -1,18 +1,18 @@
 /**
 ******************************************************************************
 * @author  SSSLAB
-* @Mod		 2021-8-12 by YKKIM
+* @Mod		 2024-8-23 by YKKIM
 * @brief   Embedded Controller:  Tutorial - DC motor (test)
 *
 ******************************************************************************
 */
 
 #include "stm32f4xx.h"
-#include "ecGPIO.h"
-#include "ecRCC.h"
-#include "ecUART.h"
-#include "ecTIM.h"
-#include "ecPWM.h"
+#include "ecGPIO2.h"
+#include "ecRCC2.h"
+#include "ecUART2.h"
+#include "ecTIM2.h"
+#include "ecPWM2.h"
 
 #define END_CHAR 13
 #define A 0
@@ -23,15 +23,16 @@ uint8_t mcu2Data = 0;
 
 void setup(void);
 
-_Pin dcPwmPin[2] = {
-	{GPIOC, 9}, // TIM3 Ch3
-	{GPIOC, 8}	// TIM3 Ch4
+PinName_t dcPwmPin[2] = {
+	PC_9,	// TIM3 Ch3
+	PC_8	// TIM3 Ch4
 };
 
 PWM_t dcPwm[2];
 
-_Pin dcDirPin[2] = {
-	{GPIOB, 8}, {GPIOC, 6}	
+PinName_t dcDirPin[2] = {
+	PB_8,
+	PC_6
 };
 
 int main(void) {
@@ -51,23 +52,23 @@ void setup(void)
 {
 	RCC_PLL_init();
 	
-	PWM_init(&dcPwm[A], dcPwmPin[A].port, dcPwmPin[A].pin);
-	PWM_init(&dcPwm[B], dcPwmPin[B].port, dcPwmPin[B].pin);
+	PWM_init(dcPwmPin[A]);
+	PWM_init(dcPwmPin[B]);
 	
-	PWM_period_us(&dcPwm[A], 100);
-	PWM_period_us(&dcPwm[B], 100);
+	PWM_period_us(dcPwmPin[A], 100);
+	PWM_period_us(dcPwmPin[B], 100);
 	
-	PWM_duty(&dcPwm[A], 0.5);
-	PWM_duty(&dcPwm[B], 0.5);
+	PWM_duty(dcPwmPin[A], 0.5);
+	PWM_duty(dcPwmPin[B], 0.5);
 	
 	for (int i = 0; i < 2; i++){
-		GPIO_init(dcDirPin[i].port, dcDirPin[i].pin, EC_DOUT);
-		GPIO_pupd(dcDirPin[i].port, dcDirPin[i].pin, EC_PD);
-		GPIO_otype(dcDirPin[i].port, dcDirPin[i].pin, EC_PUSH_PULL);
-		GPIO_ospeed(dcDirPin[i].port, dcDirPin[i].pin, EC_HIGH);
+		GPIO_init(dcPwmPin[i], EC_DOUT);
+		GPIO_pupd(dcPwmPin[i], EC_PD);
+		GPIO_otype(dcPwmPin[i], EC_PUSH_PULL);
+		GPIO_ospeed(dcPwmPin[i], EC_HIGH);
 	}
 	
-	GPIO_write(dcDirPin[A].port, dcDirPin[A].pin, LOW);
-	GPIO_write(dcDirPin[B].port, dcDirPin[B].pin, HIGH);
+	GPIO_write(dcPwmPin[A], LOW);
+	GPIO_write(dcPwmPin[B], HIGH);
 }
 
