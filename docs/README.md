@@ -77,8 +77,8 @@ MCU: STM32F411RE (Nucleo-64)
 #define RESERVED 		0x03 	// Reserved
 
 // PIN
-#define LED_PIN 		5
-#define BUTTON_PIN 		13
+#define LED_PIN 		PA_5
+#define BUTTON_PIN 		PC_13
 
 #ifdef __cplusplus
  extern "C" {
