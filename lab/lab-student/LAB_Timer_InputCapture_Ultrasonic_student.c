@@ -1,7 +1,7 @@
 /**
 ******************************************************************************
 * @author  SSSLAB
-* @Mod		 2021-8-12 by YKKIM  	
+* @Mod		 2024-8-23 by YKKIM  	
 * @brief   Embedded Controller:  LAB - _____
 *					 - _________________________________
 * 
@@ -10,12 +10,12 @@
 
 #include "stm32f411xe.h"
 #include "math.h"
-#include "ecGPIO.h"
-#include "ecRCC.h"
-#include "ecTIM.h"
-#include "ecPWM.h"
-#include "ecUART.h"
-#include "ecSysTIck.h"
+#include "ecGPIO2.h"
+#include "ecRCC2.h"
+#include "ecTIM2.h"
+#include "ecPWM2.h"
+#include "ecUART2.h"
+#include "ecSysTIck2.h"
 
 uint32_t ovf_cnt = 0;
 float distance = 0;
