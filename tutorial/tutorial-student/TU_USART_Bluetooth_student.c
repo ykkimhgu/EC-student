@@ -8,9 +8,9 @@
 */
 
 #include "stm32f4xx.h"
-#include "ecGPIO.h"
-#include "ecRCC.h"
-#include "ecUART.h"
+#include "ecGPIO2.h"
+#include "ecRCC2.h"
+#include "ecUART2.h"
 
 #define END_CHAR 13
 #define MAX_BUF 100
@@ -40,12 +40,12 @@ void setup(void)
 {
 	RCC_PLL_init();
 	USART_init(USART2, 9600);
-	USART_begin(USART1, GPIOA, 9, GPIOA, 10, 9600); 	// PA9: TXD , PA10: RXD
+	USART_setting(USART1, PA_9, PA_10, 9600); 	// PA9: TXD , PA10: RXD
 }
 
 void USART1_IRQHandler(){         //USART1 INT 
 	if(is_USART_RXNE(USART1)){
-		btData = USART_getc(USART1);
+		btData = fgetc(USART1);
 		USART_write(USART1,(uint8_t*) "BT sent : ", 10);
 		USART_write(USART1, &btData, 1);
 		USART_write(USART1, "\r\n", 2);
