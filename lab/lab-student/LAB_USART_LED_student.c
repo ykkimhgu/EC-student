@@ -1,18 +1,18 @@
 /**
 ******************************************************************************
 * @author  SSSLAB
-* @Mod		 2021-8-12 by YKKIM
+* @Mod		 2024-8-23 by JinKwak
 * @brief   Embedded Controller:  USART communication
 *
 ******************************************************************************
 */
 
 #include "stm32f4xx.h"
-#include "ecGPIO.h"
-#include "ecRCC.h"
-#include "ecUART.h"
-#include "ecSysTick.h"
-#include "String.h"
+#include "ecGPIO2.h"
+#include "ecRCC2.h"
+#include "ecUART2.h"
+#include "ecSysTick2.h"
+#include <String.h>
 
 // USART2 : MCU to PC via usb 
 // USART1 : MCU to MCU2
@@ -55,7 +55,7 @@ int main(void) {
 			memset(buffer, 0, sizeof(char) * MAX_BUF);
 		}
 				
-		GPIO_write(GPIOA, 5, ledOn);
+		GPIO_write(PA_5, ledOn);
 		delay_ms(500);
 	}
 }
@@ -66,9 +66,9 @@ void setup(void)
 	RCC_PLL_init();
 	SysTick_init();
 	
-	// USART congfiguration
+	// USART configuration
 	USART_init(USART2, 38400);
-	USART_begin(USART1, _____, ___, _____, ___, 9600); 	// PA9 - RXD , PA10 - TXD
+	USART_setting(USART1, _____, _____, 9600); 	// PA9 - RXD , PA10 - TXD
 	
 	// GPIO configuration
 	LED_init();
