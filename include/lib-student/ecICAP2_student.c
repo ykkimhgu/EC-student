@@ -1,6 +1,6 @@
-#include "ecICAP.h"
-#include "ecGPIO.h"
-#include "math.h"
+#include "ecICAP2.h"
+#include "ecGPIO2.h"
+#include <math.h>
 
 /* -------- Timer Input Capture -------- */
 
@@ -17,8 +17,8 @@ void ICAP_init(PinName_t pinName){
 
 // GPIO configuration ---------------------------------------------------------------------	
 // 1. Initialize GPIO port and pin as AF
-	GPIO_init(port, pin, AF);  							// AF=2
-	GPIO_ospeed(port, pin, EC_HIGH);  						// speed VHIGH=3		
+	GPIO_init(pinName, AF);  							// AF=2
+	GPIO_ospeed(pinName, EC_HIGH);  						// speed VHIGH=3		
 
 // 2. Configure GPIO AFR by Pin num.
 	if(TIMx == TIM1 || TIMx == TIM2)											 port->AFR[pin >> 3] |= 0x01 << (4*(pin % 8)); // TIM1~2
@@ -138,8 +138,8 @@ void ICAP_counter_us(PinName_t pinName, int usec){
 	ICAP_pinmap(pinName, &TIMx, &CHn);
 
 // 1. Configuration Timer Prescaler and ARR
-	TIMx->PSC = 84*usec-1;						  // Timer counter clock: 1us * usec
-	TIMx->ARR = 0xFFFF;									// Set auto reload register to maximum (count up to 65535)
+	TIMx->PSC = 84*usec-1;						 // Timer counter clock: 1us * usec
+	TIMx->ARR = 0xFFFF;						 // Set auto reload register to maximum (count up to 65535)
 }
 
 uint32_t is_CCIF(TIM_TypeDef *TIMx, uint32_t ccNum){
