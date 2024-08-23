@@ -1,9 +1,9 @@
 #include "stm32f411xe.h"
-#include "ecGPIO.h"
-#include "ecSysTick.h"
+#include "ecGPIO2.h"
+#include "ecSysTick2.h"
 			
-#ifndef __EC_STEPPER_H
-#define __EC_STEPPER_H
+#ifndef __EC_STEPPER2_H
+#define __EC_STEPPER2_H
 
 #ifdef __cplusplus
  extern "C" {
@@ -17,19 +17,15 @@
 //stepper motor function
 
 typedef struct{
-	GPIO_TypeDef *port1;
-	int pin1;
-	GPIO_TypeDef *port2;
-	int pin2;
-	GPIO_TypeDef *port3;
-	int pin3;
-	GPIO_TypeDef *port4;
-	int pin4;
+	PinName_t pin1;
+	PinName_t pin1;
+	PinName_t pin1;
+	PinName_t pin1;
 	uint32_t _step_num;
 } Stepper_t;
 
 	 
-void Stepper_init(GPIO_TypeDef* port1, int pin1, GPIO_TypeDef* port2, int pin2, GPIO_TypeDef* port3, int pin3, GPIO_TypeDef* port4, int pin4);
+void Stepper_init(PinName_t pinName1, PinName_t pinName2, PinName_t pinName3, PinName_t pinName4);
 void Stepper_setSpeed(long whatSpeed);
 void Stepper_step(uint32_t steps, uint32_t direction, uint32_t mode); 
 void Stepper_stop(void);
@@ -40,4 +36,4 @@ void Stepper_stop(void);
 }
 #endif /* __cplusplus */
 
-#endif
+#endif // __EC_STEPPER2_H
