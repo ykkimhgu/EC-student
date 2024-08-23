@@ -7,8 +7,8 @@
 ******************************************************************************
 */
 
-#ifndef __EC_TIM_H 
-#define __EC_TIM_H
+#ifndef __EC_TIM2_H 
+#define __EC_TIM2_H
 #include "stm32f411xe.h"
 
 #ifdef __cplusplus
@@ -59,4 +59,4 @@ void clear_UIF(TIM_TypeDef *TIMx);
 }
 #endif /* __cplusplus */
 
-#endif
+#endif // __EC_TIM2_H 
