@@ -3,19 +3,19 @@
 
 #include <stdio.h>
 #include "stm32f411xe.h"
-#include "ecGPIO.h"
-#include "ecRCC.h"
+#include "ecGPIO2.h"
+#include "ecRCC2.h"
 
 #define POL 0
 #define INT 1
 
 // You can modify this
-#define BAUD_9600	9600
+#define BAUD_9600	  9600
 #define BAUD_19200	19200
-#define BAUD_38400  	38400
+#define BAUD_38400  38400
 #define BAUD_57600	57600
-#define BAUD_115200 	115200
-#define BAUD_921600 	921600
+#define BAUD_115200 115200
+#define BAUD_921600 921600
 
 
 // ********************** USART 2 (USB) ***************************
