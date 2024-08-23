@@ -1,26 +1,23 @@
 /**
 ******************************************************************************
 * @author  SSSLAB
-* @Mod		 2023-10-18 by YKKIM  	
+* @Mod		 2024-08-23 by Jin Kwak  	
 * @brief   Embedded Controller:  EC_HAL_for_student_exercise 
 * 
 ******************************************************************************
 */
 
 #include "stm32f411xe.h"
-#include "ecGPIO.h"
-#include "ecTIM.h"  			
-
+#include <ecGPIO2.h>
+#include <ecTIM2.h>
 #include "ecPinNames.h"
 
-
-#ifndef __EC_PWM_H
-#define __EC_PWM_H
+#ifndef __EC_PWM2_H
+#define __EC_PWM2_H
 
 #ifdef __cplusplus
  extern "C" {
 #endif /* __cplusplus */
-
 
 /* PWM Configuration using PinName_t Structure */
 
