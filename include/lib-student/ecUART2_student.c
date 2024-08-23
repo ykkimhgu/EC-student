@@ -1,4 +1,4 @@
-#include "ecUART.h"
+#include "ecUART2.h"
 #include <math.h>
 
 // ********************** DO NOT MODIFY HERE ***************************
@@ -6,9 +6,8 @@
 // Implement a dummy __FILE struct, which is called with the FILE structure.
 //#ifndef __stdio_h
 struct __FILE {
-    //int dummy;
-		int handle;
-
+	//int dummy;
+	int handle;
 };
 
 FILE __stdout;
@@ -16,15 +15,15 @@ FILE __stdin;
 //#endif
 
 // Retarget printf() to USART2
-int fputc(int ch, FILE *f) { 
-  uint8_t c;
-  c = ch & 0x00FF;
-  USART_write(USART2, (uint8_t *)&c, 1);
-  return(ch);
+int fputc(int ch, FILE *f) {
+	uint8_t c;
+	c = ch & 0x00FF;
+	USART_write(USART2, (uint8_t *)&c, 1);
+	return(ch);
 }
 
-// Retarget getchar()/scanf() to USART2  
-int fgetc(FILE *f) {  
+// Retarget getchar()/scanf() to USART2
+int fgetc(FILE *f) {
   uint8_t rxByte;
   rxByte = USART_read(USART2);
   return rxByte;
@@ -33,21 +32,20 @@ int fgetc(FILE *f) {
 
 /*================ private functions ================*/
 void USART_write(USART_TypeDef * USARTx, uint8_t *buffer, uint32_t nBytes) {
-	// TXE is set by hardware when the content of the TDR 
+	// TXE is set by hardware when the content of the TDR
 	// register has been transferred into the shift register.
 	int i;
 	for (i = 0; i < nBytes; i++) {
 		// wait until TXE (TX empty) bit is set
-		while (!(USARTx->SR & USART_SR_TXE));  
-		// Writing USART_DR automatically clears the TXE flag 	
+		while (!(USARTx->SR & USART_SR_TXE));
+		// Writing USART_DR automatically clears the TXE flag
 		USARTx->DR = buffer[i] & 0xFF;
 		USART_delay(300);
 	}
 	// wait until TC bit is set
-	while (!(USARTx->SR & USART_SR_TC));		
+	while (!(USARTx->SR & USART_SR_TC));
 	// TC bit clear
-	USARTx->SR &= ~USART_SR_TC;	
-
+	USARTx->SR &= ~USART_SR_TC;
 }  
  
 uint32_t is_USART_RXNE(USART_TypeDef * USARTx){
@@ -57,25 +55,34 @@ uint32_t is_USART_RXNE(USART_TypeDef * USARTx){
 
 uint8_t USART_read(USART_TypeDef * USARTx){
 	// Wait until RXNE (RX not empty) bit is set by HW -->Read to read
-	while ((USARTx->SR & USART_SR_RXNE) != USART_SR_RXNE);  
-	// Reading USART_DR automatically clears the RXNE flag 
+	while ((USARTx->SR & USART_SR_RXNE) != USART_SR_RXNE);
+	// Reading USART_DR automatically clears the RXNE flag
 	return ((uint8_t)(USARTx->DR & 0xFF)); 
 }
 
-void USART_setting(USART_TypeDef* USARTx, GPIO_TypeDef* GPIO_TX, int pinTX, GPIO_TypeDef* GPIO_RX, int pinRX, uint32_t baud){
-//1. GPIO Pin for TX and RX	
-	// Enable GPIO peripheral clock 	 
+void USART_setting(USART_TypeDef* USARTx, PinName_t pin_GPIO_TX, PinName_t pin_GPIO_RX, uint32_t baud){
+    //0. Port Pin Configuration
+    GPIO_TypeDef *GPIO_TX;
+    unsigned int pinTX;
+    ecPinmap(pin_GPIO_TX, GPIO_TX, &pinTX);
+
+    GPIO_TypeDef *GPIO_RX;
+    unsigned int pinRX;
+    ecPinmap(pin_GPIO_RX, GPIO_RX, &pinRX);
+    
+    //1. GPIO Pin for TX and RX
+	// Enable GPIO peripheral clock
 	// Alternative Function mode selection for Pin_y in GPIOx
 	// AF, Push-Pull, No PUPD, High Speed
-	GPIO_init(GPIO_TX, pinTX, AF);
-	GPIO_otype(GPIO_TX, pinTX, EC_PUSH_PULL);
-	GPIO_pupd(GPIO_TX, pinTX, EC_NONE);		
-	GPIO_ospeed(GPIO_TX, pinTX, EC_HIGH);						
+	GPIO_init(pin_GPIO_TX, AF);
+	GPIO_otype(pin_GPIO_TX, EC_PUSH_PULL);
+	GPIO_pupd(pin_GPIO_TX, EC_NONE);
+	GPIO_ospeed(pin_GPIO_TX, EC_HIGH);
 	
-	GPIO_init(GPIO_RX, pinRX, AF);
-	GPIO_otype(GPIO_RX, pinRX, EC_PUSH_PULL);
-	GPIO_pupd(GPIO_RX, pinRX, EC_NONE);
-	GPIO_ospeed(GPIO_RX, pinRX, EC_HIGH);
+	GPIO_init(pin_GPIO_RX, AF);
+	GPIO_otype(pin_GPIO_RX, EC_PUSH_PULL);
+	GPIO_pupd(pin_GPIO_RX, EC_NONE);
+	GPIO_ospeed(pin_GPIO_RX, EC_HIGH);
 	
 	// Set Alternative Function Register for USARTx.	
 	// AF7 - USART1,2 
@@ -83,18 +90,18 @@ void USART_setting(USART_TypeDef* USARTx, GPIO_TypeDef* GPIO_TX, int pinTX, GPIO
 	if (USARTx == USART6){ 
 		// USART_TX GPIO AFR
 		if (pinTX < 8) GPIO_TX->AFR[0] |= 8 << (4*pinTX);
-		else 					 GPIO_TX->AFR[1] |= 8 << (4*(pinTX-8));
+		else           GPIO_TX->AFR[1] |= 8 << (4*(pinTX-8));
 		// USART_RX GPIO AFR
 		if (pinRX < 8) GPIO_RX->AFR[0] |= 8 << (4*pinRX); 
-		else 					 GPIO_RX->AFR[1] |= 8 << (4*(pinRX-8));
+		else 		   GPIO_RX->AFR[1] |= 8 << (4*(pinRX-8));
 	}
 	else{	//USART1,USART2
 		// USART_TX GPIO AFR
 		if (pinTX < 8) GPIO_TX->AFR[0] |= 7 << (4*pinTX);
-		else 					 GPIO_TX->AFR[1] |= 7 << (4*(pinTX-8));
+		else 		   GPIO_TX->AFR[1] |= 7 << (4*(pinTX-8));
 		// USART_RX GPIO AFR
 		if( pinRX < 8) GPIO_RX->AFR[0] |= 7 << (4*pinRX);
-		else 					 GPIO_RX->AFR[1] |= 7 << (4*(pinRX-8));
+		else 		   GPIO_RX->AFR[1] |= 7 << (4*(pinRX-8));
 	}
 
 	
@@ -108,7 +115,7 @@ void USART_setting(USART_TypeDef* USARTx, GPIO_TypeDef* GPIO_TX, int pinTX, GPIO
 		RCC->APB2ENR |= RCC_APB2ENR_USART6EN;  	// Enable USART 6 clock (APB2 clock: AHB clock = 84MHz)
 	
 	// Disable USARTx. 
-	USARTx->CR1  &= ~USART_CR1_UE; 						// USART disable
+	USARTx->CR1 &= ~USART_CR1_UE; 						// USART disable
 	 
 	// No Parity / 8-bit word length / Oversampling x16 
 	USARTx->CR1 ________________;   		// No parrity bit
@@ -181,7 +188,7 @@ void UART1_init(void){
 	// PA_10 = USART1_RX (default)	// PB_3 (option)
 	// APB2
 	// **********************************************************
-	USART_setting(USART1, GPIOA, 9, GPIOA, 10, 9600);
+	USART_setting(USART1, PA_9, PA_10, 9600);
 }
 void UART2_init(void){
 	// ********************** USART 2 ***************************
@@ -189,7 +196,7 @@ void UART2_init(void){
 	// PA3 = USART2_RX
 	// Alternate function(AF7), High Speed, Push pull, Pull up
 	// **********************************************************
-	USART_setting(USART2, GPIOA, 2, GPIOA, 3, 9600);
+	USART_setting(USART2, PA_2, PA_3, 9600);
 }
 
 void UART1_baud(uint32_t baud){
