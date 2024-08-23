@@ -1,7 +1,7 @@
 /**
   ******************************************************************************
   * @author  SSSLAB
-	* @Mod		 2021-8-12 by YKKIM  	
+	* @Mod		 2024-8-23 by YKKIM  	
   * @brief   Embedded Controller:  Tutorial Digital Out
   *					 - Turn on LED LD2
   * 
@@ -16,7 +16,7 @@
 
 
 #include "stm32f4xx.h"
-#include "ecRCC.h"
+#include "ecRCC2.h"
 
 #define LED_PIN    5		//LD2
 
