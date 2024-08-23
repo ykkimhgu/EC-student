@@ -1,5 +1,5 @@
 #include "stm32f4xx.h"
-#include "ecRCC.h"
+#include "ecRCC2.h"
 
 volatile int EC_SYSCLK=16000000;
 
