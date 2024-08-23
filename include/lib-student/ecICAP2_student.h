@@ -1,5 +1,5 @@
-#ifndef __EC_ICAP_H
-#define __EC_ICAP_H
+#ifndef __EC_ICAP2_H
+#define __EC_ICAP2_H
 #include "stm32f411xe.h"
 
 #ifdef __cplusplus
@@ -35,7 +35,6 @@ uint32_t ICAP_capture(TIM_TypeDef* TIMx, uint32_t ICn);
 
 uint32_t is_CCIF(TIM_TypeDef *TIMx, uint32_t CCnum);  // CCnum= 1~4
 void clear_CCIF(TIM_TypeDef *TIMx, uint32_t CCnum);
-
 
 
 #ifdef __cplusplus
