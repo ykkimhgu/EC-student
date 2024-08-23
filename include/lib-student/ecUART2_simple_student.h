@@ -1,5 +1,5 @@
-#ifndef __EC_USART_SIMPLE_H
-#define __EC_USART_SIMPLE_H
+#ifndef __EC_USART2_SIMPLE_H
+#define __EC_USART2_SIMPLE_H
 
 #include "stm32f411xe.h"
 #include <stdio.h>
@@ -34,4 +34,4 @@ void USART_delay(uint32_t us);
 
 										
 
-#endif
+#endif // __EC_USART2_SIMPLE_H
