@@ -1,7 +1,7 @@
 /**
 ******************************************************************************
 * @author  SSSLAB
-* @Mod		 2023-10-27 by YKKIM  	
+* @Mod		 2024-08-23 by Jin Kwak  	
 * @brief   Embedded Controller:  Tutorial ___
 *					 - Input Capture
 * 
@@ -10,12 +10,12 @@
 
 
 #include "stm32f411xe.h"
-#include "math.h"
-#include "ecGPIO.h"
-#include "ecRCC.h"
-#include "ecTIM.h"
+#include <math.h>
+#include "ecGPIO2.h"
+#include "ecRCC2.h"
+#include "ecTIM2.h"
 #include "ecUART_simple_student.h"
-#include "ecSysTick.h"
+#include "ecSysTick2.h"
 
 uint32_t ovf_cnt = 0;
 uint32_t ccr1 = 0;
@@ -52,8 +52,6 @@ void setup(void) {
 	NVIC_SetPriority(TIM2_IRQn, 2);						// Set the priority of TIM2 interrupt request
 	NVIC_EnableIRQ(TIM2_IRQn);							// TIM2 interrupt request enable
 }
-
-
 
 
 // Timer2 IRQ Handler (timer & Input Capture)
