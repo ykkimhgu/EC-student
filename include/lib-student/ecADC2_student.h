@@ -1,8 +1,7 @@
-#ifndef __MY_ADC_H
-#define __MY_ADC_H
+#ifndef __MY_ADC2_H
+#define __MY_ADC2_H
 #include "stm32f411xe.h"
 #include "ecSTM32F411.h"
-
 
 // ADC trigmode
 #define SW 0
