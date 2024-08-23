@@ -59,7 +59,7 @@ void USART_init(USART_TypeDef* USARTx, uint32_t baud);
 void UART_baud(USART_TypeDef* USARTx, uint32_t baud);											
 uint32_t is_USART_RXNE(USART_TypeDef * USARTx);
 uint8_t USART_read(USART_TypeDef * USARTx);										
-void USART_setting(USART_TypeDef* USARTx, GPIO_TypeDef* GPIO_TX, int pinTX, GPIO_TypeDef* GPIO_RX, int pinRX, uint32_t baud); 
+void USART_setting(USART_TypeDef* USARTx, PinNmae_t pin_GPIO_TX, PinName_t pin_GPIO_TX, uint32_t baud); 
 void USART_delay(uint32_t us);  
 
 #endif
