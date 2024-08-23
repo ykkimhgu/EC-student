@@ -1,7 +1,7 @@
 /**
 ******************************************************************************
 * @author  SSSLAB
-* @Mod		 2021-8-12 by YKKIM  	
+* @Mod	   2021-8-12 by YKKIM  	
 * @brief   Embedded Controller:  EC_HAL_for_student_exercise 
 * 
 ******************************************************************************
@@ -18,7 +18,7 @@
 
 /* Timer Configuration */
 ///////  Step1:  Initialize  TIMERx
-void TIM_init(TIM_TypeDef* TIMx); 
+void TIM_init(TIM_TypeDef* TIMx);
 // Default Setting:  TIM_period_ms(TIMx, 1 msec) with Counter_Clk 100kHz / PSC=840-1, ARR=100-1
 // Previous version:  void TIM_init(TIM_TypeDef* TIMx, uint32_t msec);
 
