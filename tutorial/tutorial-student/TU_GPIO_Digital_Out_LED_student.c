@@ -18,7 +18,7 @@
 #include "stm32f4xx.h"
 #include "ecRCC2.h"
 
-#define LED_PIN    5		//LD2
+#define LED_PIN    PA_5		//LD2
 
 
 int main(void) {	
