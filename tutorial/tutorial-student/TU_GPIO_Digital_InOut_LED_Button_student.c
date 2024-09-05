@@ -1,7 +1,7 @@
 /**
 ******************************************************************************
 * @author  SSSLAB
-* @Mod		 2024-8-23 by YKKIM  	
+* @Mod		 2024-09-06 by YKKIM  	
 * @brief   Embedded Controller:  Tutorial Digital In
 *					 - Turn on LED LD2 while Button B1 is pressing
 * 
@@ -18,8 +18,8 @@
 #include "stm32f4xx.h"
 #include "ecRCC2.h"
 
-#define LED_PIN    5		//LD2
-#define BUTTON_PIN 13
+#define LED_PIN    PA_5		//LD2
+#define BUTTON_PIN PC_13
 
 int main(void) {	
 	/* Part 1. RCC GPIOA Register Setting */
@@ -57,7 +57,7 @@ int main(void) {
 	/* Part 4. Deal loop  */	
 		while(1){
 			//Read bit value of Button
-			btVal=(GPIOC->IDR) & (1UL << BUTTON_PIN);	
+			btVal= (GPIOC->IDR) & (1UL << BUTTON_PIN);	
 			if(btVal == 0)
 				GPIOA->ODR |= (1UL << LED_PIN);	 		
 			else
