@@ -17,7 +17,7 @@ Description      : Distributed to Students for LAB_GPIO
 void GPIO_init(PinName_t pinName, uint32_t mode){     
 	GPIO_TypeDef * Port;
 	unsigned int pin;
-	ecPinmap(pinName, Port, &pin);
+	ecPinmap(pinName, &Port, &pin);
 	
 	// mode  : Input(0), Output(1), AlterFunc(2), Analog(3)   
 	if (Port == GPIOA)
@@ -39,7 +39,7 @@ void GPIO_init(PinName_t pinName, uint32_t mode){
 void GPIO_mode(PinName_t pinName, uint32_t mode){
    GPIO_TypeDef * Port;
    unsigned int pin;
-   ecPinmap(pinName,Port,&pin);
+   ecPinmap(pinName,&Port,&pin);
    Port->MODER &= ~(3UL<<(2*pin));     
    Port->MODER |= mode<<(2*pin);    
 }
