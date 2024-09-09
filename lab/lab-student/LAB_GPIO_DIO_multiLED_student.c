@@ -23,7 +23,8 @@ int main(void) {
 	
 	// Inifinite Loop ----------------------------------------------------------
 	while(1){
-		
+		// TODO
+		// TODO
 	}
 }
 
@@ -32,9 +33,13 @@ int main(void) {
 void setup(void)
 {
 	RCC_HSI_init();
-	GPIO_init(button_pin, INPUT);  // calls RCC_GPIOC_enable()
-	GPIO_init(LED_pin, OUTPUT);    // calls RCC_GPIOA_enable()	
-	GPIO_init(PA_6, OUTPUT);    // calls RCC_GPIOA_enable()	
-	GPIO_init(PA_7, OUTPUT);    // calls RCC_GPIOA_enable()	
-	GPIO_init(PB_6, OUTPUT);    // calls RCC_GPIOB_enable()
+
+	// Configuration button pin
+	GPIO_init(button_pin, TODO);  // calls RCC_GPIOC_enable()
+
+	// Configuration LED pins
+	GPIO_init(LED_pin, TODO);    // calls RCC_GPIOA_enable()	
+	// TODO
+	// TODO
+	// TODO
 }
