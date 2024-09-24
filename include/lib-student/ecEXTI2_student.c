@@ -7,7 +7,7 @@ void EXTI_init(PinName_t pinName, int trig_type,int priority){
 
 	GPIO_Typedef *port;
 	unsigned int pin;
-	ecPinmap(pinName,port,&pin);
+	ecPinmap(pinName,&port,&pin);
 	// SYSCFG peripheral clock enable	
 	RCC->APB2ENR |= RCC_APB2ENR_SYSCFGEN;		
 	
