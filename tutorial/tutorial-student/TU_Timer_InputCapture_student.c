@@ -12,6 +12,7 @@
 #include <math.h>
 #include "ecSTM32F4v2.h"
 //#include "ecICAP2.h"
+//#include "ecUART2_simple.h"
 
 uint32_t ovf_cnt = 0;
 uint32_t ccr1 = 0;
