@@ -1,7 +1,7 @@
 #include "ecICAP2.h"
 #include "ecGPIO2.h"
+#include "ecTIM2.h"
 #include <math.h>
-
 /* -------- Timer Input Capture -------- */
 
 void ICAP_init(PinName_t pinName){
