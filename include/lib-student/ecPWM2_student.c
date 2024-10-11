@@ -227,7 +227,7 @@ void PWM_duty(PinName_t pinName, float duty){
 
 	if(duty <= 0.f)
 		value = 0;
-	else if(dyty >= 1.f)
+	else if(duty >= 1.f)
 		value = TIMx->ARR + 1;
    
   	if(chN == 1)      { TIMx->CCR1 = value; }          //set channel      
