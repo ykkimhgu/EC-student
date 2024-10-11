@@ -223,7 +223,12 @@ void PWM_duty(PinName_t pinName, float duty){
 
 	
 // 1. Configure prescaler PSC
-	float value = ___________________;    								// (ARR+1)*dutyRatio + 1               
+	uint32_t value = ___________________;    								// (ARR+1)*dutyRatio - 1
+
+	if(duty <= 0.f)
+		value = 0;
+	else if(dyty >= 1.f)
+		value = TIMx->ARR + 1;
    
   	if(chN == 1)      { TIMx->CCR1 = value; }          //set channel      
 	// REPEAT for CHn=2,  3, 4
