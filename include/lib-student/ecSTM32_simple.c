@@ -21,11 +21,11 @@ void GPIO_init(PinName_t pinName, uint32_t mode) {
 	ecPinmap(pinName, &port, &pin);
 
 	// mode  : Input(0), Output(1), AlterFunc(2), Analog(3)   
-	if (Port == GPIOA)
+	if (port == GPIOA)
 		RCC_GPIOA_enable();
-	if (Port == GPIOB)
+	if (port == GPIOB)
 		RCC_GPIOB_enable();
-	if (Port == GPIOC)
+	if (port == GPIOC)
 		RCC_GPIOC_enable();
 	
 	GPIO_mode(pinName, mode);
