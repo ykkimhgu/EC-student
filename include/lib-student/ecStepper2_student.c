@@ -24,12 +24,13 @@ volatile Stepper_t myStepper;
 
 //FULL stepping sequence  - FSM
 typedef struct {
-	uint8_t out;
   	uint32_t next[2];
+	uint8_t out[4];
+
 } State_full_t;
 
 State_full_t FSM_full[4] = {  	// 1010 , 0110 , 0101 , 1001
- 	{0b1100,{S1,S3}},		// ABA'B'
+ 	{{S1,S3},{1,1,0,0}},		// ABA'B'
  	// YOUR CODE
  	// YOUR CODE
  	// YOUR CODE
@@ -37,12 +38,12 @@ State_full_t FSM_full[4] = {  	// 1010 , 0110 , 0101 , 1001
 
 //HALF stepping sequence
 typedef struct {
-	uint8_t out;
-  	uint32_t next[2];
+	uint32_t next[2];
+	uint8_t out[4];
 } State_half_t;
 
 State_half_t FSM_half[8] = {	// 1000 , 1010 , 0010 , 0110 , 0100 , 0101, 0001, 1001
- 	{0b1001,{S1,S7}},	
+ 	{{S1,S7},{1,0,0,1}},	
 	 // YOUR CODE
 	 // YOUR CODE
 	 // YOUR CODE
