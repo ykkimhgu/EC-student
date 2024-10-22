@@ -76,7 +76,7 @@ void Stepper_init(PinName_t pinName1, PinName_t pinName2, PinName_t pinName3, Pi
 
 void Stepper_pinOut (uint32_t state, uint32_t mode){	
    	if (mode == FULL){         // FULL mode
-		GPIO_write(myStepper.port1, myStepper.pin1, (FSM_full[state].out & 0b1000) >> 3);
+		GPIO_write(myStepper.pin1, (FSM_full[state].out & 0b1000) >> 3);
   		// Repeat for pin2~port4 
 		// YOUR CODE 
 		// YOUR CODE 
