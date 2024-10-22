@@ -18,9 +18,9 @@
 
 typedef struct{
 	PinName_t pin1;
-	PinName_t pin1;
-	PinName_t pin1;
-	PinName_t pin1;
+	PinName_t pin2;
+	PinName_t pin3;
+	PinName_t pin4;
 	uint32_t _step_num;
 } Stepper_t;
 
