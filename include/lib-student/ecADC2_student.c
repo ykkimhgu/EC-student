@@ -46,8 +46,8 @@ void ADC_init(PinName_t pinName){  // trigmode 0 : SW, 1 : TRGO
 		ADC1->SMPR1 |= 4U << (3* (chN - 10));
 	}
 	
-	// 2. Regular / Injection Group 
-	//Regular: SQRx, Injection: JSQx
+	// 2. Regular Group 
+	//Regular: SQRx
 
 	// 3. Repetition: Single scan or Continuous scan conversion
 	ADC1->CR2 |= ___________;      			// default : Continuous conversion mode	
@@ -243,8 +243,8 @@ void JADC_init(PinName_t pinName){
 		ADC1->SMPR1  |= 4U << (3* (chN - 10));
 	}
 
-	// 2. Regular / Injection Group 
-	//Regular: SQRx, Injection: JSQx
+	// 2. Injection Group 
+	//    Injection: JSQx
 
 	// 3. Repetition: Single or Continuous conversion
 	ADC1->CR2 |= _____________;     			// Enable Continuous conversion mode	
