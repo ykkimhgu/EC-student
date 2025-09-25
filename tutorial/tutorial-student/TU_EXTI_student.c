@@ -11,6 +11,7 @@
 
 
 //#include "ecSTM32F4v2.h"
+
 #include "ecRCC2.h"
 #include "ecGPIO2.h"
 
@@ -24,6 +25,12 @@ int main(void) {
 	// System CLOCK, GPIO Initialiization ----------------------------------------
 	setup();
 
+
+
+	while (1);
+}
+
+void EXTI_init_tutorial(PinName_t pinName){
 
 	// EXTI Initialiization ------------------------------------------------------	
 
@@ -44,11 +51,8 @@ int main(void) {
 	// Interrupt IRQn, Priority
 	NVIC_SetPriority(EXTI15_10_IRQn, 0);  		// Set EXTI priority as 0	
 	NVIC_EnableIRQ(EXTI15_10_IRQn); 			// Enable EXTI 
-
-
-	while (1);
+	
 }
-
 
 void EXTI15_10_IRQHandler(void) {
 	if ((EXTI->PR & EXTI_PR_PR13) == _________) {
@@ -66,5 +70,7 @@ void setup(void)
 	GPIO_init(LED_PIN, OUTPUT);    // calls RCC_GPIOA_enable()	
 	// Initialize GPIOC_13 for Input Button
 	GPIO_init(BUTTON_PIN, INPUT);  // calls RCC_GPIOC_enable()
+	EXTI_init_tutorial(PC_13);
+		
 }
 
