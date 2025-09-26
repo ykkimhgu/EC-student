@@ -14,8 +14,8 @@
 #include "ecRCC2.h"
 #include "ecGPIO2.h"
 
-#define LED_PIN   PB_12
-#define BUTTON_PIN PA_4
+#define LED_PIN   PB_12 		//EVAL board JKIT
+#define BUTTON_PIN PA_4			//EVAL board JKIT
 
 void LED_toggle(PinName_t pinName);
 
@@ -42,9 +42,9 @@ int main(void) {
 
 // EXTI Initialiization ------------------------------------------------------	
 void EXTI_init_tutorial(PinName_t pinName){
-	GPIO_Typedef *port;
+	GPIO_Typedef *Port;
 	unsigned int pin;
-	ecPinmap(pinName,&port,&pin);
+	ecPinmap(pinName,&Port,&pin);
 	
 
 	// SYSCFG peripheral clock enable
@@ -76,8 +76,8 @@ void EXTI4_IRQHandler(void) {
 
 
 void LED_toggle(PinName_t pinName){
-	GPIO_Typedef *port;
+	GPIO_Typedef *Port;
 	unsigned int pin;
-	ecPinmap(pinName,&port,&pin);
+	ecPinmap(pinName,&Port,&pin);
 	// YOUR CODE GOES HERE
 }
