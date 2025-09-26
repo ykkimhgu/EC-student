@@ -11,28 +11,41 @@
 
 
 //#include "ecSTM32F4v2.h"
-
 #include "ecRCC2.h"
 #include "ecGPIO2.h"
 
 #define LED_PIN   PB_12
 #define BUTTON_PIN PA_4
 
-void setup(void);
+void LED_toggle(PinName_t pinName);
 
+// Initialiization 
+void setup(void)
+{
+	RCC_PLL_init();                         // System Clock = 84MHz
+	// Initialize GPIOB_12 for Output
+	GPIO_init(LED_PIN, OUTPUT);    // LED for EVAL board	
+	// Initialize GPIOA_4 for Input Button
+	GPIO_init(BUTTON_PIN, INPUT);  // OUTPUT for EVAL borad
+	EXTI_init_tutorial(PA_4);
+		
+}
+
+// MAIN  ----------------------------------------
 int main(void) {
-
-	// System CLOCK, GPIO Initialiization ----------------------------------------
+	
 	setup();
-
-
 
 	while (1);
 }
 
-void EXTI_init_tutorial(PinName_t pinName){
 
-	// EXTI Initialiization ------------------------------------------------------	
+// EXTI Initialiization ------------------------------------------------------	
+void EXTI_init_tutorial(PinName_t pinName){
+	GPIO_Typedef *port;
+	unsigned int pin;
+	ecPinmap(pinName,&port,&pin);
+	
 
 	// SYSCFG peripheral clock enable
 	RCC->APB2ENR |= __________________
@@ -56,20 +69,15 @@ void EXTI_init_tutorial(PinName_t pinName){
 
 void EXTI4_IRQHandler(void) {
 	if ((EXTI->PR & EXTI_PR_PR4) == _________) {
-		LED_toggle();
+		LED_toggle(LED_PIN);
 		EXTI->PR |= EXTI_PR_PR4; // cleared by writing '1'
 	}
 }
 
 
-// Initialiization 
-void setup(void)
-{
-	RCC_PLL_init();                         // System Clock = 84MHz
-	// Initialize GPIOB_12 for Output
-	GPIO_init(LED_PIN, OUTPUT);    // LED for EVAL board	
-	// Initialize GPIOA_4 for Input Button
-	GPIO_init(BUTTON_PIN, INPUT);  // OUTPUT for EVAL borad
-	EXTI_init_tutorial(PA_4);
-		
+void LED_toggle(PinName_t pinName){
+	GPIO_Typedef *port;
+	unsigned int pin;
+	ecPinmap(pinName,&port,&pin);
+	// YOUR CODE GOES HERE
 }
