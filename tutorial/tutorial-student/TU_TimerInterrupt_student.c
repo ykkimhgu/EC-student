@@ -41,12 +41,12 @@ void TIM2_init_tutorial(){
 	timerx = TIM2;
 	RCC->APB1ENR |= RCC_APB1ENR_TIM2EN;
 	
-	timerx->PSC =______ 				// Timer counter clock: 1MHz(1us)
-	timerx->ARR =______ 				// Set auto reload register to maximum (count up to 65535)
-	timerx->DIER |=______             // Enable Interrupt
-	timerx->CR1 |=______              // Enable counter
+	timerx->PSC =______ 			// Timer counter clock: 1MHz(1us)
+	timerx->ARR =______ 			// Set auto reload register to maximum (count up to 65535)
+	timerx->DIER |=______           // Enable Interrupt
+	timerx->CR1 |=______            // Enable counter
 	
-	NVIC_SetPriority(___ );       // TIM2_IRQHandler Set priority as 2
+	NVIC_SetPriority(___ );       	// TIM2_IRQHandler Set priority as 2
 	NVIC_EnableIRQ(___);			// TIM2_IRQHandler Enable
 }
 
