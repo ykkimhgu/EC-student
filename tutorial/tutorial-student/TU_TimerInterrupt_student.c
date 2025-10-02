@@ -12,7 +12,7 @@
 #include "ecRCC2.h"
 
 
-PinName_t LED_pin = PA_5;
+#define LED_pin PA_5;
 uint32_t count = 0;
 
 void TIM2_init_tutorial();
