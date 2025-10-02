@@ -20,7 +20,7 @@ void PWM_init_tutorial();
 
 int main(void) { 
 	// Initialiization --------------------------------------------------------	
-
+	setup();
 	
 	// Inifinite Loop ----------------------------------------------------------
 	while(1){
