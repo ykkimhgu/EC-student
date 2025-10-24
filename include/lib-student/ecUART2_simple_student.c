@@ -40,12 +40,12 @@ int _write(int file, char* data, int len)
 
     return len;
 }
-
+/*
 int _read(int file, char* data, int len)
 {
 	return USART2_read();
 }
-
+*/
 #endif
 
 // 9600 Baud Rate
