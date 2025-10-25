@@ -19,7 +19,7 @@ FILE __stdin;
 int fputc(int ch, FILE *f) { 
   uint8_t c;
   c = ch & 0x00FF;
-  USART_write1(USART2, (uint8_t *)&c, 1);
+  USART_write(USART2, (uint8_t *)&c, 1);
   return(ch);
 }
 
