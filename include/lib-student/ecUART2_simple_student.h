@@ -29,6 +29,7 @@
 /* UART2 Initialization to use printf() */
 void UART2_init();
 void USART_write(USART_TypeDef* USARTx, uint8_t* buffer, uint32_t nBytes);
+uint8_t USART_read(USART_TypeDef * USARTx);
 void USART_delay(uint32_t us);  
 
 
