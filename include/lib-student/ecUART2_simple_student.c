@@ -3,50 +3,26 @@
 
 // ********************** DO NOT MODIFY HERE ***************************
 // 
-
-#if defined(__CC_ARM) || defined(__ARMCC_VERSION)
-
 // Implement a dummy __FILE struct, which is called with the FILE structure.
-struct __FILE
-{
-    int dummy;
-    int handle;
+//#ifndef __stdio_h
+struct __FILE {
+    //int dummy;
+		int handle;
+
 };
 
 FILE __stdout;
 FILE __stdin;
+//#endif
 
 // Retarget printf() to USART2
-int fputc(int ch, FILE* f)
-{
-    uint8_t c = (uint8_t)ch & 0xFF;
-    USART_write(USART2, &c, 1);
-
-    return ch;
+int fputc(int ch, FILE *f) { 
+  uint8_t c;
+  c = ch & 0x00FF;
+  USART_write1(USART2, (uint8_t *)&c, 1);
+  return(ch);
 }
 
-// Retarget getchar()/scanf() to USART2
-int fgetc(FILE* f)
-{
-    return USART_read(USART2);
-}
-
-#elif defined(__GNUC__)
-
-int _write(int file, char* data, int len)
-{
-    // replace it with your 'send to uart' function
-    USART2_write((uint8_t*)data, len);
-
-    return len;
-}
-/*
-int _read(int file, char* data, int len)
-{
-	return USART2_read();
-}
-*/
-#endif
 
 // 9600 Baud Rate
 void UART2_init(){
