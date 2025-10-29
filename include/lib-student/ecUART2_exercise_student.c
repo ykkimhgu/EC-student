@@ -1,4 +1,4 @@
-#include "ecUART2_simple.h"
+#include "ecUART2_exercise_student.h"
 #include <math.h>
 
 // ********************** DO NOT MODIFY HERE ***************************
