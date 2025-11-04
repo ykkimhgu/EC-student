@@ -157,7 +157,7 @@ uint32_t ICAP_capture(TIM_TypeDef* TIMx, uint32_t ICn){
 		capture_Value = TIMx->CCR1;
 	else if (ICn == 2)
 		capture_Value = TIMx->CCR2;
-	else if (ICn == 2)
+	else if (ICn == 3)
 		capture_Value = TIMx->CCR3;
 	else
 		capture_Value = TIMx->CCR4;
@@ -197,7 +197,7 @@ void ICAP_pinmap(PinName_t pinName, TIM_TypeDef **TIMx, int *chN){
          case 6 : *TIMx = TIM4; *chN = 1; break;
          case 7 : *TIMx = TIM4; *chN = 2; break;
          case 8 : *TIMx = TIM4; *chN = 3; break;
-         case 9 : *TIMx = TIM4; *chN = 3; break;
+         case 9 : *TIMx = TIM4; *chN = 4; break;
          case 10: *TIMx = TIM2; *chN = 3; break;
          
          default: break;
