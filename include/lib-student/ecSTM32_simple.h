@@ -2,7 +2,7 @@
 @ Embedded Controller by Young-Keun Kim - Handong Global University
 Author           : YKKim
 Created          : 05-03-2021
-Modified         : 09-20-2024
+Modified         : 09-01-2026
 Language/ver     : C++ in Keil uVision
 
 Description      : Distributed to Students for Simple Tutorials 
@@ -23,6 +23,10 @@ Description      : Distributed to Students for Simple Tutorials
 #define HIGH 1
 #define LOW  0
 
+#define MCU_CLK_PLL 84000000
+#define MCU_CLK_HSI 16000000
+
+
 #ifdef __cplusplus
  extern "C" {
 #endif /* __cplusplus */
@@ -38,6 +42,10 @@ void RCC_GPIOA_enable(void);
 void RCC_GPIOB_enable(void);
 void RCC_GPIOC_enable(void);
  
+void SysTick_init(void);
+void SysTick_Handler(void);
+void SysTick_counter();
+void delay_ms(uint32_t msec);
 
 
 #ifdef __cplusplus
