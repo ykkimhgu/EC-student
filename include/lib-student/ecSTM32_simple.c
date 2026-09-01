@@ -2,7 +2,7 @@
 @ Embedded Controller by Young-Keun Kim - Handong Global University
 Author           : YKKim
 Created          : 05-03-2021
-Modified         : 09-04-2024
+Modified         : 09-04-2026
 Language/ver     : C++ in Keil uVision
 
 Description      : Distributed to Students for Simple Tutorials 
@@ -97,4 +97,55 @@ void RCC_GPIOC_enable()
 {
 	// RCC Peripheral Clock Enable Register 
 	RCC->AHB1ENR |= RCC_AHB1ENR_GPIOCEN;
+}
+
+
+volatile uint32_t msTicks;
+
+//EC_SYSTEM_CLK
+
+void SysTick_init(void){	
+	//  SysTick Control and Status Register
+	SysTick->CTRL = 0;											// Disable SysTick IRQ and SysTick Counter
+
+	// Select processor clock
+	// 1 = processor clock;  0 = external clock
+	SysTick->CTRL |= SysTick_CTRL_CLKSOURCE_Msk;
+
+	// uint32_t MCU_CLK=EC_SYSTEM_CLK
+	// SysTick Reload Value Register
+	SysTick->LOAD = MCU_CLK_HSI / 1000 - 1;						// 1ms, for HSI PLL = 84MHz.
+
+	// SysTick Current Value Register
+	SysTick->VAL = 0;
+
+	// Enables SysTick exception request
+	// 1 = counting down to zero asserts the SysTick exception request
+	SysTick->CTRL |= SysTick_CTRL_TICKINT_Msk;
+	
+	// Enable SysTick IRQ and SysTick Timer
+	SysTick->CTRL |= SysTick_CTRL_ENABLE_Msk;
+		
+	NVIC_SetPriority(SysTick_IRQn, 16);		// Set Priority to 1
+	NVIC_EnableIRQ(SysTick_IRQn);			// Enable interrupt in NVIC
+}
+
+
+
+void SysTick_Handler(void){
+	SysTick_counter();	
+}
+
+void SysTick_counter(){
+	msTicks++;
+}	
+
+
+void delay_ms (uint32_t mesc){
+  uint32_t curTicks;
+
+  curTicks = msTicks;
+  while ((msTicks - curTicks) < mesc);
+	
+  msTicks = 0;
 }
