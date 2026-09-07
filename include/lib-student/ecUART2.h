@@ -49,7 +49,7 @@ void USART2_write(uint8_t* buffer, uint32_t nBytes);
 uint8_t USART1_read(void);										
 uint8_t USART2_read(void);	
 
-// Inturrupt USART1,2
+// Interrupt USART1,2
 uint32_t is_USART1_RXNE(void);
 uint32_t is_USART2_RXNE(void);
 

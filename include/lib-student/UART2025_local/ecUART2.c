@@ -1,4 +1,4 @@
-#include "ecUART2_exercise_student.h"
+#include "ecUART2.h"
 #include <math.h>
 
 // ********************** DO NOT MODIFY HERE ***************************
@@ -83,24 +83,24 @@ void USART_setting(USART_TypeDef* USARTx, PinName_t pin_GPIO_TX, PinName_t pin_G
     //0. Port Pin Configuration
     GPIO_TypeDef *GPIO_TX;
     unsigned int pinTX;
-    ecPinmap(pin_GPIO_TX, GPIO_TX, &pinTX);
+    ecPinmap(pin_GPIO_TX, &GPIO_TX, &pinTX);
 
     GPIO_TypeDef *GPIO_RX;
     unsigned int pinRX;
-    ecPinmap(pin_GPIO_RX, GPIO_RX, &pinRX);
+    ecPinmap(pin_GPIO_RX, &GPIO_RX, &pinRX);
     
     //1. GPIO Pin for TX and RX
 	// Enable GPIO peripheral clock
 	// Alternative Function mode selection for Pin_y in GPIOx
 	// AF, Push-Pull, No PUPD, High Speed
 	GPIO_init(pin_GPIO_TX, AF);
-	GPIO_otype(pin_GPIO_TX, EC_PUSH_PULL);
-	GPIO_pupd(pin_GPIO_TX, EC_NONE);
+	GPIO_otype(pin_GPIO_TX, 0);//PUSH-PULL
+	GPIO_pupd(pin_GPIO_TX, 0);//NO PUPD
 	GPIO_ospeed(pin_GPIO_TX, EC_HIGH);
 	
 	GPIO_init(pin_GPIO_RX, AF);
-	GPIO_otype(pin_GPIO_RX, EC_PUSH_PULL);
-	GPIO_pupd(pin_GPIO_RX, EC_NONE);
+	GPIO_otype(pin_GPIO_RX, 0);
+	GPIO_pupd(pin_GPIO_RX, 0);
 	GPIO_ospeed(pin_GPIO_RX, EC_HIGH);
 	
 	// Set Alternative Function Register for USARTx.	
@@ -137,11 +137,11 @@ void USART_setting(USART_TypeDef* USARTx, PinName_t pin_GPIO_TX, PinName_t pin_G
 	USARTx->CR1 &= ~USART_CR1_UE; 						// USART disable
 	 
 	// No Parity / 8-bit word length / Oversampling x16 
-	USARTx->CR1 ________________;   		// No parrity bit
-	USARTx->CR1 ________________;       	// M: 0 = 8 data bits, 1 start bit    
+	USARTx->CR1&=~(1<<10);   		// No parrity bit
+	USARTx->CR1&=~(1<<12);       	// M: 0 = 8 data bits, 1 start bit    
 	USARTx->CR1 &= ~USART_CR1_OVER8;  	// 0 = oversampling by 16 (to reduce RF noise)	 
 	// Configure Stop bit
-	USARTx->CR2 ________________;  		// 1 stop bit																 
+	USARTx->CR2&=~(3<<12);  		// 1 stop bit																 
 
 	// CSet Baudrate to 9600 using APB frequency (42MHz)
 	// If oversampling by 16, Tx/Rx baud = f_CK / (16*USARTDIV),  
@@ -184,10 +184,10 @@ void UART_baud(USART_TypeDef* USARTx, uint32_t baud){
 	if(USARTx == USART2) fCK =fCK/2;      // APB1
 
 // Method 1
-	float USARTDIV = (float) ________________;
+	float USARTDIV = (float) fCK/16.0/baud;
 	uint32_t mantissa = (uint32_t)USARTDIV;
-	uint32_t fraction = round(________________);
-	USARTx->BRR |= ________________;
+	uint32_t fraction = round((USARTDIV-mantissa)*16);
+	USARTx->BRR |= ((mantissa<<4)|fraction);
 	
 	// Enable TX, RX, and USARTx 
 	USARTx->CR1 |= USART_CR1_UE;
