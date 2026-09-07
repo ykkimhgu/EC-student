@@ -1,13 +1,12 @@
 /*----------------------------------------------------------------\
 @ Embedded Controller by Young-Keun Kim - Handong Global University
-Author           : SSS LAB
+Author           : [ YOUR NAME GOES HERE !!!!!]
 Created          : 05-03-2021
-Modified         : 08-23-2024
-Language/ver     : C++ in Keil uVision
+Modified         : 00-00-2026 [WRITE THE DATE!!!!]
+Language/ver     : C++ in VS Code
 
-Description      : Distributed to Students for LAB_GPIO
+Description      : GPIO Library. Distributed to Students for LAB_GPIO
 /----------------------------------------------------------------*/
-
 
 #ifndef __ECGPIO2_H
 #define __ECGPIO2_H
@@ -24,20 +23,28 @@ Description      : Distributed to Students for LAB_GPIO
 #define HIGH 1
 #define LOW  0
 
-#define LED_PIN    //Find LED Port&Pin and Fill the blank	
-#define BUTTON_PIN //Find BTN Port&Pin and Fill the blank
+#define LED_PIN 	PA_5
+#define BUTTON_PIN  PC_13
+
+/*---------------------------------------------------------------- 
+                    [EXERCISE]
+---------------------------------------------------------------- */
+// ADD MORE  MACRO related to GPIO 
+// PU, PD, NO_PUPD, PUSH_PULL, LOW, MEDIUM, etc
+
+
 
 #ifdef __cplusplus
  extern "C" {
 #endif /* __cplusplus */
 	 
 void GPIO_init(PinName_t pinName, uint32_t mode);     
-void GPIO_write(PinName_t pinName, int Output);
-int  GPIO_read(PinName_t pinName);
 void GPIO_mode(PinName_t pinName, uint32_t mode);
 void GPIO_ospeed(PinName_t pinName, int speed);
 void GPIO_otype(PinName_t pinName, int type);
 void GPIO_pupd(PinName_t pinName, int pupd);
+void GPIO_write(PinName_t pinName, int Output);
+uint32_t  GPIO_read(PinName_t pinName);
 
 
  

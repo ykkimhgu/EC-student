@@ -1,12 +1,13 @@
-/**
-  ******************************************************************************
-  * @author  SSSLAB
-	* @Mod		 2024-8-23 by YKKIM  	
-  * @brief   Embedded Controller:  Tutorial Digital Out
-  *					 - Turn on LED LD2
-  * 
-  ******************************************************************************
-*/
+/*----------------------------------------------------------------\
+@ Embedded Controller by Young-Keun Kim - Handong Global University
+Author           : [ YOUR NAME GOES HERE !!!!!]
+Created          : 05-03-2021
+Modified         : 00-00-2026 [WRITE THE DATE!!!!]
+Language/ver     : C++ in VS Code
+
+Description      : Tutorial Digital Out
+/----------------------------------------------------------------*/
+
 
 
 // GPIO Mode			 : Input(00), Output(01), AlterFunc(10), Analog(11, reset)
