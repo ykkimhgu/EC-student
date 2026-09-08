@@ -1,12 +1,12 @@
-/**
-******************************************************************************
-* @author	your name
-* @Mod		date
-* @brief	Embedded Controller:  LAB Digital In/Out
-*					 - Toggle LED LD2 by Button B1 pressing
-* 
-******************************************************************************
-*/
+/*----------------------------------------------------------------\
+@ Embedded Controller by Young-Keun Kim - Handong Global University
+Author           : [ YOUR NAME GOES HERE !!!!!]
+Created          : 05-03-2021
+Modified         : 00-00-2026 [WRITE THE DATE!!!!]
+Language/ver     : C++ in VS Code
+
+Description      : [WRITE BRIEF DESCRIPTION] !!!!!!
+/----------------------------------------------------------------*/
 
 #include "stm32f4xx.h"
 #include "ecRCC2.h"
