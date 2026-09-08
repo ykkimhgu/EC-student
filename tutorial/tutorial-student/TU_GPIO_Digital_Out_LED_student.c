@@ -26,7 +26,10 @@ int main(void) {
 		/* Part 1. RCC GPIOA Register Setting */
 		RCC_HSI_init();
 		RCC_GPIOA_enable();
-		
+
+/*---------------------------------------------------------------- 
+                    [EXERCISE]
+---------------------------------------------------------------- */f
 		/* Part 2. GPIO Register Setting */			
 		// GPIO Mode Register : MODE=OUTPUT
 		GPIOA->MODER &= 											// Clear '00' for Pin 5
