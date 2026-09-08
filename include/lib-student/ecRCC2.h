@@ -18,6 +18,7 @@ Description      : System Clock Library. Distributed to Students for LAB_GPIO
 
 #include "stm32f4xx.h"
 #include "stm32f411xe.h"
+#include "ecPinNames.h"
 
 extern int EC_SYSCL;
 void RCC_HSI_init(void);
