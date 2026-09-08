@@ -45,15 +45,15 @@ void SysTick_counter(){
 	msTicks++;
 }	
 
-
 void delay_ms (uint32_t mesc){
-  uint32_t curTicks;
+  	uint32_t curTicks;
 
-  curTicks = msTicks;
-  while ((msTicks - curTicks) < mesc);
+  	curTicks = msTicks;
+	while ((msTicks - curTicks) < mesc){;}
 	
-  msTicks = 0;
+	msTicks = 0;
 }
+
 
 //void delay_ms(uint32_t msec){
 //	uint32_t now=SysTick_val(); 
