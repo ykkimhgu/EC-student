@@ -8,23 +8,23 @@ Language/ver     : C++ in VS Code
 Description      : [WRITE BRIEF DESCRIPTION] !!!!!!
 /----------------------------------------------------------------*/
 
-#include "stm32f4xx.h"
 #include "ecRCC2.h"
 #include "ecGPIO2.h"
 
-PinName_t LED_pin = PA_5;
-PinName_t button_pin = PC_13;
+#define LED_PINn  		PA_5		//LD2
+#define BUTTON_PINn  	PC_13		// B1 Button
+
 
 void setup(void);
 	
 int main(void) { 
 	// Initialiization --------------------------------------------------------
 	setup();
+
 	// Inifinite Loop ----------------------------------------------------------
-	while(1){
-		
-		if(GPIO_read(button_pin) == 0)	GPIO_write(LED_pin, HIGH);
-		else 				GPIO_write(LED_pin, LOW);
+	while(1){		
+		if(GPIO_read(BUTTON_PIN) == 0)	GPIO_write(LED_PIN, HIGH);
+		else 							GPIO_write(LED_PIN, LOW);
 	}
 }
 
@@ -33,8 +33,7 @@ int main(void) {
 void setup(void)
 {
 	RCC_HSI_init();	
-	GPIO_init(button_pin, INPUT);  // calls RCC_GPIOC_enable()
-	GPIO_init(LED_pin, OUTPUT);    // calls RCC_GPIOA_enable()
-	GPIO_pupd(LED_pin, EC_PU);
-	GPIO_otype(LED_pin, 0);
+	GPIO_init(BUTTON_PIN, INPUT);  // calls RCC_GPIOC_enable()
+	GPIO_init(LED_PIN, OUTPUT);    // calls RCC_GPIOA_enable()
+	GPIO_otype(LED_PIN, 0);
 }
