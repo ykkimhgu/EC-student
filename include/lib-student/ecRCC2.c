@@ -79,6 +79,11 @@ void RCC_PLL_init() {
 	EC_SYSCLK=84000000;
 }
 
+void delay_ms_HSI(uint32_t ms) {
+	//uint32_t EC_SYSCLK=16000000;
+	volatile uint32_t cnt = ((uint32_t)EC_SYSCLK / (1000UL * 6)) * ms;
+	while (cnt > 0) cnt--;
+}
 
 void RCC_GPIOA_enable()
 {
@@ -94,15 +99,20 @@ void RCC_GPIOB_enable()
 
 void RCC_GPIOC_enable()
 {
-	// RCC Peripheral Clock Enable Register 
+	// RCC Peripheral Clock Enable Register
 	RCC->AHB1ENR |= RCC_AHB1ENR_GPIOCEN;
 }
+
 
 
 /*---------------------------------------------------------------- 
                     [EXERCISE]
 ---------------------------------------------------------------- */
 
-// void RCC_GPIOD_enable(void){}
+// void RCC_GPIOD_enable(void){
+// 	// RCC Peripheral Clock Enable Register
+// 	// [YOUR CODE GOES HERE !!!!!]
+//}
+
 // void RCC_GPIOE_enable(void){};
 // void RCC_GPIO_enable(GPIO_TypeDef * GPIOx){}
