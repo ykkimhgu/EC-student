@@ -11,8 +11,8 @@ Description      : [WRITE BRIEF DESCRIPTION] !!!!!!
 #include "ecRCC2.h"
 #include "ecGPIO2.h"
 
-#define LED_PINn  		PA_5		//LD2
-#define BUTTON_PINn  	PC_13		// B1 Button
+#define LED_PIN  		PA_5		//LD2
+#define BUTTON_PIN  	PC_13		// B1 Button
 
 
 void setup(void);
@@ -25,6 +25,7 @@ int main(void) {
 	while(1){		
 		if(GPIO_read(BUTTON_PIN) == 0)	GPIO_write(LED_PIN, HIGH);
 		else 							GPIO_write(LED_PIN, LOW);
+		delay_ms_HSI(100);             					// delay 100 ms
 	}
 }
 
