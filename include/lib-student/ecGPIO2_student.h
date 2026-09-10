@@ -40,12 +40,16 @@ Description      : GPIO Library. Distributed to Students for LAB_GPIO
 	 
 void GPIO_init(PinName_t pinName, uint32_t mode);     
 void GPIO_mode(PinName_t pinName, uint32_t mode);
-void GPIO_ospeed(PinName_t pinName, int speed);
-void GPIO_otype(PinName_t pinName, int type);
-void GPIO_pupd(PinName_t pinName, int pupd);
-void GPIO_write(PinName_t pinName, int Output);
+void GPIO_ospeed(PinName_t pinName, uint32_t speed);
+void GPIO_otype(PinName_t pinName, uint32_t type);
+void GPIO_pupd(PinName_t pinName, uint32_t pupd);
+void GPIO_write(PinName_t pinName, uint32_t Output);
 uint32_t  GPIO_read(PinName_t pinName);
 
+// ARDUINO Syntax  (Optional)
+void pinMode(PinName_t pin, uint32_t mode);
+void digitalWrite(PinName_t pin, uint32_t value);
+uint32_t  digitalRead(PinName_t pin);
 
  
 #ifdef __cplusplus

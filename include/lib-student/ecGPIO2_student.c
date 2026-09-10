@@ -49,7 +49,7 @@ void GPIO_mode(PinName_t pinName, uint32_t mode){
 
 
 // GPIO Speed          : Low speed (00), Medium speed (01), Fast speed (10), High speed (11)
-void GPIO_ospeed(PinName_t pinName, int speed){
+void GPIO_ospeed(PinName_t pinName, uint32_t speed){
 	GPIO_TypeDef * Port;
 	unsigned int pin;
 	ecPinmap(pinName,&Port,&pin);
@@ -59,7 +59,7 @@ void GPIO_ospeed(PinName_t pinName, int speed){
 }
 
 // GPIO Output Type: Output push-pull (0, reset), Output open drain (1)
-void GPIO_otype(PinName_t pinName, int type){
+void GPIO_otype(PinName_t pinName, uint32_t type){
 	GPIO_TypeDef * Port;
 	unsigned int pin;
 	ecPinmap(pinName,&Port,&pin);
@@ -69,7 +69,7 @@ void GPIO_otype(PinName_t pinName, int type){
 }
 
 // GPIO Push-Pull    : No pull-up, pull-down (00), Pull-up (01), Pull-down (10), Reserved (11)
-void GPIO_pupd(PinName_t pinName, int pupd){
+void GPIO_pupd(PinName_t pinName, uint32_t pupd){
 	GPIO_TypeDef * Port;
 	unsigned int pin;
 	ecPinmap(pinName,&Port,&pin);
@@ -78,7 +78,7 @@ void GPIO_pupd(PinName_t pinName, int pupd){
 	//[TO-DO] YOUR CODE GOES HERE
 }
 
-void GPIO_write(PinName_t pinName, int Output){
+void GPIO_write(PinName_t pinName, uint32_t Output){
 	GPIO_TypeDef *port;
 	unsigned int pin;
 	ecPinmap(pinName, &port, &pin);
@@ -98,3 +98,10 @@ uint32_t GPIO_read(PinName_t pinName){
 	return 0; //[TO-DO] YOUR CODE GOES HERE	
 }
 
+
+/*---------------------------------------------------------------- 
+				[Optional EXERCISE]
+---------------------------------------------------------------- */
+// void pinMode(PinName_t pin, uint32_t mode){}
+// void digitalWrite(PinName_t pin, uint32_t value){}
+// uint32_t  digitalRead(PinName_t pin){}
