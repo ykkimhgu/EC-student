@@ -2,7 +2,7 @@
 @ Embedded Controller by Young-Keun Kim - Handong Global University
 Author           : [ YOUR NAME GOES HERE !!!!!]
 Created          : 05-03-2021
-Modified         : [WRITE THE DATE!!!!]
+Modified         : [WRITE THE DATE!!!!]  09-14-2026
 Language/ver     : C++ in VS Code
 
 Description      : System Clock Library. Distributed to Students for LAB_GPIO
@@ -13,29 +13,36 @@ Description      : System Clock Library. Distributed to Students for LAB_GPIO
 volatile int EC_SYSCLK=16000000;
 
 void RCC_HSI_init() {
-// Enable High Speed Internal Clock (HSI = 16 MHz)
-  //RCC->CR |= ((uint32_t)RCC_CR_HSION);
-	RCC->CR |= 0x00000001U;
-	
-  // wait until HSI is ready
-  //while ( (RCC->CR & (uint32_t) RCC_CR_HSIRDY) == 0 ) {;}
-	while ( (RCC->CR & 0x00000002U) == 0 ) {;}
+	// Enable High Speed Internal Clock (HSI = 16 MHz)
+	RCC->CR |= ((uint32_t)RCC_CR_HSION);
+   	// RCC->CR |= (0x1UL << 0U);
+
+	// Wait until HSI is ready
+  	while ( (RCC->CR & (uint32_t) RCC_CR_HSIRDY) == 0 ) {;}
+	// while ( (RCC->CR & (0x1UL << 1U) ) == 0 ) {;}
 	
   // Select HSI as system clock source 
   	RCC->CFGR &= (uint32_t)(~RCC_CFGR_SW); 								// not essential
-  	RCC->CFGR |= (uint32_t)RCC_CFGR_SW_HSI; 								//00: HSI16 oscillator used as system clock
+  	RCC->CFGR |= (uint32_t)RCC_CFGR_SW_HSI; 							//00: HSI16 oscillator used as system clock
 
 	// Wait till HSI is used as system clock source
   	while ((RCC->CFGR & (uint32_t)RCC_CFGR_SWS) != 0 ) {;}  
+	//while ((RCC->CFGR & (0x3UL<< 2U) )!= 0 ) {;}  
+	//while (((RCC->CFGR >>2U) & (0x3UL) )!= 0 ) {;}  
 
 	EC_SYSCLK=16000000;	
+}
+
+// EXERCISE !!
+void RCC_HSE_init() { 
+	// [TODO] Your Code Goes Here !!!!!
 }
 
 
 void RCC_PLL_init() {	
 	// To correctly read data from FLASH memory, the number of wait states (LATENCY)
-  // must be correctly programmed according to the frequency of the CPU clock
-  // (HCLK) and the supply voltage of the device.		
+  	// must be correctly programmed according to the frequency of the CPU clock
+  	// (HCLK) and the supply voltage of the device.		
 	FLASH->ACR &= ~FLASH_ACR_LATENCY;
 	FLASH->ACR |=  FLASH_ACR_LATENCY_2WS;
 		
