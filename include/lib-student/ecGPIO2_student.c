@@ -79,9 +79,9 @@ void GPIO_pupd(PinName_t pinName, uint32_t pupd){
 }
 
 void GPIO_write(PinName_t pinName, uint32_t Output){
-	GPIO_TypeDef *port;
+	GPIO_TypeDef *Port;
 	unsigned int pin;
-	ecPinmap(pinName, &port, &pin);
+	ecPinmap(pinName, &Port, &pin);
 
    	//[TO-DO] YOUR CODE GOES HERE
 	//[TO-DO] YOUR CODE GOES HERE	
@@ -93,15 +93,10 @@ uint32_t GPIO_read(PinName_t pinName){
 	unsigned int pin;
 	ecPinmap(pinName,&Port,&pin);
 
+	uint32_t val=0;
    	//[TO-DO] YOUR CODE GOES HERE
 	//[TO-DO] YOUR CODE GOES HERE
-	return 0; //[TO-DO] YOUR CODE GOES HERE	
+	return val; //[TO-DO] YOUR CODE GOES HERE	
 }
 
 
-/*---------------------------------------------------------------- 
-				[Optional EXERCISE]
----------------------------------------------------------------- */
-// void pinMode(PinName_t pin, uint32_t mode){}
-// void digitalWrite(PinName_t pin, uint32_t value){}
-// uint32_t  digitalRead(PinName_t pin){}
