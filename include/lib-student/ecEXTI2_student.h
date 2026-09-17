@@ -1,3 +1,13 @@
+/*----------------------------------------------------------------\
+@ Embedded Controller by Young-Keun Kim - Handong Global University
+Author           : [ YOUR NAME GOES HERE !!!!!]
+Created          : 05-03-2021
+Modified         : 05-03-2026 [WRITE THE DATE!!!!]
+Language/ver     : C++ in VS Code
+
+Description      : [WRITE DESCRIPTION HERE!!!!]
+/----------------------------------------------------------------*/
+
 #ifndef __EC_EXTI2_H
 #define __EC_EXTI2_H
 
@@ -12,7 +22,7 @@
  extern "C" {
 #endif /* __cplusplus */
 
-void EXTI_init(PinName_t pinName, int trig_type,int priority);
+void EXTI_init(PinName_t pinName, uint32_t trig_type,uint32_t priority);
 void EXTI_enable(PinName_t pinName);
 void EXTI_disable(PinName_t pinName);
 uint32_t is_pending_EXTI(PinName_t pinName);

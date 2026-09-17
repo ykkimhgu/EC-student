@@ -29,7 +29,7 @@ void SysTick_init(void){
 
 	// SysTick Reload Value Register : (SYSCLK / 1000) - 1  ->  1 ms
 	//   HSI 16 MHz :  15999      PLL 84 MHz : 83999 
-	SysTick->LOAD = (uint32_t)EC_SYSCLK / 1000UL - 1UL;
+	SysTick->LOAD = (uint32_t)EC_SYSCLK *1UL/ 1000UL - 1UL;   // 1[ms] = 1/1000[s] 
 
 	// SysTick Current Value Register : Reset counter value to 0
 	SysTick->VAL = 0;

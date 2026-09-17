@@ -27,12 +27,13 @@ void RCC_PLL_init(void);
 void RCC_GPIOA_enable(void);
 void RCC_GPIOB_enable(void);
 void RCC_GPIOC_enable(void);
+void RCC_GPIOD_enable(void);
 
 
 /*---------------------------------------------------------------- 
                     [EXERCISE]
 ---------------------------------------------------------------- */
-// void RCC_GPIOD_enable(void);
+
 // void RCC_GPIOE_enable(void);
 
 /*---------------------------------------------------------------- 

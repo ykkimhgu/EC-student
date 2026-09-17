@@ -110,16 +110,17 @@ void RCC_GPIOC_enable()
 	RCC->AHB1ENR |= RCC_AHB1ENR_GPIOCEN;
 }
 
+void RCC_GPIOD_enable()
+{
+	// RCC Peripheral Clock Enable Register
+	RCC->AHB1ENR |= RCC_AHB1ENR_GPIODEN;
+}
 
 
 /*---------------------------------------------------------------- 
                     [EXERCISE]
 ---------------------------------------------------------------- */
 
-// void RCC_GPIOD_enable(void){
-// 	// RCC Peripheral Clock Enable Register
-// 	// [YOUR CODE GOES HERE !!!!!]
-//}
-
 // void RCC_GPIOE_enable(void){};
+// void RCC_GPIOF_enable(void){};
 // void RCC_GPIO_enable(GPIO_TypeDef * GPIOx){}
