@@ -12,13 +12,15 @@ Description      : System Clock Library. Distributed to Students for LAB_GPIO
 #ifndef __EC_RCC2_H
 #define __EC_RCC2_H
 
-#ifdef __cplusplus
- extern "C" {
-#endif /* __cplusplus */
 
 #include "stm32f4xx.h"
 #include "stm32f411xe.h"
 #include "ecPinNames.h"
+
+#ifdef __cplusplus
+ extern "C" {
+#endif /* __cplusplus */
+
 
 extern volatile int EC_SYSCLK;		// current SYSCLK [Hz], set by RCC_HSI_init()/RCC_PLL_init()
 void delay_ms_HSI(uint32_t ms); 

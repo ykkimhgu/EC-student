@@ -30,7 +30,7 @@ typedef struct {
 } State_full_t;
 
 State_full_t FSM_full[4] = {  	// 1010 , 0110 , 0101 , 1001
- 	{{S1,S3},{1,1,0,0}},		// ABA'B'
+ 	{{S1,S3},{1,1,0,0}},		// A B A'B'
  	// YOUR CODE
  	// YOUR CODE
  	// YOUR CODE
