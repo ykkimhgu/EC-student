@@ -1,160 +1,137 @@
-/**
-******************************************************************************
-* @author  SSSLAB
-* @Mod	   2021-8-12 by YKKIM  	
-* @brief   Embedded Controller:  EC_HAL_for_student_exercise 
-* 
-******************************************************************************
-*/
+/*----------------------------------------------------------------\
+@ Embedded Controller by Young-Keun Kim - Handong Global University
+Author           : [ YOUR NAME GOES HERE !!!!!]
+Created          : 05-03-2021
+Modified         : 09-22-2026 [WRITE THE DATE!!!!]
+Language/ver     : C++ in VS Code
 
+Description      : [Write description here!!]
+/----------------------------------------------------------------*/
 
 #include "ecTIM2.h"
-#include "ecGPIO2.h"
 
-/* Timer Configuration */
 
-// Default Setting:  1 msec of TimerUEV with Counter_Clk 100kHz / PSC=840-1, ARR=100-1
-void TIM_init(TIM_TypeDef* TIMx){     
-    // Previous version:  void TIM_init(TIM_TypeDef* TIMx, uint32_t msec) 	
-    // 1. Enable Timer CLOCK
+
+//////////////////////////////////////////////
+/* 			Timer Configuration 			*/
+//////////////////////////////////////////////
+
+// Timer Counter Initialization
+void TIM_init(TIM_TypeDef* TIMx, uint32_t msec){ // usec > 100
+	
+// 1. Enable Timer CLOCK
 	if(TIMx ==TIM1) RCC->APB2ENR |= RCC_APB2ENR_TIM1EN;
-	else if(TIMx ==TIM2) RCC->APB1ENR |= __________________;
-	else if(TIMx ==TIM3) __________________________________;
-	// repeat for TIM4, TIM5, TIM9, TIM11
-    // YOUR CODE GOES HERE
-	// YOUR CODE GOES HERE
-	
-	
-    // 2. Set CNT period
-	 uint32_t msec=1;
+	else if(TIMx ==TIM2) RCC->APB1ENR |= RCC_APB1ENR_TIM2EN;
+	else if(TIMx ==TIM3) __________________________________; // [YOUR CODE GOES HERE !!!!]
+	// repeat for TIM4, TIM5
+	// [YOUR CODE GOES HERE !!!!]
+
+	else if(TIMx ==TIM9) RCC->APB2ENR |= RCC_APB2ENR_TIM9EN;
+	else if(TIMx ==TIM10) RCC->APB2ENR |= RCC_APB2ENR_TIM10EN;
+	else if(TIMx ==TIM11) RCC->APB2ENR |= RCC_APB2ENR_TIM11EN;
+
+
+// 2. Set CNT period
 	TIM_period_ms(TIMx, msec); 
+			
+// 3. CNT Direction
+	// Up-Counter	
+	TIMx->CR1 _________________;	// [YOUR CODE GOES HERE !!!!]
+	// Down-Counter
+	//TIMx->CR1 |= 1UL << 4;
 	
-	
-    // 3. CNT Direction
-	TIMx->CR1 _________________;					// Upcounter	
-	
-    // 4. Enable Timer Counter
+// 4. Enable Timer Counter
 	TIMx->CR1 |= TIM_CR1_CEN;		
 }
 
-// Timer Update Event Period  1~6000 usec  with 1MHz Couter / ARR=1* usec
-void TIM_period_us(TIM_TypeDef *TIMx, uint32_t usec){   
-	//	Q. Which combination of PSC and ARR for msec unit?
-    // 	Q. What are the possible range (in sec ?)
 
-	// 0.01ms(100kHz, ARR = 1) to 655 msec (ARR = 0xFFFF)
-	// 0.01ms(100kHz, ARR = 1) to 40,000,000 msec (ARR = 0xFFFF FFFF)
 
-	// 1us(1MHz, ARR=1) to 65msec (ARR=0xFFFF)
-	uint16_t PSCval;
-	uint32_t Sys_CLK;
+// Limits    : 16-bit ARR -> f_cnt =  10kHz, msec up to 6,553 usec (ARR < 0xFFFF)
+void TIM_period_ms(TIM_TypeDef* TIMx, uint32_t msec){
 
-	
-	if((RCC->CFGR & RCC_CFGR_SW_PLL) == RCC_CFGR_SW_PLL)
-		Sys_CLK = 84000000;
-	
-	else if((RCC->CFGR & RCC_CFGR_SW_HSI) == RCC_CFGR_SW_HSI) 
-		Sys_CLK = 16000000;
-	
-	
-	if (TIMx == TIM2 || TIMx == TIM5){
-		uint32_t ARRval;
-		
-		PSCval = _____;						// 84 or 16	--> f_cnt = 1MHz
-		ARRval = Sys_CLK/PSCval/1000000 * usec;						// ARRval= 1*usec
-		TIMx->PSC = ______________;
-		TIMx->ARR = ARRval - 1;				
-	}
-	else{
-		uint16_t ARRval;
+	uint32_t Sys_CLK = EC_SYSCLK;					// 84MHz (PLL) or 16MHz (HSI)
 
-		PSCval = _____;						// 84 or 16	--> f_cnt = 1MHz
-		ARRval = Sys_CLK/PSCval/1000000 * usec;						// ARRval= 1*usec
-		TIMx->PSC = ______________;
-		TIMx->ARR = ARRval - 1;
-	}			
+	// Counter Frequency (f_cnt) 
+	uint32_t f_cnt   =  10000UL;					// 16-bit CNT: f_cnt=10kHz (default)
+	
+	// Prescaler Value
+	uint32_t PSCval = Sys_CLK / f_cnt;				// 84MHz -> 10 kHz (PSC=8400)
+	TIMx->PSC = PSCval - 1;
+
+	// Reload Value (ARR) for msec unit
+	uint32_t ARRval = (f_cnt / 1000UL) * msec;		// Reload values needed for msec 	
+	TIMx->ARR = ARRval - 1;
 }
 
 
-// Timer Update Event Period  1~600 msec  with 100kHz Couter / ARR=100*msec
-void TIM_period_ms(TIM_TypeDef* TIMx, uint32_t msec){ 
-	
-	//	Q. Which combination of PSC and ARR for msec unit?
-	// 	Q. What are the possible range (in msec ?)
+// Limits    : 16-bit ARR -> f_cnt =  1 MHz, usec up to 65,530 usec (ARR < 0xFFFF)
+void TIM_period_us(TIM_TypeDef* TIMx, uint32_t usec){
 
-    // 0.02ms(50kHz, ARR=1) to 1.3sec (ARR=0xFFFF)
-	//uint32_t prescaler = 1680;
+	uint32_t Sys_CLK = EC_SYSCLK;					// 84MHz (PLL) or 16MHz (HSI)
 
-	// 0.1ms(10kHz, ARR = 1) to 6.5sec (ARR = 0xFFFF)
+	// Counter Frequency (f_cnt) 
+	uint32_t f_cnt   =  1000000UL;					// 16-bit CNT: f_cnt=1MHz (default)
 	
-	uint16_t PSCval;
-	uint32_t Sys_CLK;
-	
-	if((RCC->CFGR & RCC_CFGR_SW_PLL) == RCC_CFGR_SW_PLL )
-		 Sys_CLK = 84000000;
-	
-	else if((RCC->CFGR & RCC_CFGR_SW_HSI) == RCC_CFGR_SW_HSI) 
-		Sys_CLK = 16000000;
-	
-	
-	if (TIMx == TIM2 || TIMx == TIM5){
-		uint32_t ARRval;		
-		PSCval = Sys_CLK/100000;		// 840 or 160	--> PSC_clk=f_cnt = 100kHz
-		ARRval = ______________;		// 100kHz*msec,  ARRval=100 for 1msec
-		TIMx->PSC = PSCval - 1;
-		TIMx->ARR = ___________;
-	}
-	else{
-		uint16_t ARRval;
+	// Prescaler Value
+	uint32_t PSCval = Sys_CLK / f_cnt;				// 84MHz -> 1 MHz (PSC=84)
+	TIMx->PSC = _______________;					// [YOUR CODE GOES HERE]
 
-		PSCval = Sys_CLK/100000;									
-		ARRval = ______________;		
-		TIMx->PSC = PSCval - 1;
-		TIMx->ARR = ___________;
-	}
+	// Reload Value (ARR) for msec unit
+	uint32_t ARRval = ___________________;			// [YOUR CODE GOES HERE !!!!]
+	TIMx->ARR = ARRval - 1;
 }
 
-// msec = 1 to 655
+
+
+// Same as TIM_period_ms;
 void TIM_period(TIM_TypeDef* TIMx, uint32_t msec){
 	TIM_period_ms(TIMx, msec);
 }
 
 
-
-// Update Event Interrupt
 void TIM_UI_init(TIM_TypeDef* TIMx, uint32_t msec){
-    // 1. Initialize Timer	
+// 1. Initialize Timer	
 	TIM_init(TIMx,msec);
 	
-    // 2. Enable Update Interrupt
+// 2. Enable Update Interrupt
 	TIM_UI_enable(TIMx);
 	
-    // 3. NVIC Setting
-	uint32_t IRQn_reg =0;
-	if(TIMx == TIM1)       IRQn_reg = TIM1_UP_TIM10_IRQn;
-	else if(TIMx == TIM2)  IRQn_reg = ____________;
-	// repeat for TIM3, TIM4, TIM5, TIM9, TIM10, TIM11
-    // YOUR CODE GOES HERE
-	// YOUR CODE GOES HERE
-	
+// 3. NVIC Setting
+	uint32_t IRQn_reg = get_TIM_IRQn(TIMx);
+
 	NVIC_EnableIRQ(IRQn_reg);				
 	NVIC_SetPriority(IRQn_reg,2);
 }
 
 
 
+// Enable Timer Update Interrupt	
 void TIM_UI_enable(TIM_TypeDef* TIMx){
-	TIMx->DIER _____________________;			// Enable Timer Update Interrupt		
+	TIMx->DIER _____________________;		// [YOUR CODE GOES HERE !!!!]
 }
 
+// Disable Timer Update Interrupt
 void TIM_UI_disable(TIM_TypeDef* TIMx){
-	TIMx->DIER &= ________________;				// Disable Timer Update Interrupt		
+	TIMx->DIER &= ________________;			// [YOUR CODE GOES HERE !!!!]	
 }
 
 uint32_t is_UIF(TIM_TypeDef *TIMx){
-	return TIMx->SR & _____________;
+	return TIMx->SR & TIM_SR_UIF;
+}
+void clear_UIF(TIM_TypeDef *TIMx){
+	TIMx->SR &= ~TIM_SR_UIF;
 }
 
-void clear_UIF(TIM_TypeDef *TIMx){
-	TIMx->SR &= ~_________________;
+
+uint32_t get_TIM_IRQn(TIM_TypeDef* TIMx){
+	uint32_t IRQn_reg = 0x00000000;
+	if(TIMx == TIM1)       IRQn_reg = TIM1_UP_TIM10_IRQn;
+	else if(TIMx == TIM2)  IRQn_reg = TIM2_IRQn;
+	else if(TIMx == TIM3)  IRQn_reg = TIM3_IRQn;
+	else if(TIMx == TIM4)  IRQn_reg = TIM4_IRQn;
+	else if(TIMx == TIM5)  IRQn_reg = TIM5_IRQn;
+	else if(TIMx == TIM9)  IRQn_reg = TIM1_BRK_TIM9_IRQn;
+	else if(TIMx == TIM10) IRQn_reg = TIM1_UP_TIM10_IRQn;
+	else if(TIMx == TIM11) IRQn_reg = TIM1_TRG_COM_TIM11_IRQn;
+	return IRQn_reg;	
 }
