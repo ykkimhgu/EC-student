@@ -24,7 +24,7 @@ Description      : System Clock Library. Distributed to Students for LAB_GPIO
 
 extern volatile int EC_SYSCLK;		// current SYSCLK [Hz], set by RCC_HSI_init()/RCC_PLL_init()
 void delay_ms_HSI(uint32_t ms); 
-void RCC_HSE_init(void); 
+void RCC_HSI_init(void); 
 void RCC_PLL_init(void);
 void RCC_GPIOA_enable(void);
 void RCC_GPIOB_enable(void);
