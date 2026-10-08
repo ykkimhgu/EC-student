@@ -37,7 +37,8 @@ int main(void) {
 void setup(void)
 {
 	RCC_PLL_init();              // System Clock = 84MHz	
+	SysTick_init(); 
 	//GPIO_init(PA_5, OUTPUT);     // LED for Nucleo
    	GPIO_init(PB_12, OUTPUT);  // LED for Eval Board	JKIT
-    SysTick_init(); 
+    
 }

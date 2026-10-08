@@ -218,12 +218,25 @@ void UART2_init(void){
 	USART_setting(USART2, PA_2, PA_3, 9600);
 }
 
+void UART6_init(void){
+	// ********************** USART 6 ***************************
+	// PA_11 = USART6_TX (default)	// PC_6  (option)
+	// PA_12 = USART6_RX (default)	// PC_7 (option)
+	// APB2
+	// **********************************************************
+	// YOUR CODE GOES HERE
+}
+
 void UART1_baud(uint32_t baud){
 	UART_baud(USART1, baud);
 }
 void UART2_baud(uint32_t baud){
 	UART_baud(USART2, baud);
 }
+void UART6_baud(uint32_t baud){
+	UART_baud(USART6, baud);
+}
+
 
 void USART1_write(uint8_t* buffer, uint32_t nBytes){
 	USART_write(USART1, buffer, nBytes);

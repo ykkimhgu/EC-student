@@ -46,10 +46,6 @@ void GPIO_pupd(PinName_t pinName, uint32_t pupd);
 void GPIO_write(PinName_t pinName, uint32_t Output);
 uint32_t  GPIO_read(PinName_t pinName);
 
-// ARDUINO Syntax  (Optional)
-void pinMode(PinName_t pin, uint32_t mode);
-void digitalWrite(PinName_t pin, uint32_t value);
-uint32_t  digitalRead(PinName_t pin);
 
  
 #ifdef __cplusplus
