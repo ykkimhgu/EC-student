@@ -12,6 +12,19 @@ Description      : [Write description here!!]
 
 #include "ecTIM2_student.h"
 
+////////////////////////////////////////////////////////////////
+/*						EXERCISE                             */
+////////////////////////////////////////////////////////////////
+/*
+// Search for [YOUR CODE GOES HERE !!!!]  and fill in the code.
+// Exercises are in these functions.
+void TIM_init(TIM_TypeDef* TIMx, uint32_t msec); 
+void TIM_init_us(TIM_TypeDef* TIMx, uint32_t usec); 
+void TIM_period_us(TIM_TypeDef* TIMx, uint32_t usec);
+*/
+
+
+
 
 //////////////////////////////////////////////
 /* Timer Update Interrupt Configuration     */
