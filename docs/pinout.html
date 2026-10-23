@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Nucleo F411RE Pinout</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;700;800&family=Public+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* Layout concept: a single "datasheet sheet" floating on a PCB-tinted ground —
+   a port x pin-number matrix drives a click-to-inspect panel, feeding the
+   same pin into the grouped tables below. */
+:root{
+  --bg:#eef3ef;
+  --surface:#ffffff;
+  --surface-2:#f4f7f5;
+  --fg:#152420;
+  --muted:#5b6b64;
+  --border:#d7dfd9;
+  --accent:#0f7a6b;
+  --cat-fixed:#46546b;
+  --cat-comm:#a8700a;
+  --cat-tim:#7347bf;
+  --cat-adc:#2466b8;
+  --warn:#c0392b;
+  --font-display:'Big Shoulders Display', 'Arial Narrow', sans-serif;
+  --font-body:'Public Sans', -apple-system, Segoe UI, sans-serif;
+  --font-mono:'IBM Plex Mono', 'SFMono-Regular', Consolas, monospace;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0f1613;
+    --surface:#161f1c;
+    --surface-2:#1b2521;
+    --fg:#e7efea;
+    --muted:#9bb0a7;
+    --border:#2a3832;
+    --accent:#45d9bc;
+    --cat-fixed:#9aa9c4;
+    --cat-comm:#e3a53d;
+    --cat-tim:#b596f0;
+    --cat-adc:#6aa9f5;
+    --warn:#ff7a68;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0f1613;
+  --surface:#161f1c;
+  --surface-2:#1b2521;
+  --fg:#e7efea;
+  --muted:#9bb0a7;
+  --border:#2a3832;
+  --accent:#45d9bc;
+  --cat-fixed:#9aa9c4;
+  --cat-comm:#e3a53d;
+  --cat-tim:#b596f0;
+  --cat-adc:#6aa9f5;
+  --warn:#ff7a68;
+  color-scheme: dark;
+}
+
+*{box-sizing:border-box;}
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--fg);
+  font-family:var(--font-body);
+  padding:32px 16px;
+}
+.sheet{
+  max-width:980px;
+  margin:0 auto;
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:10px;
+  padding:clamp(18px,4vw,40px);
+  box-shadow:0 1px 0 var(--border), 0 20px 40px -32px rgba(0,0,0,.35);
+}
+
+/* ---------- title block ---------- */
+.titleblock{
+  display:flex;
+  flex-wrap:wrap;
+  gap:20px;
+  justify-content:space-between;
+  align-items:flex-end;
+  border-bottom:2px solid var(--fg);
+  padding-bottom:16px;
+  margin-bottom:22px;
+}
+.eyebrow{
+  font-family:var(--font-mono);
+  font-size:.72rem;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+  color:var(--accent);
+  margin:0 0 6px;
+}
+h1{
+  font-family:var(--font-display);
+  font-weight:800;
+  font-size:clamp(2rem,5.5vw,3.1rem);
+  letter-spacing:.01em;
+  line-height:.95;
+  margin:0;
+  text-wrap:balance;
+}
+.docfields{
+  display:grid;
+  grid-template-columns:repeat(2,auto);
+  gap:2px 14px;
+  font-family:var(--font-mono);
+  font-size:.78rem;
+  color:var(--muted);
+  text-align:right;
+}
+.docfields dt{grid-column:1;font-weight:500;}
+.docfields dd{grid-column:2;margin:0;color:var(--fg);text-align:left;}
+
+/* ---------- legend ---------- */
+.legend{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px 18px;
+  margin-bottom:28px;
+  align-items:center;
+}
+.chip{
+  display:inline-flex;
+  align-items:center;
+  gap:7px;
+  font-size:.82rem;
+  color:var(--muted);
+}
+.swatch{
+  width:11px;height:11px;border-radius:3px;flex:none;
+}
+.chip.warnchip .swatch{
+  border-radius:50%;
+  background:transparent;
+  border:2px solid var(--warn);
+  width:9px;height:9px;
+}
+
+/* ---------- pin matrix ---------- */
+.section-label{
+  font-family:var(--font-display);
+  font-weight:700;
+  font-size:1.3rem;
+  margin:34px 0 4px;
+  letter-spacing:.01em;
+}
+.section-sub{
+  color:var(--muted);
+  font-size:.86rem;
+  margin:0 0 14px;
+  max-width:65ch;
+}
+.matrix-wrap{
+  overflow-x:auto;
+  margin-bottom:10px;
+  border:1px solid var(--border);
+  border-radius:8px;
+}
+table.pinmatrix{
+  border-collapse:collapse;
+  font-family:var(--font-mono);
+  min-width:700px;
+}
+table.pinmatrix th, table.pinmatrix td{
+  border:1px solid var(--border);
+  padding:0;
+  text-align:center;
+}
+table.pinmatrix thead th{
+  background:var(--surface-2);
+  color:var(--muted);
+  font-weight:600;
+  font-size:.68rem;
+  padding:7px 2px;
+}
+table.pinmatrix tbody th{
+  background:var(--surface-2);
+  color:var(--fg);
+  font-weight:700;
+  font-size:.78rem;
+  padding:6px 12px;
+  text-align:left;
+  white-space:nowrap;
+}
+table.pinmatrix td.cell{
+  width:60px;
+  min-width:60px;
+}
+table.pinmatrix .cellbtn{
+  display:flex;
+  width:100%;
+  min-height:42px;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  border:none;
+  background:transparent;
+  color:var(--border);
+  font-family:var(--font-mono);
+  font-size:.66rem;
+  line-height:1.15;
+  white-space:normal;
+  word-break:break-word;
+  padding:3px;
+}
+button.cellbtn{
+  cursor:pointer;
+  color:#fff;
+  font-weight:600;
+  position:relative;
+}
+button.cellbtn:focus-visible{
+  outline:2px solid var(--accent);
+  outline-offset:-2px;
+}
+button.cellbtn.conflict::after{
+  content:"";
+  position:absolute;
+  inset:3px;
+  border-radius:3px;
+  border:2px solid var(--warn);
+  pointer-events:none;
+}
+button.cellbtn.active{
+  box-shadow:inset 0 0 0 2px var(--fg);
+}
+button.cellbtn[data-cat="fixed"]{background:var(--cat-fixed);}
+button.cellbtn[data-cat="comm"]{background:var(--cat-comm);}
+button.cellbtn[data-cat="tim"]{background:var(--cat-tim);}
+button.cellbtn[data-cat="adc"]{background:var(--cat-adc);}
+.pinmatrix-key{
+  color:var(--muted);
+  font-size:.78rem;
+  line-height:1.6;
+  margin:10px 0 0;
+}
+.pinmatrix-key b{color:var(--fg);font-family:var(--font-mono);font-weight:600;}
+
+/* ---------- detail panel ---------- */
+.detail{
+  margin-top:16px;
+  padding:14px 16px;
+  border:1px dashed var(--border);
+  border-radius:8px;
+  background:var(--surface-2);
+  font-size:.86rem;
+  min-height:1.4em;
+}
+.detail .ph{color:var(--muted);}
+.detail .pinname{
+  font-family:var(--font-mono);
+  font-weight:600;
+  font-size:1rem;
+  margin-right:10px;
+}
+.detail .role{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  margin:4px 10px 0 0;
+  font-family:var(--font-mono);
+  font-size:.82rem;
+}
+.detail .note{
+  display:block;
+  margin-top:6px;
+  color:var(--muted);
+  font-size:.8rem;
+}
+
+/* ---------- tables ---------- */
+.tables{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+  gap:20px;
+  margin-top:8px;
+}
+.tcard{
+  border:1px solid var(--border);
+  border-radius:8px;
+  overflow:hidden;
+  background:var(--surface);
+  border-top:3px solid var(--cat);
+}
+.tcard h3{
+  font-family:var(--font-display);
+  font-weight:700;
+  font-size:1.05rem;
+  margin:0;
+  padding:10px 14px 8px;
+  letter-spacing:.01em;
+}
+.tcard-scroll{overflow-x:auto;}
+table{
+  width:100%;
+  border-collapse:collapse;
+  font-size:.82rem;
+}
+th,td{
+  text-align:left;
+  padding:7px 14px;
+  border-top:1px solid var(--border);
+  white-space:nowrap;
+}
+th{
+  font-family:var(--font-mono);
+  font-weight:500;
+  color:var(--muted);
+  font-size:.7rem;
+  letter-spacing:.06em;
+  text-transform:uppercase;
+}
+td.pin,td code{
+  font-family:var(--font-mono);
+  font-size:.82rem;
+}
+tr[data-pin]{cursor:pointer;}
+tr.rowhi{background:color-mix(in srgb, var(--accent) 16%, transparent);}
+
+/* ---------- conflicts ---------- */
+.conflicts{
+  margin-top:30px;
+  border:1px solid var(--warn);
+  border-radius:8px;
+  background:color-mix(in srgb, var(--warn) 9%, var(--surface));
+  padding:16px 18px;
+}
+.conflicts h3{
+  margin:0 0 8px;
+  font-family:var(--font-display);
+  font-size:1.05rem;
+  color:var(--warn);
+}
+.conflicts ul{margin:0;padding-left:1.1em;font-size:.86rem;line-height:1.6;}
+.conflicts code{font-family:var(--font-mono);background:var(--surface-2);padding:1px 5px;border-radius:4px;}
+
+footer{
+  margin-top:30px;
+  padding-top:14px;
+  border-top:1px solid var(--border);
+  color:var(--muted);
+  font-size:.78rem;
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px 16px;
+  justify-content:space-between;
+}
+footer code{font-family:var(--font-mono);}
+
+@media (max-width:560px){
+  .docfields{text-align:left;grid-template-columns:auto 1fr;}
+  .titleblock{align-items:flex-start;}
+}
+</style>
+</head>
+<body>
+
+<div class="sheet">
+
+  <div class="titleblock">
+    <div>
+      <p class="eyebrow">EC-student &middot; pin reference</p>
+      <h1>Nucleo&#8209;64 Pinout</h1>
+    </div>
+    <dl class="docfields">
+      <dt>Board</dt><dd>NUCLEO&#8209;F411RE</dd>
+      <dt>MCU</dt><dd>STM32F411RET6</dd>
+      <dt>Source</dt><dd>ecPinNames.h</dd>
+    </dl>
+  </div>
+
+  <div class="legend" id="legend"></div>
+
+  <h2 class="section-label">Pin matrix</h2>
+  <p class="section-sub">Rows are GPIO ports, columns are the pin number, sourced from the official ST Nucleo&#8209;64 connector/timer/ADC/serial pinout maps. Tap a filled cell &mdash; or a row below &mdash; for the full name.</p>
+
+  <div class="matrix-wrap"><table class="pinmatrix" id="pinmatrix"></table></div>
+  <p class="pinmatrix-key" id="matrixkey"></p>
+
+  <div class="detail" id="detail"><span class="ph">Tap a pin above, or a table row below, to inspect it.</span></div>
+
+  <h2 class="section-label">Communication</h2>
+  <p class="section-sub">USART2 doubles as the ST-LINK virtual COM port &mdash; no extra wiring needed to view it on a PC.</p>
+  <div class="tables" style="grid-template-columns:1fr;">
+    <div class="tcard" style="--cat:var(--cat-comm)">
+      <h3>USART</h3>
+      <div class="tcard-scroll">
+        <table>
+          <thead><tr><th>Peripheral</th><th>Signal</th><th>Pin</th><th>AF</th></tr></thead>
+          <tbody id="tbl-comm"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <h2 class="section-label">Timers &mdash; PWM / input capture</h2>
+  <p class="section-sub">Most channels route to more than one physical pin &mdash; pick whichever "(alt)" option isn't already busy with something else.</p>
+  <div class="tables" style="grid-template-columns:1fr;">
+    <div class="tcard" style="--cat:var(--cat-tim)">
+      <h3>TIM1&ndash;4</h3>
+      <div class="tcard-scroll">
+        <table>
+          <thead><tr><th>Timer</th><th>Channel</th><th>Pin</th><th>AF</th></tr></thead>
+          <tbody id="tbl-tim"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="tables">
+    <div class="tcard" style="--cat:var(--cat-adc)">
+      <h3>ADC &mdash; analog in</h3>
+      <div class="tcard-scroll">
+        <table>
+          <thead><tr><th>Label</th><th>Pin</th><th>Channel</th></tr></thead>
+          <tbody id="tbl-adc"></tbody>
+        </table>
+      </div>
+    </div>
+    <div class="tcard" style="--cat:var(--cat-fixed)">
+      <h3>Fixed-function</h3>
+      <div class="tcard-scroll">
+        <table>
+          <thead><tr><th>Function</th><th>Pin</th><th>Notes</th></tr></thead>
+          <tbody id="tbl-fixed"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="conflicts">
+    <h3>&#9888; Shared pins</h3>
+    <ul>
+      <li><code>PA5</code> &mdash; LED (LD2), <code>D13</code>, <code>TIM2_CH1</code>, ADC IN5</li>
+      <li><code>PA0</code> / <code>PA1</code> &mdash; <code>A0</code>/<code>A1</code> ADC, and <code>TIM2_CH1</code>/<code>CH2</code></li>
+      <li><code>PA6</code> &mdash; <code>D12</code> ADC IN6, and <code>TIM3_CH1</code></li>
+      <li><code>PA9</code> / <code>PA10</code> &mdash; <code>TIM1_CH2</code>/<code>CH3</code>, and <code>USART1_TX</code>/<code>RX</code> (default)</li>
+      <li><code>PB3</code> &mdash; <code>USART1_RX</code> (alt), and <code>TIM2_CH2</code></li>
+      <li><code>PB6</code> / <code>PB7</code> &mdash; <code>TIM4_CH1</code>/<code>CH2</code>, <code>USART1_TX</code> (alt on PB6), I2C1 SCL/SDA (<code>ecI2C2.c</code>)</li>
+      <li><code>PB8</code> / <code>PB9</code> &mdash; <code>TIM4_CH3</code>/<code>CH4</code>, and the alternate I2C1 SCL/SDA pins</li>
+      <li><code>PC6</code> / <code>PC7</code> &mdash; <code>TIM3_CH1</code>/<code>CH2</code>, and <code>USART6_TX</code>/<code>RX</code> (alt) &mdash; PC7 is also <code>D9</code></li>
+    </ul>
+  </div>
+
+  <footer>
+    <span>Pin assignments from <a href="https://ykkim.gitbook.io/ec/ec-course/hardware/nucleo-f411re" target="_blank" rel="noopener">ykkim.gitbook.io/ec</a> and the ST UM1724 connector/timer/ADC/serial pinout maps.</span>
+    <span>Arduino labels cross-checked against <code>ecPinNames.h</code> in the EC-student repo.</span>
+  </footer>
+</div>
+
+<script>
+(function(){
+  const CATS = {
+    fixed:{label:'Fixed-function', color:'var(--cat-fixed)'},
+    comm:{label:'USART', color:'var(--cat-comm)'},
+    tim:{label:'Timer', color:'var(--cat-tim)'},
+    adc:{label:'ADC', color:'var(--cat-adc)'}
+  };
+
+  // Single source of truth for the pin matrix + detail panel.
+  // Sourced from ykkim.gitbook.io/ec (Nucleo-F411RE page) and the ST UM1724
+  // Connector / Timer / ADC / Serial pinout maps it links to.
+  const PORTS = {
+    A:[
+      {bit:0, pin:'PA0', short:'A0 / T2C1', roles:[{text:'A0 &middot; ADC IN0', cat:'adc'},{text:'TIM2_CH1', cat:'tim'}]},
+      {bit:1, pin:'PA1', short:'A1 / T2C2', roles:[{text:'A1 &middot; ADC IN1', cat:'adc'},{text:'TIM2_CH2', cat:'tim'}]},
+      {bit:2, pin:'PA2', short:'U2 TX', roles:[{text:'USART2_TX (D1)', cat:'comm'}]},
+      {bit:3, pin:'PA3', short:'U2 RX', roles:[{text:'USART2_RX (D0)', cat:'comm'}]},
+      {bit:4, pin:'PA4', short:'A2', roles:[{text:'A2 &middot; ADC IN4', cat:'adc'}]},
+      {bit:5, pin:'PA5', short:'LED / T2C1', roles:[{text:'LED LD2 / D13', cat:'fixed'},{text:'TIM2_CH1', cat:'tim'},{text:'ADC IN5', cat:'adc'}]},
+      {bit:6, pin:'PA6', short:'ADC6 / T3C1', roles:[{text:'D12 &middot; ADC IN6', cat:'adc'},{text:'TIM3_CH1', cat:'tim'}]},
+      {bit:7, pin:'PA7', short:'ADC7 (D11)', roles:[{text:'D11 &middot; ADC IN7', cat:'adc'}]},
+      {bit:8, pin:'PA8', short:'T1C1', roles:[{text:'TIM1_CH1', cat:'tim'}]},
+      {bit:9, pin:'PA9', short:'T1C2 / U1TX', roles:[{text:'TIM1_CH2', cat:'tim'},{text:'USART1_TX (default)', cat:'comm'}]},
+      {bit:10, pin:'PA10', short:'T1C3 / U1RX', roles:[{text:'TIM1_CH3', cat:'tim'},{text:'USART1_RX (default)', cat:'comm'}]},
+      {bit:11, pin:'PA11', short:'U6 TX', roles:[{text:'USART6_TX', cat:'comm'}], note:'No Arduino label &mdash; Morpho header only'},
+      {bit:12, pin:'PA12', short:'U6 RX', roles:[{text:'USART6_RX', cat:'comm'}], note:'No Arduino label &mdash; Morpho header only'},
+      {bit:15, pin:'PA15', short:'T2C1', roles:[{text:'TIM2_CH1', cat:'tim'}]}
+    ],
+    B:[
+      {bit:0, pin:'PB0', short:'A3', roles:[{text:'A3 &middot; ADC IN8', cat:'adc'}]},
+      {bit:1, pin:'PB1', short:'ADC9', roles:[{text:'ADC IN9', cat:'adc'}]},
+      {bit:3, pin:'PB3', short:'U1RX* / T2C2', roles:[{text:'USART1_RX (alt)', cat:'comm'},{text:'TIM2_CH2', cat:'tim'}]},
+      {bit:4, pin:'PB4', short:'T3C1', roles:[{text:'TIM3_CH1', cat:'tim'}]},
+      {bit:5, pin:'PB5', short:'T3C2', roles:[{text:'TIM3_CH2', cat:'tim'}]},
+      {bit:6, pin:'PB6', short:'T4C1 / U1TX*', roles:[{text:'TIM4_CH1', cat:'tim'},{text:'USART1_TX (alt)', cat:'comm'}], note:'Also I2C1 SCL (alt) in ecI2C2.c'},
+      {bit:7, pin:'PB7', short:'T4C2', roles:[{text:'TIM4_CH2', cat:'tim'}], note:'Also I2C1 SDA (alt) in ecI2C2.c'},
+      {bit:8, pin:'PB8', short:'T4C3 (D15)', roles:[{text:'TIM4_CH3', cat:'tim'}], note:'Also I2C1 SCL (alt)'},
+      {bit:9, pin:'PB9', short:'T4C4 (D14)', roles:[{text:'TIM4_CH4', cat:'tim'}], note:'Also I2C1 SDA (alt)'},
+      {bit:10, pin:'PB10', short:'T2C3', roles:[{text:'TIM2_CH3', cat:'tim'}]}
+    ],
+    C:[
+      {bit:0, pin:'PC0', short:'A5', roles:[{text:'A5 &middot; ADC IN10', cat:'adc'}]},
+      {bit:1, pin:'PC1', short:'A4', roles:[{text:'A4 &middot; ADC IN11', cat:'adc'}]},
+      {bit:2, pin:'PC2', short:'ADC12', roles:[{text:'ADC IN12', cat:'adc'}]},
+      {bit:3, pin:'PC3', short:'ADC13', roles:[{text:'ADC IN13', cat:'adc'}]},
+      {bit:4, pin:'PC4', short:'ADC14', roles:[{text:'ADC IN14', cat:'adc'}]},
+      {bit:5, pin:'PC5', short:'ADC15', roles:[{text:'ADC IN15', cat:'adc'}]},
+      {bit:6, pin:'PC6', short:'T3C1 / U6TX', roles:[{text:'TIM3_CH1', cat:'tim'},{text:'USART6_TX (alt)', cat:'comm'}]},
+      {bit:7, pin:'PC7', short:'T3C2 / U6RX', roles:[{text:'TIM3_CH2 (D9)', cat:'tim'},{text:'USART6_RX (alt)', cat:'comm'}]},
+      {bit:8, pin:'PC8', short:'T3C3', roles:[{text:'TIM3_CH3', cat:'tim'}]},
+      {bit:9, pin:'PC9', short:'T3C4', roles:[{text:'TIM3_CH4', cat:'tim'}]},
+      {bit:13, pin:'PC13', short:'BTN', roles:[{text:'Button B1', cat:'fixed'}]}
+    ]
+  };
+
+  const TABLES = {
+    comm:[
+      ['USART2','TX','PA2','AF7'],['USART2','RX','PA3','AF7'],
+      ['USART1','TX (default)','PA9','AF7'],['USART1','RX (default)','PA10','AF7'],
+      ['USART1','TX (alt)','PB6','AF7'],['USART1','RX (alt)','PB3','AF7'],
+      ['USART6','TX','PA11','AF8'],['USART6','TX (alt)','PC6','AF8'],
+      ['USART6','RX','PA12','AF8'],['USART6','RX (alt)','PC7','AF8']
+    ],
+    tim:[
+      ['TIM1','CH1','PA8','AF1'],['TIM1','CH2','PA9','AF1'],['TIM1','CH3','PA10','AF1'],
+      ['TIM2','CH1','PA0','AF1'],['TIM2','CH1 (alt)','PA5','AF1'],['TIM2','CH1 (alt)','PA15','AF1'],
+      ['TIM2','CH2','PA1','AF1'],['TIM2','CH2 (alt)','PB3','AF1'],['TIM2','CH3','PB10','AF1'],
+      ['TIM3','CH1','PC6','AF2'],['TIM3','CH1 (alt)','PA6','AF2'],['TIM3','CH1 (alt)','PB4','AF2'],
+      ['TIM3','CH2','PC7','AF2'],['TIM3','CH2 (alt)','PB5','AF2'],
+      ['TIM3','CH3','PC8','AF2'],['TIM3','CH4','PC9','AF2'],
+      ['TIM4','CH1','PB6','AF2'],['TIM4','CH2','PB7','AF2'],['TIM4','CH3','PB8','AF2'],['TIM4','CH4','PB9','AF2']
+    ],
+    adc:[
+      ['A0','PA0','IN0'],['A1','PA1','IN1'],['A2','PA4','IN4'],['A3','PB0','IN8'],
+      ['A4','PC1','IN11'],['A5','PC0','IN10'],
+      ['&mdash; (D13)','PA5','IN5'],['&mdash; (D12)','PA6','IN6'],['&mdash; (D11)','PA7','IN7'],
+      ['&mdash;','PB1','IN9'],['&mdash;','PC2','IN12'],['&mdash;','PC3','IN13'],['&mdash;','PC4','IN14'],['&mdash;','PC5','IN15']
+    ],
+    fixed:[
+      ['LED (LD2)','PA5','also D13, TIM2_CH1, ADC IN5'],
+      ['Button (B1)','PC13','active-low, no external pull-up']
+    ]
+  };
+
+  function el(tag, cls, html){
+    const e = document.createElement(tag);
+    if(cls) e.className = cls;
+    if(html !== undefined) e.innerHTML = html;
+    return e;
+  }
+
+  // Legend
+  const legend = document.getElementById('legend');
+  Object.entries(CATS).forEach(([key,c])=>{
+    const chip = el('span','chip');
+    chip.innerHTML = `<span class="swatch" style="background:${c.color}"></span>${c.label}`;
+    legend.appendChild(chip);
+  });
+  const warnChip = el('span','chip warnchip','<span class="swatch"></span>shares this pin with another function');
+  legend.appendChild(warnChip);
+
+  // Pin matrix: rows = GPIO port, columns = pin number 0-15
+  const matrix = document.getElementById('pinmatrix');
+  const thead = document.createElement('thead');
+  const headRow = document.createElement('tr');
+  headRow.appendChild(el('th','','Port'));
+  for(let n=0; n<16; n++) headRow.appendChild(el('th','',String(n)));
+  thead.appendChild(headRow);
+  matrix.appendChild(thead);
+
+  const tbody = document.createElement('tbody');
+  Object.entries(PORTS).forEach(([port, pins])=>{
+    const row = document.createElement('tr');
+    row.appendChild(el('th','','GPIO'+port));
+    for(let n=0; n<16; n++){
+      const td = document.createElement('td');
+      td.className = 'cell';
+      const data = pins.find(p=>p.bit===n);
+      if(data){
+        const b = document.createElement('button');
+        b.type = 'button';
+        b.className = 'cellbtn' + (data.roles.length>1 ? ' conflict' : '');
+        b.dataset.pin = data.pin;
+        b.dataset.cat = data.roles[0].cat;
+        b.textContent = data.short;
+        b.title = data.pin;
+        b.addEventListener('click', ()=>select(data));
+        td.appendChild(b);
+      } else {
+        td.appendChild(el('span','cellbtn','&middot;'));
+      }
+      row.appendChild(td);
+    }
+    tbody.appendChild(row);
+  });
+  matrix.appendChild(tbody);
+
+  document.getElementById('matrixkey').innerHTML =
+    '<b>T#C#</b> timer/channel &middot; <b>U#TX/RX</b> USARTx &middot; <b>A#</b> Arduino analog label &middot; ' +
+    '<b>ADC#</b> extra ADC channel (no Ax label) &middot; <b>*</b> alternate pin option &middot; <b>LED/BTN</b> fixed function';
+
+  const detail = document.getElementById('detail');
+  function select(data){
+    document.querySelectorAll('.active,.rowhi').forEach(n=>n.classList.remove('active','rowhi'));
+    document.querySelectorAll(`[data-pin="${data.pin}"]`).forEach(n=>n.classList.add(n.tagName==='TR' ? 'rowhi':'active'));
+    let html = `<span class="pinname">${data.pin}</span>`;
+    data.roles.forEach(r=>{
+      html += `<span class="role"><span class="swatch" style="background:${CATS[r.cat].color}"></span>${r.text}</span>`;
+    });
+    if(data.note) html += `<span class="note">${data.note}</span>`;
+    detail.innerHTML = html;
+  }
+
+  // Tables (built from TABLES, rows get data-pin so clicking links back to the map)
+  function fillTable(id, rows, pinIndex){
+    const tbody = document.getElementById(id);
+    rows.forEach(r=>{
+      const tr = document.createElement('tr');
+      const pin = r[pinIndex];
+      tr.dataset.pin = pin;
+      tr.innerHTML = r.map((cell,i)=> i===pinIndex ? `<td class="pin"><code>${cell}</code></td>` : `<td>${cell}</td>`).join('');
+      tr.addEventListener('click', ()=>{
+        for(const port of Object.values(PORTS)){
+          const match = port.find(p=>p.pin===pin);
+          if(match){ select(match); return; }
+        }
+      });
+      tbody.appendChild(tr);
+    });
+  }
+  fillTable('tbl-comm', TABLES.comm, 2);
+  fillTable('tbl-tim', TABLES.tim, 2);
+  fillTable('tbl-adc', TABLES.adc, 1);
+  fillTable('tbl-fixed', TABLES.fixed, 1);
+})();
+</script>
+</body>
+</html>

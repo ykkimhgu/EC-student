@@ -24,6 +24,8 @@ This is a private github repository for Embedded Controller Class that contains 
 
 [See here for API documentation ](./docs/EC_HAL_Documentation.md)
 
+[See here for the Nucleo-64 STM32F411RE pin reference](./docs/Pinout_Reference.md)
+
 
 
 ## Contents
